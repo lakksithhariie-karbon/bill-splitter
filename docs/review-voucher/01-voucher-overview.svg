@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="700" viewBox="0 0 1100 700">
+  <rect width="1100" height="700" fill="#f7f7f7"/>
+  <rect x="0" y="0" width="1100" height="48" fill="#111"/>
+  <text x="16" y="30" fill="#fff" font-family="Helvetica,Arial" font-size="16">AI Accountant — review-voucher (live capture schematic)</text>
+  <text x="820" y="30" fill="#ddd" font-family="Helvetica,Arial" font-size="13">{company}</text>
+  <rect x="0" y="48" width="1100" height="40" fill="#fff" stroke="#e5e5e5"/>
+  <text x="16" y="74" fill="#111" font-family="Helvetica,Arial" font-size="14">&lt; Back · invoice.pdf</text>
+  <text x="480" y="74" fill="#111" font-family="Helvetica,Arial" font-size="14">Bills 2 of 3</text>
+  <rect x="860" y="56" width="100" height="26" fill="#fff" stroke="#ccc" rx="4"/>
+  <text x="875" y="74" fill="#333" font-family="Helvetica,Arial" font-size="12">Delete Bill</text>
+  <rect x="970" y="56" width="110" height="26" fill="#1d4ed8" rx="4"/>
+  <text x="985" y="74" fill="#fff" font-family="Helvetica,Arial" font-size="12">Approve &amp; Next</text>
+  <rect x="12" y="100" width="420" height="580" fill="#fff" stroke="#e5e5e5"/>
+  <text x="24" y="124" fill="#111" font-family="Helvetica,Arial" font-size="13">PDF preview · invoice.pdf · Bill of supply</text>
+  <text x="24" y="150" fill="#555" font-family="Helvetica,Arial" font-size="12">{vendor} · GSTIN {gstin}</text>
+  <text x="24" y="174" fill="#555" font-family="Helvetica,Arial" font-size="12">Line table: ITEM · HSN/SAC · QTY · RATE · DISCOUNT · AMOUNT</text>
+  <text x="24" y="198" fill="#555" font-family="Helvetica,Arial" font-size="12">Total 19,44,622.00</text>
+  <rect x="450" y="100" width="630" height="580" fill="#fff" stroke="#e5e5e5"/>
+  <text x="466" y="124" fill="#111" font-family="Helvetica,Arial" font-size="13">Item Mode | Accounting Mode · Field Configuration</text>
+  <text x="466" y="156" fill="#111" font-family="Helvetica,Arial" font-size="12">* GST Registration — Karnataka …29CKTPK3672F1ZL</text>
+  <text x="466" y="180" fill="#111" font-family="Helvetica,Arial" font-size="12">* Voucher Type — Purchase</text>
+  <text x="466" y="204" fill="#666" font-family="Helvetica,Arial" font-size="12">Voucher No — Auto Generated (readonly)</text>
+  <text x="466" y="228" fill="#111" font-family="Helvetica,Arial" font-size="12">* Voucher Date — Aug 11, 2026</text>
+  <text x="466" y="252" fill="#111" font-family="Helvetica,Arial" font-size="12">* Bill Date — Jul 8, 2025</text>
+  <text x="466" y="276" fill="#111" font-family="Helvetica,Arial" font-size="12">* Supplier Invoice No. — (empty)</text>
+  <text x="466" y="300" fill="#111" font-family="Helvetica,Arial" font-size="12">Cost Centre Class / Cost Centre toggle</text>
+  <text x="466" y="340" fill="#111" font-family="Helvetica,Arial" font-size="13">Vendor Details</text>
+  <text x="466" y="364" fill="#111" font-family="Helvetica,Arial" font-size="12">* Vendor Name — Select Vendor</text>
+  <text x="466" y="388" fill="#b91c1c" font-family="Helvetica,Arial" font-size="12">{vendor} — Vendor does not exist in masters · + Add</text>
+  <text x="466" y="412" fill="#666" font-family="Helvetica,Arial" font-size="12">Cost Centre — Select cost centre… (disabled until class/vendor)</text>
+  <text x="466" y="452" fill="#111" font-family="Helvetica,Arial" font-size="12">Additional Details — 3 sections · + Add Details</text>
+  <text x="466" y="520" fill="#777" font-family="Helvetica,Arial" font-size="11">Schematic reconstructed from live authenticated session 2026-08-11 (read-only).</text>
+</svg>

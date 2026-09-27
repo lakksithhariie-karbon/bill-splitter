@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="720" viewBox="0 0 1100 720">
+  <rect width="1100" height="720" fill="#f7f7f7"/>
+  <text x="16" y="28" fill="#111" font-family="Helvetica,Arial" font-size="16">Item Mode — line tables (from live DOM + prediction payload)</text>
+  <rect x="20" y="50" width="1060" height="200" fill="#fff" stroke="#e5e5e5"/>
+  <text x="36" y="78" fill="#111" font-family="Helvetica,Arial" font-size="14">Item Details · Purchase Ledger: Purchase</text>
+  <text x="36" y="108" fill="#333" font-family="Helvetica,Arial" font-size="12">Columns: Description | Item | Godown/Location | Quantity | Unit Rate | Discount | Amount</text>
+  <text x="36" y="140" fill="#111" font-family="Helvetica,Arial" font-size="12">Row: "-" | Obtura Neo - 6F (Goods, HSN/SAC: -) | Select Godown | 1 Nos. | 0 | 0% | 0</text>
+  <text x="36" y="168" fill="#555" font-family="Helvetica,Arial" font-size="12">Taxable Value ₹ 0.00</text>
+  <text x="36" y="196" fill="#555" font-family="Helvetica,Arial" font-size="12">Coding: accountUuid / itemUuidId / godownUuid are master lookups (manual/suggested), not free OCR text.</text>
+  <rect x="20" y="270" width="1060" height="160" fill="#fff" stroke="#e5e5e5"/>
+  <text x="36" y="298" fill="#111" font-family="Helvetica,Arial" font-size="14">Ledgers</text>
+  <text x="36" y="328" fill="#333" font-family="Helvetica,Arial" font-size="12">Columns: Description | Ledger Name | Cost Centre | Amount</text>
+  <text x="36" y="360" fill="#111" font-family="Helvetica,Arial" font-size="12">Row: "L3 Yes" | Select Ledger | Select cost centre… | 19,44,622</text>
+  <text x="36" y="392" fill="#555" font-family="Helvetica,Arial" font-size="12">Total ₹ 19,44,622.00</text>
+  <rect x="20" y="450" width="1060" height="180" fill="#fff" stroke="#e5e5e5"/>
+  <text x="36" y="478" fill="#111" font-family="Helvetica,Arial" font-size="14">Taxes · Reverse Charges: Not Applicable</text>
+  <text x="36" y="508" fill="#333" font-family="Helvetica,Arial" font-size="12">Columns: Ledger Name | Cost Centre | Amount</text>
+  <text x="36" y="536" fill="#111" font-family="Helvetica,Arial" font-size="12">Empty tax rows in this voucher (payload.lines.taxes = []) · Total Tax ₹ 0.00</text>
+  <text x="36" y="568" fill="#111" font-family="Helvetica,Arial" font-size="12">Footer totals: Sub Total / GST / TDS / Other Taxes / Grand Total = ₹ 19,44,622.00</text>
+  <text x="36" y="600" fill="#111" font-family="Helvetica,Arial" font-size="12">Narration: "Purchase from {vendor}"</text>
+</svg>

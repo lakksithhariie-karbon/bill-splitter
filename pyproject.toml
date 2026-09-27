@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aia-pdf-split"
+version = "0.1.0"
+description = "POC: Google Document AI Custom Splitter as a document intelligence layer for PDF splitting"
+requires-python = ">=3.10"
+dependencies = [
+    "pikepdf",
+    "pypdf",
+    "pydantic",
+    "python-dotenv",
+    "reportlab",
+    "Pillow",
+    "requests",
+    "fastapi",
+    "uvicorn",
+    "python-multipart",
+    "pypdfium2",
+    # Starlette TestClient (via fastapi.testclient) needs httpx; newer
+    # Starlette prefers httpx2 but httpx still works with a deprecation warning.
+    "httpx",
+    "pytest",
+]
+
+[project.scripts]
+pdfsplit = "pdfsplit.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.mypy]
+python_version = "3.13"
+check_untyped_defs = true
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "reportlab.*"
+ignore_missing_imports = true

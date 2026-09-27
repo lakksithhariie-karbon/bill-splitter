@@ -1,0 +1,62 @@
+{
+  "prediction": {
+    "billFilePredictionUuid": "00000000-0000-4000-8000-0000000000b1",
+    "fileName": "ZZ_PIPELINE_TEST_DO_NOT_APPROVE_SYNTHETIC.pdf",
+    "status": "needs_review",
+    "metadata": {
+      "fileUuid": "00000000-0000-4000-8000-0000000000f1",
+      "status": "file_hitl_success"
+    },
+    "payload": {
+      "data": {
+        "vendorName": "FAKE VENDOR LLC (TEST ONLY)",
+        "supInvNo": "ZZ-TEST-SYNTHETIC",
+        "billDate": "2099-01-01",
+        "vchAmt": 236,
+        "vchAmtLc": 236,
+        "vchNo": "ZZ-TEST-SYNTHETIC",
+        "vchType": "purchase",
+        "gstin": "29AAAAA0000A1Z5",
+        "lines": {
+          "items": [
+            {
+              "itemDesc": "Widget X (TEST)",
+              "quantity": 1,
+              "unitPrice": 100,
+              "lineAmount": 100
+            },
+            {
+              "itemDesc": "Service Y (TEST)",
+              "quantity": 2,
+              "unitPrice": 50,
+              "lineAmount": 100
+            }
+          ],
+          "taxes": [
+            { "itemDesc": "CGST 9%", "lineAmount": 18 },
+            { "itemDesc": "SGST 9%", "lineAmount": 18 }
+          ],
+          "ledgers": []
+        }
+      },
+      "error": false,
+      "errorMessage": null,
+      "fileUuid": "00000000-0000-4000-8000-0000000000f1",
+      "fileMetadata": {
+        "pages": 1,
+        "fileExtension": "pdf",
+        "fileCategory": "bill"
+      },
+      "thirdPartyProduct": "tally",
+      "overallConfidenceScore": 100,
+      "enrichmentConfidenceScore": 100,
+      "extractionConfidenceScore": 100
+    }
+  },
+  "navigation": {
+    "currentPosition": 1,
+    "total": 1,
+    "prevId": null,
+    "nextId": null
+  }
+}

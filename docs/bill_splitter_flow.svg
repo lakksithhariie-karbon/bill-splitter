@@ -1,0 +1,464 @@
+<svg
+  width="1600"
+  height="1120"
+  viewBox="0 0 1600 1120"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <style>
+    @font-face {
+      font-family: "Restart Soft Medium";
+      src: url("https://framerusercontent.com/assets/8UfBECINHY6Ei55XfnI3aVwQF8w.woff2");
+      font-weight: 500;
+    }
+
+    @font-face {
+      font-family: "Restart Soft Regular";
+      src: url("https://framerusercontent.com/assets/TdPDh0cKrP2gCKR6q7tJavOqVJI.woff2");
+      font-weight: 400;
+    }
+
+    @font-face {
+      font-family: "Proto Mono Semi Bold";
+      src: url("https://framerusercontent.com/assets/w0xZtsUII5gHfdWw0GVIfrETS0s.woff2");
+      font-weight: 600;
+    }
+
+    :root {
+      --bg: #272727;
+      --bg-alt: #303030;
+      --ink: #1B1B1B;
+      --blue: #3E77E8;
+      --offwhite: #FAF9F5;
+      --cream: #DCD5CA;
+      --gray: #7C7B77;
+      --divider: rgba(124,123,119,.5);
+    }
+
+    .display {
+      font-family: "Restart Soft Medium", Arial, sans-serif;
+      font-weight: 500;
+      fill: #FAF9F5;
+      letter-spacing: -0.02em;
+    }
+
+    .body {
+      font-family: "Restart Soft Regular", Arial, sans-serif;
+      font-weight: 400;
+      fill: #DCD5CA;
+      letter-spacing: -0.02em;
+    }
+
+    .mono {
+      font-family: "Proto Mono Semi Bold", monospace;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+    }
+
+    .muted {
+      fill: #7C7B77;
+    }
+
+    .blue {
+      fill: #3E77E8;
+    }
+
+    .line {
+      stroke: rgba(124,123,119,.5);
+      stroke-width: 1;
+    }
+
+    .blue-line {
+      stroke: #3E77E8;
+      stroke-width: 1.5;
+    }
+  </style>
+
+  <defs>
+    <marker
+      id="arrow-muted"
+      markerWidth="8"
+      markerHeight="8"
+      refX="7"
+      refY="4"
+      orient="auto"
+    >
+      <path d="M0 0L8 4L0 8V0Z" fill="#7C7B77"/>
+    </marker>
+
+    <marker
+      id="arrow-blue"
+      markerWidth="8"
+      markerHeight="8"
+      refX="7"
+      refY="4"
+      orient="auto"
+    >
+      <path d="M0 0L8 4L0 8V0Z" fill="#3E77E8"/>
+    </marker>
+  </defs>
+
+  <!-- BACKGROUND -->
+  <rect width="1600" height="1120" fill="#272727"/>
+
+  <!-- HEADER -->
+  <text x="64" y="62" class="mono blue" font-size="16">
+    PRODUCT FLOW
+  </text>
+
+  <text x="64" y="112" class="display" font-size="46">
+    Problem vs Solution
+  </text>
+
+  <text x="64" y="144" class="body" font-size="18">
+    Multi-invoice PDF processing in AI Accountant
+  </text>
+
+  <line x1="64" y1="178" x2="1536" y2="178" class="line"/>
+
+  <!-- ===================================================== -->
+  <!-- SCENARIO A -->
+  <!-- ===================================================== -->
+
+  <text x="64" y="224" class="mono muted" font-size="15">
+    SCENARIO A / BEFORE SPLITTER
+  </text>
+
+  <text x="64" y="260" class="display" font-size="28">
+    One file enters. The workflow breaks.
+  </text>
+
+  <!-- Upload -->
+  <rect x="64" y="298" width="350" height="110" fill="#303030" stroke="rgba(124,123,119,.5)"/>
+
+  <text x="88" y="330" class="mono muted" font-size="13">
+    INPUT
+  </text>
+
+  <text x="88" y="359" class="display" font-size="19">
+    30-page supplier packet
+  </text>
+
+  <text x="88" y="385" class="body" font-size="15">
+    20 invoices bundled into one PDF
+  </text>
+
+  <!-- Arrow -->
+  <line
+    x1="414"
+    y1="353"
+    x2="486"
+    y2="353"
+    stroke="#7C7B77"
+    stroke-width="1.5"
+    marker-end="url(#arrow-muted)"
+  />
+
+  <!-- AIA -->
+  <rect x="500" y="298" width="350" height="110" fill="#303030" stroke="rgba(124,123,119,.5)"/>
+
+  <text x="524" y="330" class="mono muted" font-size="13">
+    CURRENT BEHAVIOUR
+  </text>
+
+  <text x="524" y="359" class="display" font-size="19">
+    AIA treats it as one bill
+  </text>
+
+  <text x="524" y="385" class="body" font-size="15">
+    One document enters the extraction flow
+  </text>
+
+  <!-- Branch lines -->
+  <line x1="850" y1="353" x2="912" y2="353" stroke="#7C7B77" stroke-width="1.5"/>
+  <line x1="912" y1="353" x2="912" y2="311" stroke="#7C7B77" stroke-width="1.5"/>
+  <line x1="912" y1="353" x2="912" y2="395" stroke="#7C7B77" stroke-width="1.5"/>
+
+  <line
+    x1="912"
+    y1="311"
+    x2="956"
+    y2="311"
+    stroke="#7C7B77"
+    stroke-width="1.5"
+    marker-end="url(#arrow-muted)"
+  />
+
+  <line
+    x1="912"
+    y1="395"
+    x2="956"
+    y2="395"
+    stroke="#7C7B77"
+    stroke-width="1.5"
+    marker-end="url(#arrow-muted)"
+  />
+
+  <!-- Problem 1 -->
+  <rect x="970" y="267" width="566" height="88" fill="#272727" stroke="#7C7B77"/>
+
+  <text x="994" y="296" class="mono muted" font-size="13">
+    FAILURE PATH 01
+  </text>
+
+  <text x="994" y="323" class="display" font-size="18">
+    Hits the 12-page reading limit
+  </text>
+
+  <text x="994" y="344" class="body" font-size="14">
+    File rejected. User must manually split and upload again.
+  </text>
+
+  <!-- Problem 2 -->
+  <rect x="970" y="371" width="566" height="88" fill="#272727" stroke="#7C7B77"/>
+
+  <text x="994" y="400" class="mono muted" font-size="13">
+    FAILURE PATH 02
+  </text>
+
+  <text x="994" y="427" class="display" font-size="18">
+    Bills get mixed together
+  </text>
+
+  <text x="994" y="448" class="body" font-size="14">
+    Vendors, amounts and pages can land on the wrong bill.
+  </text>
+
+  <!-- Result strip -->
+  <rect x="64" y="493" width="1472" height="108" fill="#202020" stroke="rgba(124,123,119,.5)"/>
+
+  <text x="88" y="526" class="mono muted" font-size="13">
+    RESULT
+  </text>
+
+  <line x1="350" y1="518" x2="350" y2="578" class="line"/>
+  <line x1="720" y1="518" x2="720" y2="578" class="line"/>
+  <line x1="1088" y1="518" x2="1088" y2="578" class="line"/>
+
+  <text x="88" y="556" class="display" font-size="17">
+    Rejected files
+  </text>
+  <text x="88" y="579" class="body" font-size="14">
+    Manual work and lost time
+  </text>
+
+  <text x="382" y="556" class="display" font-size="17">
+    Wrong bills
+  </text>
+  <text x="382" y="579" class="body" font-size="14">
+    Data quality breaks
+  </text>
+
+  <text x="752" y="556" class="display" font-size="17">
+    Reviewer rework
+  </text>
+  <text x="752" y="579" class="body" font-size="14">
+    Untangle, correct, repeat
+  </text>
+
+  <text x="1120" y="556" class="display" font-size="17">
+    Trust erodes
+  </text>
+  <text x="1120" y="579" class="body" font-size="14">
+    The workflow feels unreliable
+  </text>
+
+  <!-- Divider -->
+  <line x1="64" y1="648" x2="1536" y2="648" class="line"/>
+
+  <!-- ===================================================== -->
+  <!-- SCENARIO B -->
+  <!-- ===================================================== -->
+
+  <text x="64" y="695" class="mono blue" font-size="15">
+    SCENARIO B / WITH SPLITTER
+  </text>
+
+  <text x="64" y="731" class="display" font-size="28">
+    One upload becomes clean, reviewable bills.
+  </text>
+
+  <!-- Step numbers -->
+  <text x="78" y="789" class="mono blue" font-size="13">01</text>
+  <text x="379" y="789" class="mono blue" font-size="13">02</text>
+  <text x="680" y="789" class="mono blue" font-size="13">03</text>
+  <text x="981" y="789" class="mono blue" font-size="13">04</text>
+  <text x="1282" y="789" class="mono blue" font-size="13">05</text>
+
+  <!-- Step 1 -->
+  <rect x="64" y="806" width="250" height="184" fill="#303030" stroke="#3E77E8"/>
+
+  <text x="88" y="842" class="display" font-size="20">
+    Upload
+  </text>
+
+  <text x="88" y="871" class="body" font-size="15">
+    <tspan x="88" dy="0">One PDF containing</tspan>
+    <tspan x="88" dy="21">many supplier bills.</tspan>
+  </text>
+
+  <line x1="88" y1="914" x2="290" y2="914" class="line"/>
+
+  <text x="88" y="944" class="mono blue" font-size="12">
+    USER BENEFIT
+  </text>
+
+  <text x="88" y="968" class="body" font-size="14">
+    One action. No manual split.
+  </text>
+
+  <!-- Arrow 1 -->
+  <line
+    x1="314"
+    y1="898"
+    x2="352"
+    y2="898"
+    class="blue-line"
+    marker-end="url(#arrow-blue)"
+  />
+
+  <!-- Step 2 -->
+  <rect x="365" y="806" width="250" height="184" fill="#303030" stroke="#3E77E8"/>
+
+  <text x="389" y="842" class="display" font-size="20">
+    AI reads every page
+  </text>
+
+  <text x="389" y="871" class="body" font-size="15">
+    <tspan x="389" dy="0">Pages are analysed</tspan>
+    <tspan x="389" dy="21">before bill extraction.</tspan>
+  </text>
+
+  <line x1="389" y1="914" x2="591" y2="914" class="line"/>
+
+  <text x="389" y="944" class="mono blue" font-size="12">
+    USER BENEFIT
+  </text>
+
+  <text x="389" y="968" class="body" font-size="14">
+    Nothing gets dropped.
+  </text>
+
+  <!-- Arrow 2 -->
+  <line
+    x1="615"
+    y1="898"
+    x2="653"
+    y2="898"
+    class="blue-line"
+    marker-end="url(#arrow-blue)"
+  />
+
+  <!-- Step 3 -->
+  <rect x="666" y="806" width="250" height="184" fill="#303030" stroke="#3E77E8"/>
+
+  <text x="690" y="842" class="display" font-size="20">
+    Detect bill boundaries
+  </text>
+
+  <text x="690" y="871" class="body" font-size="15">
+    <tspan x="690" dy="0">AI marks where each</tspan>
+    <tspan x="690" dy="21">new invoice begins.</tspan>
+  </text>
+
+  <line x1="690" y1="914" x2="892" y2="914" class="line"/>
+
+  <text x="690" y="944" class="mono blue" font-size="12">
+    USER BENEFIT
+  </text>
+
+  <text x="690" y="968" class="body" font-size="14">
+    No page hunting.
+  </text>
+
+  <!-- Arrow 3 -->
+  <line
+    x1="916"
+    y1="898"
+    x2="954"
+    y2="898"
+    class="blue-line"
+    marker-end="url(#arrow-blue)"
+  />
+
+  <!-- Step 4 -->
+  <rect x="967" y="806" width="250" height="184" fill="#303030" stroke="#3E77E8"/>
+
+  <text x="991" y="842" class="display" font-size="20">
+    Review and correct
+  </text>
+
+  <text x="991" y="871" class="body" font-size="15">
+    <tspan x="991" dy="0">Confirm boundaries,</tspan>
+    <tspan x="991" dy="21">split points and names.</tspan>
+  </text>
+
+  <line x1="991" y1="914" x2="1193" y2="914" class="line"/>
+
+  <text x="991" y="944" class="mono blue" font-size="12">
+    USER BENEFIT
+  </text>
+
+  <text x="991" y="968" class="body" font-size="14">
+    Human stays in control.
+  </text>
+
+  <!-- Arrow 4 -->
+  <line
+    x1="1217"
+    y1="898"
+    x2="1255"
+    y2="898"
+    class="blue-line"
+    marker-end="url(#arrow-blue)"
+  />
+
+  <!-- Step 5 -->
+  <rect x="1268" y="806" width="268" height="184" fill="#303030" stroke="#3E77E8"/>
+
+  <text x="1292" y="842" class="display" font-size="20">
+    Create clean PDFs
+  </text>
+
+  <text x="1292" y="871" class="body" font-size="15">
+    <tspan x="1292" dy="0">Each bill becomes its</tspan>
+    <tspan x="1292" dy="21">own correctly named PDF.</tspan>
+  </text>
+
+  <line x1="1292" y1="914" x2="1512" y2="914" class="line"/>
+
+  <text x="1292" y="944" class="mono blue" font-size="12">
+    USER BENEFIT
+  </text>
+
+  <text x="1292" y="968" class="body" font-size="14">
+    Clean input for AIA.
+  </text>
+
+  <!-- SUCCESS -->
+  <rect x="64" y="1025" width="1472" height="58" fill="#3E77E8"/>
+
+  <text x="88" y="1061" fill="#FAF9F5" class="mono" font-size="13">
+    SUCCESSFUL OUTCOME
+  </text>
+
+  <text x="337" y="1062" fill="#FAF9F5" class="display" font-size="17">
+    20 bills created
+  </text>
+
+  <text x="565" y="1062" fill="#FAF9F5" class="display" font-size="17">
+    /
+  </text>
+
+  <text x="608" y="1062" fill="#FAF9F5" class="display" font-size="17">
+    each bill under 12 pages
+  </text>
+
+  <text x="892" y="1062" fill="#FAF9F5" class="display" font-size="17">
+    /
+  </text>
+
+  <text x="935" y="1062" fill="#FAF9F5" class="display" font-size="17">
+    packet-VEN3-number.pdf
+  </text>
+</svg>

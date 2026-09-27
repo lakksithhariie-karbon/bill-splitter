@@ -1,0 +1,4 @@
+{
+  "message": "Extraction failed: PDF has 31 pages; limit is 12.",
+  "code": "PAGE_LIMIT"
+}

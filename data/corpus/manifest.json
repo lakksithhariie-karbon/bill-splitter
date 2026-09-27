@@ -1,0 +1,569 @@
+{
+  "schema_version": "1.0",
+  "corpus_version": "2026-08-12-boundary",
+  "doc_classes": [
+    "invoice",
+    "bank_statement",
+    "purchase_order",
+    "report",
+    "letter",
+    "form",
+    "contract",
+    "receipt",
+    "memo",
+    "cover",
+    "terms",
+    "delivery_note"
+  ],
+  "packets": [
+    {
+      "packet_id": "pkt_b01_varied_page_sizes",
+      "file": "pkt_b01_varied_page_sizes.pdf",
+      "category": "born-digital",
+      "scenario_tags": [
+        "page-dimensions",
+        "multi-docs",
+        "varied-sizes"
+      ],
+      "pages": 6,
+      "notes": "Different page sizes between docs; identical within each. page_dimensions must_split at 3 and 5.",
+      "blank_pages": [],
+      "expected_documents": [
+        {
+          "doc_id": "d1",
+          "class": "invoice",
+          "start_page": 1,
+          "end_page": 2,
+          "vendor": "ZZ TEST SizeCo Alpha",
+          "doc_number": "INV-2026-8841",
+          "page_size": "letter",
+          "letterhead": "ZZ TEST SizeCo Alpha",
+          "page_of_n": true
+        },
+        {
+          "doc_id": "d2",
+          "class": "invoice",
+          "start_page": 3,
+          "end_page": 4,
+          "vendor": "ZZ TEST SizeCo Beta",
+          "doc_number": "KFIPL/November20/04",
+          "page_size": "a4",
+          "letterhead": "ZZ TEST SizeCo Beta",
+          "page_of_n": true
+        },
+        {
+          "doc_id": "d3",
+          "class": "invoice",
+          "start_page": 5,
+          "end_page": 6,
+          "vendor": "ZZ TEST SizeCo Gamma",
+          "doc_number": "TX-7726",
+          "page_size": "legal",
+          "letterhead": "ZZ TEST SizeCo Gamma",
+          "page_of_n": true
+        }
+      ]
+    },
+    {
+      "packet_id": "pkt_b02_uniform_page_sizes",
+      "file": "pkt_b02_uniform_page_sizes.pdf",
+      "category": "born-digital",
+      "scenario_tags": [
+        "page-dimensions",
+        "multi-docs",
+        "uniform-sizes",
+        "negative"
+      ],
+      "pages": 6,
+      "notes": "All letter size \u2014 page_dimensions must NOT fire between docs; doc numbers differ.",
+      "blank_pages": [],
+      "expected_documents": [
+        {
+          "doc_id": "d1",
+          "class": "invoice",
+          "start_page": 1,
+          "end_page": 2,
+          "vendor": "ZZ TEST Uniform One",
+          "doc_number": "INV-2026-1001",
+          "page_size": "letter",
+          "letterhead": "ZZ TEST Uniform One",
+          "page_of_n": true
+        },
+        {
+          "doc_id": "d2",
+          "class": "invoice",
+          "start_page": 3,
+          "end_page": 4,
+          "vendor": "ZZ TEST Uniform Two",
+          "doc_number": "INV-2026-1002",
+          "page_size": "letter",
+          "letterhead": "ZZ TEST Uniform Two",
+          "page_of_n": true
+        },
+        {
+          "doc_id": "d3",
+          "class": "invoice",
+          "start_page": 5,
+          "end_page": 6,
+          "vendor": "ZZ TEST Uniform Three",
+          "doc_number": "INV-2026-1003",
+          "page_size": "letter",
+          "letterhead": "ZZ TEST Uniform Three",
+          "page_of_n": true
+        }
+      ]
+    },
+    {
+      "packet_id": "pkt_b03_same_letterhead_bbb",
+      "file": "pkt_b03_same_letterhead_bbb.pdf",
+      "category": "born-digital",
+      "scenario_tags": [
+        "same-letterhead",
+        "same-type-back-to-back",
+        "multi-docs",
+        "critical"
+      ],
+      "pages": 6,
+      "notes": "Three invoices, one vendor, one letterhead, back to back. Critical BBB case.",
+      "blank_pages": [],
+      "expected_documents": [
+        {
+          "doc_id": "d1",
+          "class": "invoice",
+          "start_page": 1,
+          "end_page": 2,
+          "vendor": "ZZ TEST Acme Supplies Pvt Ltd",
+          "doc_number": "INV-2026-5501",
+          "page_size": "letter",
+          "letterhead": "ZZ TEST Acme Supplies Pvt Ltd",
+          "page_of_n": true
+        },
+        {
+          "doc_id": "d2",
+          "class": "invoice",
+          "start_page": 3,
+          "end_page": 4,
+          "vendor": "ZZ TEST Acme Supplies Pvt Ltd",
+          "doc_number": "INV-2026-5502",
+          "page_size": "letter",
+          "letterhead": "ZZ TEST Acme Supplies Pvt Ltd",
+          "page_of_n": true
+        },
+        {
+          "doc_id": "d3",
+          "class": "invoice",
+          "start_page": 5,
+          "end_page": 6,
+          "vendor": "ZZ TEST Acme Supplies Pvt Ltd",
+          "doc_number": "INV-2026-5503",
+          "page_size": "letter",
+          "letterhead": "ZZ TEST Acme Supplies Pvt Ltd",
+          "page_of_n": true
+        }
+      ]
+    },
+    {
+      "packet_id": "pkt_b04_multipage_markers",
+      "file": "pkt_b04_multipage_markers.pdf",
+      "category": "born-digital",
+      "scenario_tags": [
+        "page-of-n",
+        "continuation",
+        "multi-docs"
+      ],
+      "pages": 5,
+      "notes": "Doc1 has Page X of N + shared number; doc2 has neither markers.",
+      "blank_pages": [],
+      "expected_documents": [
+        {
+          "doc_id": "d1",
+          "class": "invoice",
+          "start_page": 1,
+          "end_page": 3,
+          "vendor": "ZZ TEST Marker Co",
+          "doc_number": "INV-2026-6601",
+          "page_size": "letter",
+          "letterhead": "ZZ TEST Marker Co",
+          "page_of_n": true
+        },
+        {
+          "doc_id": "d2",
+          "class": "invoice",
+          "start_page": 4,
+          "end_page": 5,
+          "vendor": "ZZ TEST NoMarker Co",
+          "doc_number": "INV-2026-6602",
+          "page_size": "letter",
+          "letterhead": "ZZ TEST NoMarker Co"
+        }
+      ]
+    },
+    {
+      "packet_id": "pkt_b05_non_invoice_pages",
+      "file": "pkt_b05_non_invoice_pages.pdf",
+      "category": "born-digital",
+      "scenario_tags": [
+        "exclusion",
+        "non-invoice",
+        "multi-docs"
+      ],
+      "pages": 7,
+      "notes": "Cover/terms/delivery_note for exclusion; two real invoices to push.",
+      "blank_pages": [],
+      "expected_documents": [
+        {
+          "doc_id": "d1",
+          "class": "cover",
+          "start_page": 1,
+          "end_page": 1,
+          "vendor": "ZZ TEST Bundle Co",
+          "page_size": "letter",
+          "letterhead": "ZZ TEST Bundle Co",
+          "exclude": true
+        },
+        {
+          "doc_id": "d2",
+          "class": "invoice",
+          "start_page": 2,
+          "end_page": 3,
+          "vendor": "ZZ TEST Bundle Co",
+          "doc_number": "INV-2026-7701",
+          "page_size": "letter",
+          "letterhead": "ZZ TEST Bundle Co",
+          "page_of_n": true
+        },
+        {
+          "doc_id": "d3",
+          "class": "terms",
+          "start_page": 4,
+          "end_page": 4,
+          "vendor": "ZZ TEST Bundle Co",
+          "page_size": "letter",
+          "letterhead": "ZZ TEST Bundle Co",
+          "exclude": true
+        },
+        {
+          "doc_id": "d4",
+          "class": "delivery_note",
+          "start_page": 5,
+          "end_page": 5,
+          "vendor": "ZZ TEST Bundle Co",
+          "doc_number": "DN-2026-12",
+          "page_size": "letter",
+          "letterhead": "ZZ TEST Bundle Co",
+          "exclude": true
+        },
+        {
+          "doc_id": "d5",
+          "class": "invoice",
+          "start_page": 6,
+          "end_page": 7,
+          "vendor": "ZZ TEST Bundle Co",
+          "doc_number": "INV-2026-7702",
+          "page_size": "letter",
+          "letterhead": "ZZ TEST Bundle Co",
+          "page_of_n": true
+        }
+      ]
+    },
+    {
+      "packet_id": "pkt_b06_duplicate_invoice_number",
+      "file": "pkt_b06_duplicate_invoice_number.pdf",
+      "category": "born-digital",
+      "scenario_tags": [
+        "duplicate",
+        "multi-docs"
+      ],
+      "pages": 4,
+      "notes": "Same invoice number appears twice in one packet (genuine duplicate).",
+      "blank_pages": [],
+      "expected_documents": [
+        {
+          "doc_id": "d1",
+          "class": "invoice",
+          "start_page": 1,
+          "end_page": 2,
+          "vendor": "ZZ TEST Duplo First",
+          "doc_number": "INV-2026-9999",
+          "page_size": "letter",
+          "letterhead": "ZZ TEST Duplo First",
+          "page_of_n": true
+        },
+        {
+          "doc_id": "d2",
+          "class": "invoice",
+          "start_page": 3,
+          "end_page": 4,
+          "vendor": "ZZ TEST Duplo Second",
+          "doc_number": "INV-2026-9999",
+          "page_size": "letter",
+          "letterhead": "ZZ TEST Duplo Second",
+          "page_of_n": true
+        }
+      ]
+    },
+    {
+      "packet_id": "pkt_b07_oversized_invoice_13",
+      "file": "pkt_b07_oversized_invoice_13.pdf",
+      "category": "born-digital",
+      "scenario_tags": [
+        "oversized",
+        "single-doc",
+        "page-limit"
+      ],
+      "pages": 13,
+      "notes": "Single invoice 13 pages \u2014 AIA 12-page reject path.",
+      "blank_pages": [],
+      "expected_documents": [
+        {
+          "doc_id": "d1",
+          "class": "invoice",
+          "start_page": 1,
+          "end_page": 13,
+          "vendor": "ZZ TEST Oversize Industries",
+          "doc_number": "INV-2026-OVER-13",
+          "page_size": "letter",
+          "letterhead": "ZZ TEST Oversize Industries",
+          "page_of_n": true
+        }
+      ]
+    },
+    {
+      "packet_id": "pkt_b08_volume_push_mix",
+      "file": "pkt_b08_volume_push_mix.pdf",
+      "category": "born-digital",
+      "scenario_tags": [
+        "volume-push",
+        "multi-docs",
+        "varied-sizes",
+        "exclusion",
+        "same-letterhead"
+      ],
+      "pages": 10,
+      "notes": "Packet for live volume push: 4 invoices + cover/terms to exclude.",
+      "blank_pages": [],
+      "expected_documents": [
+        {
+          "doc_id": "d1",
+          "class": "cover",
+          "start_page": 1,
+          "end_page": 1,
+          "vendor": "ZZ TEST Volume Vendor",
+          "page_size": "letter",
+          "letterhead": "ZZ TEST Volume Vendor",
+          "exclude": true
+        },
+        {
+          "doc_id": "d2",
+          "class": "invoice",
+          "start_page": 2,
+          "end_page": 3,
+          "vendor": "ZZ TEST Volume Vendor",
+          "doc_number": "INV-2026-8801",
+          "page_size": "letter",
+          "letterhead": "ZZ TEST Volume Vendor",
+          "page_of_n": true
+        },
+        {
+          "doc_id": "d3",
+          "class": "invoice",
+          "start_page": 4,
+          "end_page": 5,
+          "vendor": "ZZ TEST Volume Vendor",
+          "doc_number": "INV-2026-8802",
+          "page_size": "a4",
+          "letterhead": "ZZ TEST Volume Vendor",
+          "page_of_n": true
+        },
+        {
+          "doc_id": "d4",
+          "class": "invoice",
+          "start_page": 6,
+          "end_page": 8,
+          "vendor": "ZZ TEST Volume Vendor",
+          "doc_number": "KFIPL/November20/88",
+          "page_size": "letter",
+          "letterhead": "ZZ TEST Volume Vendor",
+          "page_of_n": true
+        },
+        {
+          "doc_id": "d5",
+          "class": "terms",
+          "start_page": 9,
+          "end_page": 9,
+          "vendor": "ZZ TEST Volume Vendor",
+          "page_size": "letter",
+          "letterhead": "ZZ TEST Volume Vendor",
+          "exclude": true
+        },
+        {
+          "doc_id": "d6",
+          "class": "invoice",
+          "start_page": 10,
+          "end_page": 10,
+          "vendor": "ZZ TEST Other Vendor",
+          "doc_number": "TX-8803",
+          "page_size": "legal",
+          "letterhead": "ZZ TEST Other Vendor"
+        }
+      ]
+    },
+    {
+      "packet_id": "pkt_b09_shared_doc_number",
+      "file": "pkt_b09_shared_doc_number.pdf",
+      "category": "born-digital",
+      "scenario_tags": [
+        "shared-doc-number",
+        "continuation",
+        "single-doc"
+      ],
+      "pages": 4,
+      "notes": "One invoice, shared number + Page X of N on all pages \u2014 must_not_split inside.",
+      "blank_pages": [],
+      "expected_documents": [
+        {
+          "doc_id": "d1",
+          "class": "invoice",
+          "start_page": 1,
+          "end_page": 4,
+          "vendor": "ZZ TEST Cont Corp",
+          "doc_number": "INV-2026-4410",
+          "page_size": "letter",
+          "letterhead": "ZZ TEST Cont Corp",
+          "page_of_n": true
+        }
+      ]
+    },
+    {
+      "packet_id": "pkt_b10_group_letterhead_diff_gstin",
+      "file": "pkt_b10_group_letterhead_diff_gstin.pdf",
+      "category": "born-digital",
+      "scenario_tags": [
+        "group-companies",
+        "same-letterhead",
+        "seller-gstin",
+        "multi-docs",
+        "critical"
+      ],
+      "pages": 4,
+      "notes": "Two group companies on one letterhead brand with different seller GSTINs \u2014 must stay two vouchers (silent-merge case).",
+      "blank_pages": [],
+      "expected_documents": [
+        {
+          "doc_id": "d1",
+          "class": "invoice",
+          "start_page": 1,
+          "end_page": 2,
+          "vendor": "ZZ TEST IBC Galaxy Developers Ltd",
+          "doc_number": "INV-2026-7701",
+          "page_size": "letter",
+          "letterhead": "IBC Group",
+          "page_of_n": true,
+          "seller_gstin": "29AAACC9836F1ZG"
+        },
+        {
+          "doc_id": "d2",
+          "class": "invoice",
+          "start_page": 3,
+          "end_page": 4,
+          "vendor": "ZZ TEST IBC Century Holdings Ltd",
+          "doc_number": "INV-2026-7702",
+          "page_size": "letter",
+          "letterhead": "IBC Group",
+          "page_of_n": true,
+          "seller_gstin": "29AABCC1234D1Z5"
+        }
+      ]
+    },
+    {
+      "packet_id": "pkt_b11_blank_separators",
+      "file": "pkt_b11_blank_separators.pdf",
+      "category": "born-digital",
+      "scenario_tags": [
+        "blank-separator",
+        "auto-exclude",
+        "multi-docs"
+      ],
+      "pages": 5,
+      "notes": "Blank sheets between three one-page invoices. Blanks must auto-exclude; docs \u222a excluded cover every page.",
+      "blank_pages": [
+        2,
+        4
+      ],
+      "expected_documents": [
+        {
+          "doc_id": "d1",
+          "class": "invoice",
+          "start_page": 1,
+          "end_page": 1,
+          "vendor": "ZZ TEST BlankSep Alpha",
+          "doc_number": "INV-2026-8101",
+          "page_size": "letter",
+          "letterhead": "ZZ TEST BlankSep Alpha",
+          "page_of_n": true
+        },
+        {
+          "doc_id": "d2",
+          "class": "invoice",
+          "start_page": 3,
+          "end_page": 3,
+          "vendor": "ZZ TEST BlankSep Beta",
+          "doc_number": "INV-2026-8102",
+          "page_size": "letter",
+          "letterhead": "ZZ TEST BlankSep Beta",
+          "page_of_n": true
+        },
+        {
+          "doc_id": "d3",
+          "class": "invoice",
+          "start_page": 5,
+          "end_page": 5,
+          "vendor": "ZZ TEST BlankSep Gamma",
+          "doc_number": "INV-2026-8103",
+          "page_size": "letter",
+          "letterhead": "ZZ TEST BlankSep Gamma",
+          "page_of_n": true
+        }
+      ]
+    },
+    {
+      "packet_id": "pkt_b12_undersplit_diff_bill_numbers",
+      "file": "pkt_b12_undersplit_diff_bill_numbers.pdf",
+      "category": "born-digital",
+      "scenario_tags": [
+        "under-split",
+        "different-bill-numbers",
+        "review-badge",
+        "multi-docs",
+        "critical"
+      ],
+      "pages": 2,
+      "notes": "Two one-page invoices, same vendor, different bill numbers. Truth: two docs. Badge test forces a 1-2 hold to exercise the different-bill-numbers rule.",
+      "blank_pages": [],
+      "expected_documents": [
+        {
+          "doc_id": "d1",
+          "class": "invoice",
+          "start_page": 1,
+          "end_page": 1,
+          "vendor": "ZZ TEST Undersplit Co",
+          "doc_number": "INV-2026-9101",
+          "page_size": "letter",
+          "letterhead": "ZZ TEST Undersplit Co",
+          "page_of_n": true
+        },
+        {
+          "doc_id": "d2",
+          "class": "invoice",
+          "start_page": 2,
+          "end_page": 2,
+          "vendor": "ZZ TEST Undersplit Co",
+          "doc_number": "INV-2026-9102",
+          "page_size": "letter",
+          "letterhead": "ZZ TEST Undersplit Co",
+          "page_of_n": true
+        }
+      ]
+    }
+  ]
+}

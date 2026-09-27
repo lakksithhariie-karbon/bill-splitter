@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="560" viewBox="0 0 1100 560">
+  <rect width="1100" height="560" fill="#f7f7f7"/>
+  <text x="16" y="28" fill="#111" font-family="Helvetica,Arial" font-size="16">Purchases · Needs Review / Bill Uploads (live)</text>
+  <text x="16" y="56" fill="#555" font-family="Helvetica,Arial" font-size="13">Tabs: All Bills | Needs Review | Bill Uploads · Upload Bills CTA</text>
+  <rect x="20" y="80" width="1060" height="160" fill="#fff" stroke="#e5e5e5"/>
+  <text x="36" y="110" fill="#111" font-family="Helvetica,Arial" font-size="14">Needs Review queue (3 files)</text>
+  <text x="36" y="140" fill="#333" font-family="Helvetica,Arial" font-size="12">april.pdf</text>
+  <text x="36" y="168" fill="#333" font-family="Helvetica,Arial" font-size="12">invoice.pdf  ← opens review-voucher/e0576981-…</text>
+  <text x="36" y="196" fill="#333" font-family="Helvetica,Arial" font-size="12">00016470-…pdf</text>
+  <rect x="20" y="270" width="1060" height="220" fill="#fff" stroke="#e5e5e5"/>
+  <text x="36" y="300" fill="#111" font-family="Helvetica,Arial" font-size="14">Bill Uploads statuses (API bill-status)</text>
+  <text x="36" y="336" fill="#166534" font-family="Helvetica,Arial" font-size="12">april.pdf — Completed (file_hitl_success)</text>
+  <text x="36" y="368" fill="#166534" font-family="Helvetica,Arial" font-size="12">invoice.pdf — Completed (file_hitl_success)</text>
+  <text x="36" y="400" fill="#b91c1c" font-family="Helvetica,Arial" font-size="12">00016470-…pdf — Failed (file_hitl_rejected)</text>
+  <text x="36" y="432" fill="#b91c1c" font-family="Helvetica,Arial" font-size="12">statusMessage: "Extraction failed: PDF has 31 pages; limit is 12."</text>
+  <text x="36" y="464" fill="#555" font-family="Helvetica,Arial" font-size="12">One uploaded PDF → one review voucher (navigation Bills N of M across needs-review files).</text>
+</svg>

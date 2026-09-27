@@ -1,0 +1,1851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Accountant · PDF Processing POC</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Oxanium:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --background: oklch(1 0 0);
+      --foreground: oklch(0.147 0.004 49.25);
+      --card: oklch(1 0 0);
+      --card-foreground: oklch(0.147 0.004 49.25);
+      --popover: oklch(1 0 0);
+      --popover-foreground: oklch(0.147 0.004 49.25);
+      --primary: oklch(0.216 0.006 56.043);
+      --primary-foreground: oklch(0.985 0.001 106.423);
+      --secondary: oklch(0.97 0.001 106.424);
+      --secondary-foreground: oklch(0.216 0.006 56.043);
+      --muted: oklch(0.97 0.001 106.424);
+      --muted-foreground: oklch(0.553 0.013 58.071);
+      --accent: oklch(0.97 0.001 106.424);
+      --accent-foreground: oklch(0.216 0.006 56.043);
+      --destructive: oklch(0.577 0.245 27.325);
+      --border: oklch(0.923 0.003 48.717);
+      --input: oklch(0.923 0.003 48.717);
+      --ring: oklch(0.709 0.01 56.259);
+      --chart-1: oklch(0.869 0.005 56.366);
+      --chart-2: oklch(0.553 0.013 58.071);
+      --chart-3: oklch(0.444 0.011 73.639);
+      --chart-4: oklch(0.374 0.01 67.558);
+      --chart-5: oklch(0.268 0.007 34.298);
+      --radius: 0;
+      --sidebar: oklch(0.985 0.001 106.423);
+      --sidebar-foreground: oklch(0.147 0.004 49.25);
+      --sidebar-primary: oklch(0.216 0.006 56.043);
+      --sidebar-primary-foreground: oklch(0.985 0.001 106.423);
+      --sidebar-accent: oklch(0.97 0.001 106.424);
+      --sidebar-accent-foreground: oklch(0.216 0.006 56.043);
+      --sidebar-border: oklch(0.923 0.003 48.717);
+      --sidebar-ring: oklch(0.709 0.01 56.259);
+
+      --sidebar-width: 236px;
+      --topbar-height: 58px;
+      --page-max: 1560px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: var(--background);
+      color: var(--foreground);
+      font-family: "Outfit", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 14px;
+    }
+
+    button, input, select, textarea { font: inherit; color: inherit; }
+    button { cursor: pointer; }
+    svg { display: block; }
+    a { color: inherit; }
+
+    :focus-visible {
+      outline: 2px solid var(--ring);
+      outline-offset: 2px;
+    }
+
+    .app-shell {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+    }
+
+    /* ---------- Sidebar ---------- */
+
+    .sidebar {
+      position: fixed;
+      inset: 0 auto 0 0;
+      width: var(--sidebar-width);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: var(--sidebar);
+      border-right: 1px solid var(--sidebar-border);
+      z-index: 50;
+    }
+
+    .brand {
+      height: var(--topbar-height);
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--sidebar-border);
+    }
+
+    .brand-mark {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      background: var(--sidebar-primary);
+      color: var(--sidebar-primary-foreground);
+      overflow: hidden;
+      flex: 0 0 auto;
+    }
+
+    .brand-mark svg { width: 18px; height: 18px; }
+    .brand-mark svg * { fill: currentColor; }
+
+    .brand-name {
+      font-family: "Oxanium", sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+    }
+
+    .sidebar-content {
+      flex: 1;
+      padding: 12px 10px;
+      overflow-y: auto;
+    }
+
+    .sidebar-label {
+      padding: 9px 10px 7px;
+      color: var(--muted-foreground);
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+    }
+
+    .nav { display: grid; gap: 2px; }
+
+    .nav-item {
+      height: 38px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 10px;
+      border: 1px solid transparent;
+      text-decoration: none;
+      color: var(--sidebar-foreground);
+      font-size: 13px;
+      font-weight: 500;
+      background: transparent;
+    }
+
+    .nav-item:hover { background: var(--sidebar-accent); }
+
+    .nav-item.active {
+      background: var(--sidebar-primary);
+      color: var(--sidebar-primary-foreground);
+      border-color: var(--sidebar-primary);
+    }
+
+    .nav-item svg { width: 15px; height: 15px; flex: 0 0 auto; }
+
+    .nav-meta {
+      margin-left: auto;
+      min-width: 20px;
+      height: 18px;
+      padding: 0 5px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid currentColor;
+      opacity: .48;
+      font-size: 10px;
+      line-height: 1;
+    }
+
+    .sidebar-footer {
+      padding: 10px;
+      border-top: 1px solid var(--sidebar-border);
+    }
+
+    .user-block {
+      padding: 10px;
+      display: grid;
+      grid-template-columns: 30px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 9px;
+      border: 1px solid var(--sidebar-border);
+      background: var(--background);
+    }
+
+    .avatar {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      background: var(--primary);
+      color: var(--primary-foreground);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .user-copy { min-width: 0; }
+    .user-name {
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .user-role { margin-top: 1px; color: var(--muted-foreground); font-size: 10px; }
+
+    /* ---------- Main ---------- */
+
+    .main {
+      grid-column: 2;
+      min-width: 0;
+      min-height: 100vh;
+      background: var(--background);
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      height: var(--topbar-height);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 0 18px;
+      background: color-mix(in oklch, var(--background) 96%, transparent);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(8px);
+    }
+
+    .breadcrumbs {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      min-width: 0;
+      color: var(--muted-foreground);
+      font-size: 12px;
+    }
+
+    .breadcrumbs strong {
+      color: var(--foreground);
+      font-weight: 600;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .topbar-actions { display: flex; align-items: center; gap: 8px; }
+
+    .btn, .icon-btn, .input, .select {
+      border: 1px solid var(--border);
+      background: var(--background);
+      border-radius: 0;
+    }
+
+    .btn {
+      height: 34px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 0 12px;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .btn:hover, .icon-btn:hover { background: var(--accent); }
+
+    .btn-primary {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: var(--primary-foreground);
+    }
+
+    .btn-primary:hover { background: var(--primary); opacity: .93; }
+
+    .btn-danger {
+      color: var(--destructive);
+      border-color: color-mix(in oklch, var(--destructive) 35%, var(--border));
+    }
+
+    .icon-btn {
+      width: 34px;
+      height: 34px;
+      padding: 0;
+      display: grid;
+      place-items: center;
+    }
+
+    .icon-btn svg { width: 15px; height: 15px; }
+
+    .content {
+      width: min(100%, var(--page-max));
+      margin: 0 auto;
+      padding: 22px;
+    }
+
+    .page { display: none; }
+    .page.active { display: block; }
+
+    .page-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 18px;
+    }
+
+    .eyebrow {
+      margin-bottom: 5px;
+      color: var(--muted-foreground);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      font-family: "Oxanium", sans-serif;
+      letter-spacing: -0.03em;
+    }
+
+    h1 { font-size: 24px; font-weight: 600; }
+    h2 { font-size: 16px; font-weight: 600; }
+    h3 { font-size: 13px; font-weight: 600; }
+
+    .page-description {
+      max-width: 650px;
+      margin: 6px 0 0;
+      color: var(--muted-foreground);
+      line-height: 1.5;
+      font-size: 13px;
+    }
+
+    .page-actions { display: flex; align-items: center; gap: 8px; }
+
+    /* ---------- Shared data UI ---------- */
+
+    .card {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--card-foreground);
+    }
+
+    .card-header {
+      min-height: 54px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .card-title {
+      font-family: "Oxanium", sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .card-subtitle {
+      margin-top: 3px;
+      color: var(--muted-foreground);
+      font-size: 11px;
+    }
+
+    .toolbar {
+      min-height: 54px;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .search {
+      position: relative;
+      flex: 1 1 260px;
+      max-width: 420px;
+    }
+
+    .search svg {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 14px;
+      height: 14px;
+      color: var(--muted-foreground);
+      pointer-events: none;
+    }
+
+    .input, .select {
+      height: 34px;
+      padding: 0 10px;
+      font-size: 12px;
+    }
+
+    .search .input { width: 100%; padding-left: 32px; }
+    .input::placeholder { color: var(--muted-foreground); }
+
+    .select {
+      min-width: 132px;
+      color: var(--muted-foreground);
+    }
+
+    .table-wrap { width: 100%; overflow: auto; }
+
+    table {
+      width: 100%;
+      min-width: 960px;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    th, td {
+      padding: 11px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+
+    th {
+      color: var(--muted-foreground);
+      background: var(--muted);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    td { font-size: 12px; }
+
+    tbody tr:hover { background: color-mix(in oklch, var(--muted) 55%, transparent); }
+    tbody tr:last-child td { border-bottom: 0; }
+
+    .file-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .file-icon {
+      width: 32px;
+      height: 38px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--border);
+      background: var(--background);
+      font-family: "Oxanium", sans-serif;
+      font-size: 8px;
+      font-weight: 700;
+    }
+
+    .file-copy { min-width: 0; }
+    .file-name {
+      display: block;
+      font-weight: 600;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .file-meta { margin-top: 2px; color: var(--muted-foreground); font-size: 10px; }
+
+    .mono {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 11px;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      height: 24px;
+      padding: 0 7px;
+      border: 1px solid var(--border);
+      background: var(--secondary);
+      color: var(--secondary-foreground);
+      font-size: 10px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      background: currentColor;
+      border-radius: 50%;
+      opacity: .6;
+    }
+
+    .status.review { background: var(--background); }
+    .status.done { background: var(--primary); color: var(--primary-foreground); border-color: var(--primary); }
+    .status.error { color: var(--destructive); background: var(--background); border-color: color-mix(in oklch, var(--destructive) 30%, var(--border)); }
+
+    .row-actions { display: flex; justify-content: flex-end; gap: 6px; }
+
+    .tiny-btn {
+      height: 28px;
+      padding: 0 8px;
+      border: 1px solid var(--border);
+      background: var(--background);
+      font-size: 10px;
+      font-weight: 600;
+    }
+    .tiny-btn:hover { background: var(--accent); }
+
+    .pagination {
+      min-height: 50px;
+      padding: 9px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      border-top: 1px solid var(--border);
+      color: var(--muted-foreground);
+      font-size: 11px;
+    }
+
+    .pagination-controls { display: flex; gap: 5px; }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .metric {
+      min-height: 96px;
+      padding: 14px;
+      border: 1px solid var(--border);
+      background: var(--card);
+    }
+
+    .metric-label {
+      color: var(--muted-foreground);
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    .metric-value {
+      margin-top: 8px;
+      font-family: "Oxanium", sans-serif;
+      font-size: 25px;
+      line-height: 1;
+      font-weight: 600;
+      letter-spacing: -0.04em;
+    }
+
+    .metric-foot {
+      margin-top: 8px;
+      color: var(--muted-foreground);
+      font-size: 10px;
+    }
+
+    /* ---------- Splitter ---------- */
+
+    .splitter-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 292px;
+      gap: 14px;
+      align-items: start;
+    }
+
+    .upload-area {
+      min-height: 480px;
+      padding: 24px;
+      display: grid;
+      place-items: center;
+      background:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 32px 32px;
+      background-position: -1px -1px;
+    }
+
+    .upload-box {
+      width: min(440px, 100%);
+      padding: 28px;
+      text-align: center;
+      background: var(--background);
+      border: 1px solid var(--foreground);
+    }
+
+    .upload-icon {
+      width: 38px;
+      height: 38px;
+      margin: 0 auto 14px;
+      display: grid;
+      place-items: center;
+      background: var(--primary);
+      color: var(--primary-foreground);
+    }
+
+    .upload-icon svg { width: 17px; height: 17px; }
+    .upload-box p {
+      max-width: 330px;
+      margin: 8px auto 16px;
+      color: var(--muted-foreground);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .upload-meta { margin-top: 13px; color: var(--muted-foreground); font-size: 10px; }
+
+    .side-stack { display: grid; gap: 14px; }
+
+    .summary-list { display: grid; }
+    .summary-row {
+      min-height: 47px;
+      padding: 10px 12px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .summary-row:last-child { border-bottom: 0; }
+    .summary-label { color: var(--muted-foreground); font-size: 11px; }
+    .summary-value { font-family: "Oxanium", sans-serif; font-size: 13px; font-weight: 600; }
+
+    .flow { padding: 12px; display: grid; gap: 8px; }
+    .flow-step {
+      display: grid;
+      grid-template-columns: 22px minmax(0, 1fr);
+      gap: 9px;
+      align-items: start;
+      padding: 8px;
+      border: 1px solid var(--border);
+      background: var(--background);
+    }
+    .flow-number {
+      width: 22px; height: 22px;
+      display: grid; place-items: center;
+      background: var(--secondary);
+      font-size: 10px; font-weight: 700;
+    }
+    .flow-step strong { display: block; font-size: 11px; font-weight: 600; }
+    .flow-step span { display: block; margin-top: 2px; color: var(--muted-foreground); font-size: 10px; line-height: 1.4; }
+
+    /* ---------- Processed ---------- */
+
+    .progress {
+      width: 100%;
+      height: 5px;
+      background: var(--secondary);
+      overflow: hidden;
+    }
+    .progress > span {
+      display: block;
+      height: 100%;
+      background: var(--primary);
+    }
+
+    .stacked-cell { display: grid; gap: 4px; }
+
+    /* ---------- Review ---------- */
+
+    .review-shell {
+      display: grid;
+      grid-template-columns: 170px minmax(420px, 1fr) 330px;
+      min-height: calc(100vh - var(--topbar-height) - 116px);
+      border: 1px solid var(--border);
+      background: var(--background);
+    }
+
+    .review-pages,
+    .review-groups {
+      min-width: 0;
+      background: var(--card);
+    }
+
+    .review-pages { border-right: 1px solid var(--border); }
+    .review-groups { border-left: 1px solid var(--border); }
+
+    .panel-head {
+      min-height: 54px;
+      padding: 11px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .panel-head-copy { min-width: 0; }
+    .panel-kicker { color: var(--muted-foreground); font-size: 9px; text-transform: uppercase; letter-spacing: .06em; font-weight: 600; }
+    .panel-title {
+      margin-top: 2px;
+      font-family: "Oxanium", sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .thumb-list {
+      padding: 10px;
+      display: grid;
+      gap: 9px;
+      overflow: auto;
+      max-height: calc(100vh - var(--topbar-height) - 171px);
+    }
+
+    .thumb {
+      position: relative;
+      padding: 6px;
+      border: 1px solid var(--border);
+      background: var(--background);
+      cursor: pointer;
+    }
+
+    .thumb.active {
+      border-color: var(--foreground);
+      box-shadow: inset 3px 0 0 var(--foreground);
+    }
+
+    .thumb-page {
+      aspect-ratio: 0.72;
+      padding: 8px;
+      display: grid;
+      align-content: start;
+      gap: 5px;
+      background: white;
+      border: 1px solid var(--border);
+    }
+
+    .fake-line { height: 3px; background: var(--border); }
+    .fake-line.dark { background: var(--foreground); opacity: .75; }
+    .fake-line.w80 { width: 80%; }
+    .fake-line.w60 { width: 60%; }
+    .fake-line.w42 { width: 42%; }
+    .fake-block { height: 28px; border: 1px solid var(--border); margin-top: 5px; }
+    .fake-total { width: 48%; height: 6px; background: var(--foreground); margin: 8px 0 0 auto; opacity: .8; }
+
+    .thumb-footer {
+      padding: 6px 1px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--muted-foreground);
+      font-size: 9px;
+    }
+
+    .review-canvas {
+      min-width: 0;
+      background:
+        linear-gradient(45deg, color-mix(in oklch,var(--muted) 80%,white) 25%, transparent 25%),
+        linear-gradient(-45deg, color-mix(in oklch,var(--muted) 80%,white) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, color-mix(in oklch,var(--muted) 80%,white) 75%),
+        linear-gradient(-45deg, transparent 75%, color-mix(in oklch,var(--muted) 80%,white) 75%);
+      background-size: 20px 20px;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+    }
+
+    .canvas-toolbar {
+      height: 54px;
+      padding: 0 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background: var(--background);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .canvas-controls { display: flex; align-items: center; gap: 6px; }
+    .zoom-label { min-width: 44px; text-align: center; color: var(--muted-foreground); font-size: 10px; }
+
+    .doc-stage {
+      height: calc(100vh - var(--topbar-height) - 171px);
+      min-height: 620px;
+      padding: 34px;
+      overflow: auto;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .document-page {
+      width: min(690px, 100%);
+      min-height: 910px;
+      padding: 50px;
+      background: white;
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 24px rgb(0 0 0 / .07);
+      transform-origin: top center;
+    }
+
+    .invoice-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 40px;
+      padding-bottom: 24px;
+      border-bottom: 2px solid var(--foreground);
+    }
+
+    .invoice-logo {
+      font-family: "Oxanium", sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -.04em;
+    }
+
+    .invoice-title {
+      text-align: right;
+      font-family: "Oxanium", sans-serif;
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: -.04em;
+    }
+
+    .invoice-meta-grid {
+      margin-top: 26px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+
+    .invoice-small-label {
+      margin-bottom: 7px;
+      color: var(--muted-foreground);
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-weight: 600;
+    }
+
+    .invoice-text { font-size: 11px; line-height: 1.55; }
+
+    .invoice-table {
+      width: 100%;
+      min-width: 0;
+      margin-top: 34px;
+      table-layout: auto;
+    }
+
+    .invoice-table th,
+    .invoice-table td {
+      padding: 9px 8px;
+      font-size: 10px;
+    }
+
+    .invoice-total {
+      width: 250px;
+      margin: 24px 0 0 auto;
+      display: grid;
+      gap: 9px;
+    }
+
+    .invoice-total-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      font-size: 11px;
+    }
+
+    .invoice-total-row.strong {
+      padding-top: 10px;
+      border-top: 1px solid var(--foreground);
+      font-family: "Oxanium", sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .group-list {
+      padding: 10px;
+      display: grid;
+      gap: 9px;
+      max-height: calc(100vh - var(--topbar-height) - 225px);
+      overflow: auto;
+    }
+
+    .group-card {
+      border: 1px solid var(--border);
+      background: var(--background);
+    }
+
+    .group-card.selected { border-color: var(--foreground); }
+
+    .group-head {
+      padding: 9px 10px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .group-name { font-family: "Oxanium", sans-serif; font-size: 11px; font-weight: 600; }
+    .group-confidence { margin-top: 2px; color: var(--muted-foreground); font-size: 9px; }
+
+    .page-chips {
+      padding: 9px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .page-chip {
+      min-width: 34px;
+      height: 30px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+      background: var(--muted);
+      font-size: 10px;
+      font-weight: 600;
+      cursor: grab;
+    }
+
+    .page-chip + .split-marker {
+      width: 1px;
+      height: 30px;
+      background: var(--foreground);
+      opacity: .2;
+    }
+
+    .group-actions {
+      padding: 9px;
+      display: flex;
+      gap: 6px;
+      border-top: 1px solid var(--border);
+    }
+
+    .review-footer {
+      padding: 10px;
+      display: grid;
+      gap: 8px;
+      border-top: 1px solid var(--border);
+      background: var(--background);
+    }
+
+    .hint {
+      padding: 8px 9px;
+      border: 1px solid var(--border);
+      background: var(--muted);
+      color: var(--muted-foreground);
+      font-size: 9px;
+      line-height: 1.45;
+    }
+
+    .review-footer-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+
+    .mobile-menu { display: none; }
+
+    @media (max-width: 1180px) {
+      .review-shell { grid-template-columns: 150px minmax(380px, 1fr) 290px; }
+    }
+
+    @media (max-width: 1020px) {
+      .splitter-grid { grid-template-columns: 1fr; }
+      .side-stack { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .review-shell {
+        grid-template-columns: 145px minmax(0, 1fr);
+      }
+      .review-groups {
+        grid-column: 1 / -1;
+        border-left: 0;
+        border-top: 1px solid var(--border);
+      }
+      .group-list { grid-template-columns: repeat(2, minmax(0,1fr)); max-height: none; }
+      .review-footer { grid-template-columns: 1fr auto; align-items: center; }
+      .review-footer-actions { min-width: 270px; }
+      .doc-stage { height: auto; min-height: 620px; }
+    }
+
+    @media (max-width: 760px) {
+      :root { --sidebar-width: 0px; }
+      .sidebar { display: none; }
+      .app-shell { grid-template-columns: 1fr; }
+      .main { grid-column: 1; }
+      .mobile-menu { display: grid; }
+      .breadcrumbs { display: none; }
+      .content { padding: 16px; }
+      .page-header { align-items: flex-start; flex-direction: column; }
+      .page-actions { width: 100%; flex-wrap: wrap; }
+      .metric-grid { grid-template-columns: 1fr 1fr; }
+      .side-stack { grid-template-columns: 1fr; }
+      .upload-area { min-height: 390px; padding: 16px; }
+      .review-shell { grid-template-columns: 1fr; }
+      .review-pages { border-right: 0; border-bottom: 1px solid var(--border); }
+      .thumb-list {
+        display: flex;
+        overflow-x: auto;
+        max-height: none;
+      }
+      .thumb { width: 115px; flex: 0 0 auto; }
+      .review-groups { grid-column: 1; }
+      .group-list { grid-template-columns: 1fr; }
+      .document-page { min-width: 590px; }
+      .doc-stage { justify-content: flex-start; }
+    }
+
+    @media (max-width: 480px) {
+      .topbar-actions .btn:not(.btn-primary) { display: none; }
+      .metric-grid { grid-template-columns: 1fr; }
+      .upload-box { padding: 22px 16px; }
+      .review-footer { grid-template-columns: 1fr; }
+      .review-footer-actions { min-width: 0; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M29.68,23.34L21.08,4.79l-.18-.39c-1.01-2.23-2.6-3.35-4.22-3.39v10.54c.66,2.51,1.34,3.24,3.97,3.85.17.04.17.28,0,.32-2.63.62-3.37,1.39-3.97,3.82v7.27c2.37.04,4.7.74,6.79,2l1.43.86c.96.58,2.14.61,3.1.04,1.85-1.1,2.8-3.91,1.67-6.36Z"/>
+            <path d="M16.27,19.54c-.62-2.53-1.34-3.21-3.97-3.82-.17-.04-.17-.28,0-.32,2.63-.62,3.35-1.29,3.97-3.82V1c-1.61.05-3.21,1.16-4.22,3.39l-.18.39L3.28,23.34c-1.14,2.45-.18,5.25,1.67,6.36.96.58,2.14.54,3.1-.04l1.43-.86c2.09-1.26,4.42-1.95,6.79-2v-7.27Z"/>
+            <path d="M20.65,15.39c-2.69-.64-3.38-1.35-4.01-4.08-.04-.17-.28-.17-.32,0-.63,2.73-1.32,3.44-4.01,4.08-.17.04-.17.29,0,.33,2.69.64,3.38,1.35,4.01,4.08.04.17.28.17.32,0,.63-2.73,1.32-3.44,4.01-4.08.17-.04.17-.29,0-.33Z"/>
+            <polygon points="16.69 26.81 16.27 26.81 16.26 1 16.7 1 16.69 26.81"/>
+          </svg>
+        </div>
+        <div class="brand-name">AI Accountant</div>
+      </div>
+
+      <div class="sidebar-content">
+        <div class="sidebar-label">Workspace</div>
+        <nav class="nav" aria-label="Primary">
+          <a class="nav-item" data-page="splitter" href="#splitter">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+              <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+              <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+            </svg>
+            Splitter
+          </a>
+
+          <a class="nav-item" data-page="documents" href="#documents">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+              <path d="M4 5h6l2 2h8v12H4z"/>
+            </svg>
+            Documents
+            <span class="nav-meta">24</span>
+          </a>
+
+          <a class="nav-item" data-page="processed" href="#processed">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+              <path d="M5 12l4 4L19 6"/>
+            </svg>
+            Processed
+            <span class="nav-meta">18</span>
+          </a>
+
+          <a class="nav-item" data-page="review" href="#review">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+              <path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h5"/>
+            </svg>
+            Review Queue
+            <span class="nav-meta">3</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="user-block">
+          <div class="avatar">LK</div>
+          <div class="user-copy">
+            <div class="user-name">Lakksith</div>
+            <div class="user-role">Product workspace</div>
+          </div>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+            <circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/>
+          </svg>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="icon-btn mobile-menu" aria-label="Open menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+            <path d="M4 7h16M4 12h16M4 17h16"/>
+          </svg>
+        </button>
+
+        <div class="breadcrumbs">
+          <span>Accounts Payable</span>
+          <span>/</span>
+          <strong id="crumb-current">PDF Splitter</strong>
+        </div>
+
+        <div class="topbar-actions">
+          <button class="btn" onclick="goTo('documents')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+              <path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 2"/>
+            </svg>
+            History
+          </button>
+
+          <button class="btn btn-primary" onclick="goTo('splitter')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+              <path d="M12 5v14M5 12h14"/>
+            </svg>
+            New upload
+          </button>
+        </div>
+      </header>
+
+      <section class="content">
+
+        <!-- SPLITTER -->
+        <section class="page" id="page-splitter" data-title="PDF Splitter">
+          <div class="page-header">
+            <div>
+              <div class="eyebrow">Document processing</div>
+              <h1>PDF Splitter</h1>
+              <p class="page-description">
+                Upload multi-page invoice PDFs. The splitter keeps related invoice pages together before extraction and review.
+              </p>
+            </div>
+            <div class="page-actions">
+              <button class="btn" onclick="goTo('processed')">View processed files</button>
+            </div>
+          </div>
+
+          <div class="splitter-grid">
+            <section class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">Upload document</div>
+                  <div class="card-subtitle">PDF files only</div>
+                </div>
+                <span class="status"><span class="status-dot"></span> Ready</span>
+              </div>
+
+              <div class="upload-area">
+                <div class="upload-box">
+                  <div class="upload-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                      <path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M5 20h14"/>
+                    </svg>
+                  </div>
+                  <h2>Drop an invoice PDF here</h2>
+                  <p>The system will analyse page boundaries, group pages belonging to the same invoice, and prepare them for review.</p>
+                  <button class="btn btn-primary" onclick="simulateUpload()">Choose PDF</button>
+                  <div class="upload-meta">Recommended: up to 100 pages per upload for this POC.</div>
+                </div>
+              </div>
+            </section>
+
+            <aside class="side-stack">
+              <section class="card">
+                <div class="card-header">
+                  <div>
+                    <div class="card-title">Session</div>
+                    <div class="card-subtitle">Current upload</div>
+                  </div>
+                </div>
+                <div class="summary-list">
+                  <div class="summary-row"><div class="summary-label">File</div><div class="summary-value" id="session-file">None</div></div>
+                  <div class="summary-row"><div class="summary-label">Pages</div><div class="summary-value" id="session-pages">0</div></div>
+                  <div class="summary-row"><div class="summary-label">Invoices found</div><div class="summary-value" id="session-invoices">0</div></div>
+                  <div class="summary-row"><div class="summary-label">Status</div><div class="summary-value" id="session-status">Idle</div></div>
+                </div>
+              </section>
+
+              <section class="card">
+                <div class="card-header">
+                  <div>
+                    <div class="card-title">Processing flow</div>
+                    <div class="card-subtitle">POC pipeline</div>
+                  </div>
+                </div>
+                <div class="flow">
+                  <div class="flow-step"><div class="flow-number">01</div><div><strong>Upload</strong><span>Load the multi-page PDF.</span></div></div>
+                  <div class="flow-step"><div class="flow-number">02</div><div><strong>Detect boundaries</strong><span>Identify which pages belong together.</span></div></div>
+                  <div class="flow-step"><div class="flow-number">03</div><div><strong>Review splits</strong><span>Let the user correct page grouping.</span></div></div>
+                  <div class="flow-step"><div class="flow-number">04</div><div><strong>Process</strong><span>Send grouped invoices to extraction.</span></div></div>
+                </div>
+              </section>
+            </aside>
+          </div>
+        </section>
+
+        <!-- DOCUMENTS -->
+        <section class="page" id="page-documents" data-title="Documents">
+          <div class="page-header">
+            <div>
+              <div class="eyebrow">Source files</div>
+              <h1>Documents</h1>
+              <p class="page-description">
+                Every uploaded source PDF, with its split status and downstream processing state.
+              </p>
+            </div>
+            <div class="page-actions">
+              <button class="btn btn-primary" onclick="goTo('splitter')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                  <path d="M12 5v14M5 12h14"/>
+                </svg>
+                Upload PDF
+              </button>
+            </div>
+          </div>
+
+          <div class="metric-grid">
+            <div class="metric">
+              <div class="metric-label">Total documents</div>
+              <div class="metric-value">24</div>
+              <div class="metric-foot">156 source pages</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">Needs review</div>
+              <div class="metric-value">3</div>
+              <div class="metric-foot">12.5% of current queue</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">Processing</div>
+              <div class="metric-value">3</div>
+              <div class="metric-foot">Boundary detection running</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">Completed</div>
+              <div class="metric-value">18</div>
+              <div class="metric-foot">42 invoices produced</div>
+            </div>
+          </div>
+
+          <section class="card">
+            <div class="toolbar">
+              <div class="search">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+                <input class="input" type="search" placeholder="Search file name or document ID…" />
+              </div>
+
+              <select class="select" aria-label="Status">
+                <option>All statuses</option>
+                <option>Needs review</option>
+                <option>Processing</option>
+                <option>Completed</option>
+              </select>
+
+              <select class="select" aria-label="Date">
+                <option>Last 30 days</option>
+                <option>Last 7 days</option>
+                <option>Today</option>
+              </select>
+
+              <button class="btn">Export</button>
+            </div>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th style="width:29%">Document</th>
+                    <th style="width:12%">Uploaded</th>
+                    <th style="width:9%">Pages</th>
+                    <th style="width:11%">Invoices</th>
+                    <th style="width:15%">Status</th>
+                    <th style="width:10%">Size</th>
+                    <th style="width:14%; text-align:right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="file-cell">
+                        <div class="file-icon">PDF</div>
+                        <div class="file-copy">
+                          <span class="file-name">Vendor_Batch_Aug_11.pdf</span>
+                          <div class="file-meta mono">DOC-0024</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>11 Aug, 22:41</td>
+                    <td>18</td>
+                    <td>6 detected</td>
+                    <td><span class="status review"><span class="status-dot"></span> Needs review</span></td>
+                    <td>6.8 MB</td>
+                    <td><div class="row-actions"><button class="tiny-btn" onclick="goTo('review')">Review</button><button class="tiny-btn">•••</button></div></td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <div class="file-cell">
+                        <div class="file-icon">PDF</div>
+                        <div class="file-copy">
+                          <span class="file-name">AP_Scans_1108.pdf</span>
+                          <div class="file-meta mono">DOC-0023</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>11 Aug, 21:58</td>
+                    <td>12</td>
+                    <td>4 detected</td>
+                    <td><span class="status"><span class="status-dot"></span> Processing</span></td>
+                    <td>4.1 MB</td>
+                    <td><div class="row-actions"><button class="tiny-btn">Open</button><button class="tiny-btn">•••</button></div></td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <div class="file-cell">
+                        <div class="file-icon">PDF</div>
+                        <div class="file-copy">
+                          <span class="file-name">Invoices_Mumbai_11Aug.pdf</span>
+                          <div class="file-meta mono">DOC-0022</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>11 Aug, 19:12</td>
+                    <td>9</td>
+                    <td>3</td>
+                    <td><span class="status done"><span class="status-dot"></span> Completed</span></td>
+                    <td>2.9 MB</td>
+                    <td><div class="row-actions"><button class="tiny-btn" onclick="goTo('processed')">View</button><button class="tiny-btn">•••</button></div></td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <div class="file-cell">
+                        <div class="file-icon">PDF</div>
+                        <div class="file-copy">
+                          <span class="file-name">Weekly_AP_Batch_32.pdf</span>
+                          <div class="file-meta mono">DOC-0021</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>11 Aug, 16:04</td>
+                    <td>22</td>
+                    <td>8</td>
+                    <td><span class="status done"><span class="status-dot"></span> Completed</span></td>
+                    <td>8.6 MB</td>
+                    <td><div class="row-actions"><button class="tiny-btn" onclick="goTo('processed')">View</button><button class="tiny-btn">•••</button></div></td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <div class="file-cell">
+                        <div class="file-icon">PDF</div>
+                        <div class="file-copy">
+                          <span class="file-name">Supplier_Mix_1108.pdf</span>
+                          <div class="file-meta mono">DOC-0020</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>11 Aug, 14:26</td>
+                    <td>15</td>
+                    <td>5 detected</td>
+                    <td><span class="status review"><span class="status-dot"></span> Needs review</span></td>
+                    <td>5.2 MB</td>
+                    <td><div class="row-actions"><button class="tiny-btn" onclick="goTo('review')">Review</button><button class="tiny-btn">•••</button></div></td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <div class="file-cell">
+                        <div class="file-icon">PDF</div>
+                        <div class="file-copy">
+                          <span class="file-name">Receipts_Batch_11A.pdf</span>
+                          <div class="file-meta mono">DOC-0019</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>11 Aug, 12:09</td>
+                    <td>6</td>
+                    <td>2</td>
+                    <td><span class="status done"><span class="status-dot"></span> Completed</span></td>
+                    <td>1.7 MB</td>
+                    <td><div class="row-actions"><button class="tiny-btn" onclick="goTo('processed')">View</button><button class="tiny-btn">•••</button></div></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="pagination">
+              <span>Showing 1–6 of 24 documents</span>
+              <div class="pagination-controls">
+                <button class="tiny-btn">Previous</button>
+                <button class="tiny-btn">1</button>
+                <button class="tiny-btn">2</button>
+                <button class="tiny-btn">3</button>
+                <button class="tiny-btn">Next</button>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <!-- PROCESSED -->
+        <section class="page" id="page-processed" data-title="Processed">
+          <div class="page-header">
+            <div>
+              <div class="eyebrow">Invoice outputs</div>
+              <h1>Processed</h1>
+              <p class="page-description">
+                Invoice groups that passed review and entered extraction. Track extraction quality and Tally handoff from one place.
+              </p>
+            </div>
+            <div class="page-actions">
+              <button class="btn">Export CSV</button>
+              <button class="btn btn-primary">Push ready items to Tally</button>
+            </div>
+          </div>
+
+          <div class="metric-grid">
+            <div class="metric">
+              <div class="metric-label">Invoices processed</div>
+              <div class="metric-value">42</div>
+              <div class="metric-foot">From 18 source PDFs</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">Extraction success</div>
+              <div class="metric-value">95.2%</div>
+              <div class="metric-foot">40 of 42 without intervention</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">Ready for Tally</div>
+              <div class="metric-value">11</div>
+              <div class="metric-foot">Validated and awaiting push</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">Synced to Tally</div>
+              <div class="metric-value">29</div>
+              <div class="metric-foot">2 require field correction</div>
+            </div>
+          </div>
+
+          <section class="card">
+            <div class="toolbar">
+              <div class="search">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+                <input class="input" type="search" placeholder="Search vendor, invoice number or source file…" />
+              </div>
+
+              <select class="select">
+                <option>All extraction states</option>
+                <option>Extracted</option>
+                <option>Needs correction</option>
+              </select>
+
+              <select class="select">
+                <option>All Tally states</option>
+                <option>Ready</option>
+                <option>Synced</option>
+                <option>Failed</option>
+              </select>
+            </div>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th style="width:22%">Invoice</th>
+                    <th style="width:18%">Vendor</th>
+                    <th style="width:10%">Pages</th>
+                    <th style="width:13%">Amount</th>
+                    <th style="width:15%">Extraction</th>
+                    <th style="width:12%">Tally</th>
+                    <th style="width:10%; text-align:right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="file-copy">
+                        <span class="file-name">INV-2026-8841</span>
+                        <div class="file-meta">Invoices_Mumbai_11Aug.pdf</div>
+                      </div>
+                    </td>
+                    <td>Orbit Office Systems</td>
+                    <td>1–3</td>
+                    <td>₹1,24,800</td>
+                    <td>
+                      <div class="stacked-cell">
+                        <span class="status done">Extracted</span>
+                        <div class="progress"><span style="width:98%"></span></div>
+                      </div>
+                    </td>
+                    <td><span class="status">Ready</span></td>
+                    <td><div class="row-actions"><button class="tiny-btn">Open</button></div></td>
+                  </tr>
+
+                  <tr>
+                    <td><div class="file-copy"><span class="file-name">INV-11892</span><div class="file-meta">Weekly_AP_Batch_32.pdf</div></div></td>
+                    <td>Keystone Logistics</td>
+                    <td>4–5</td>
+                    <td>₹78,240</td>
+                    <td><div class="stacked-cell"><span class="status done">Extracted</span><div class="progress"><span style="width:96%"></span></div></div></td>
+                    <td><span class="status done">Synced</span></td>
+                    <td><div class="row-actions"><button class="tiny-btn">Open</button></div></td>
+                  </tr>
+
+                  <tr>
+                    <td><div class="file-copy"><span class="file-name">BILL-49022</span><div class="file-meta">Weekly_AP_Batch_32.pdf</div></div></td>
+                    <td>Shree Steel Works</td>
+                    <td>6–8</td>
+                    <td>₹3,42,110</td>
+                    <td><div class="stacked-cell"><span class="status review">Needs correction</span><div class="progress"><span style="width:71%"></span></div></div></td>
+                    <td><span class="status">Blocked</span></td>
+                    <td><div class="row-actions"><button class="tiny-btn">Edit</button></div></td>
+                  </tr>
+
+                  <tr>
+                    <td><div class="file-copy"><span class="file-name">TX-7726</span><div class="file-meta">Receipts_Batch_11A.pdf</div></div></td>
+                    <td>Nova Telecom</td>
+                    <td>1–2</td>
+                    <td>₹18,902</td>
+                    <td><div class="stacked-cell"><span class="status done">Extracted</span><div class="progress"><span style="width:99%"></span></div></div></td>
+                    <td><span class="status done">Synced</span></td>
+                    <td><div class="row-actions"><button class="tiny-btn">Open</button></div></td>
+                  </tr>
+
+                  <tr>
+                    <td><div class="file-copy"><span class="file-name">JUL-2026-0088</span><div class="file-meta">Invoices_Mumbai_11Aug.pdf</div></div></td>
+                    <td>Vector Components</td>
+                    <td>4–6</td>
+                    <td>₹2,09,460</td>
+                    <td><div class="stacked-cell"><span class="status done">Extracted</span><div class="progress"><span style="width:93%"></span></div></div></td>
+                    <td><span class="status done">Synced</span></td>
+                    <td><div class="row-actions"><button class="tiny-btn">Open</button></div></td>
+                  </tr>
+
+                  <tr>
+                    <td><div class="file-copy"><span class="file-name">SI-32914</span><div class="file-meta">Supplier_Mix_1108.pdf</div></div></td>
+                    <td>Deepa Packaging</td>
+                    <td>7–9</td>
+                    <td>₹42,660</td>
+                    <td><div class="stacked-cell"><span class="status done">Extracted</span><div class="progress"><span style="width:97%"></span></div></div></td>
+                    <td><span class="status error">Failed</span></td>
+                    <td><div class="row-actions"><button class="tiny-btn">Retry</button></div></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="pagination">
+              <span>Showing 1–6 of 42 invoices</span>
+              <div class="pagination-controls">
+                <button class="tiny-btn">Previous</button>
+                <button class="tiny-btn">1</button>
+                <button class="tiny-btn">2</button>
+                <button class="tiny-btn">Next</button>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <!-- REVIEW -->
+        <section class="page" id="page-review" data-title="Review Queue">
+          <div class="page-header">
+            <div>
+              <div class="eyebrow">Human verification</div>
+              <h1>Review split</h1>
+              <p class="page-description">
+                Confirm where each invoice starts and ends. The user should be able to move pages between groups before extraction.
+              </p>
+            </div>
+            <div class="page-actions">
+              <button class="btn btn-danger">Reject document</button>
+              <button class="btn btn-primary" onclick="approveReview()">Approve 6 invoices</button>
+            </div>
+          </div>
+
+          <div class="review-shell">
+            <aside class="review-pages">
+              <div class="panel-head">
+                <div class="panel-head-copy">
+                  <div class="panel-kicker">Source PDF</div>
+                  <div class="panel-title">Vendor_Batch_Aug_11.pdf</div>
+                </div>
+                <span class="status">18p</span>
+              </div>
+
+              <div class="thumb-list">
+                <div class="thumb active" onclick="selectThumb(this, 1)">
+                  <div class="thumb-page">
+                    <div class="fake-line dark w42"></div><div class="fake-line w80"></div><div class="fake-line w60"></div>
+                    <div class="fake-block"></div><div class="fake-line w80"></div><div class="fake-line w60"></div><div class="fake-total"></div>
+                  </div>
+                  <div class="thumb-footer"><span>Page 1</span><span>INV 1</span></div>
+                </div>
+
+                <div class="thumb" onclick="selectThumb(this, 2)">
+                  <div class="thumb-page">
+                    <div class="fake-line dark w42"></div><div class="fake-line w80"></div><div class="fake-block"></div>
+                    <div class="fake-line w60"></div><div class="fake-line w80"></div><div class="fake-total"></div>
+                  </div>
+                  <div class="thumb-footer"><span>Page 2</span><span>INV 1</span></div>
+                </div>
+
+                <div class="thumb" onclick="selectThumb(this, 3)">
+                  <div class="thumb-page">
+                    <div class="fake-line dark w42"></div><div class="fake-line w80"></div><div class="fake-line w60"></div>
+                    <div class="fake-block"></div><div class="fake-line w80"></div><div class="fake-total"></div>
+                  </div>
+                  <div class="thumb-footer"><span>Page 3</span><span>INV 1</span></div>
+                </div>
+
+                <div class="thumb" onclick="selectThumb(this, 4)">
+                  <div class="thumb-page">
+                    <div class="fake-line dark w42"></div><div class="fake-line w60"></div><div class="fake-block"></div>
+                    <div class="fake-line w80"></div><div class="fake-line w60"></div>
+                  </div>
+                  <div class="thumb-footer"><span>Page 4</span><span>INV 2</span></div>
+                </div>
+
+                <div class="thumb" onclick="selectThumb(this, 5)">
+                  <div class="thumb-page">
+                    <div class="fake-line dark w42"></div><div class="fake-line w80"></div><div class="fake-block"></div>
+                    <div class="fake-line w42"></div><div class="fake-total"></div>
+                  </div>
+                  <div class="thumb-footer"><span>Page 5</span><span>INV 2</span></div>
+                </div>
+
+                <div class="thumb" onclick="selectThumb(this, 6)">
+                  <div class="thumb-page">
+                    <div class="fake-line dark w60"></div><div class="fake-line w80"></div><div class="fake-line w42"></div>
+                    <div class="fake-block"></div><div class="fake-total"></div>
+                  </div>
+                  <div class="thumb-footer"><span>Page 6</span><span>INV 3</span></div>
+                </div>
+              </div>
+            </aside>
+
+            <section class="review-canvas">
+              <div class="canvas-toolbar">
+                <div class="canvas-controls">
+                  <button class="icon-btn" onclick="zoom(-.1)" aria-label="Zoom out">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 12h14"/></svg>
+                  </button>
+                  <div class="zoom-label" id="zoom-label">100%</div>
+                  <button class="icon-btn" onclick="zoom(.1)" aria-label="Zoom in">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 5v14M5 12h14"/></svg>
+                  </button>
+                </div>
+
+                <div class="canvas-controls">
+                  <span class="status review" id="page-indicator">Page 1 of 18</span>
+                </div>
+              </div>
+
+              <div class="doc-stage">
+                <article class="document-page" id="document-page">
+                  <div class="invoice-head">
+                    <div>
+                      <div class="invoice-logo">ORBIT</div>
+                      <div class="invoice-text" style="margin-top:7px;color:var(--muted-foreground)">Office Systems Pvt. Ltd.</div>
+                    </div>
+                    <div>
+                      <div class="invoice-title">INVOICE</div>
+                      <div class="invoice-text" style="text-align:right;margin-top:6px"># INV-2026-8841</div>
+                    </div>
+                  </div>
+
+                  <div class="invoice-meta-grid">
+                    <div>
+                      <div class="invoice-small-label">Bill to</div>
+                      <div class="invoice-text">
+                        AI Accountant Pvt. Ltd.<br>
+                        48 Residency Road<br>
+                        Bengaluru, Karnataka 560025
+                      </div>
+                    </div>
+                    <div>
+                      <div class="invoice-small-label">Invoice details</div>
+                      <div class="invoice-text">
+                        Invoice date: 11 Aug 2026<br>
+                        Due date: 26 Aug 2026<br>
+                        GSTIN: 29ABCDE1234F1Z8
+                      </div>
+                    </div>
+                  </div>
+
+                  <table class="invoice-table">
+                    <thead>
+                      <tr><th>Description</th><th>Qty</th><th>Rate</th><th style="text-align:right">Amount</th></tr>
+                    </thead>
+                    <tbody>
+                      <tr><td>Annual ERP Support</td><td>1</td><td>₹58,000</td><td style="text-align:right">₹58,000</td></tr>
+                      <tr><td>Document Processing Credits</td><td>12</td><td>₹3,500</td><td style="text-align:right">₹42,000</td></tr>
+                      <tr><td>Implementation Services</td><td>8</td><td>₹1,500</td><td style="text-align:right">₹12,000</td></tr>
+                    </tbody>
+                  </table>
+
+                  <div class="invoice-total">
+                    <div class="invoice-total-row"><span>Subtotal</span><span>₹1,12,000</span></div>
+                    <div class="invoice-total-row"><span>GST 12%</span><span>₹13,440</span></div>
+                    <div class="invoice-total-row.strong invoice-total-row"><span>Total</span><span>₹1,25,440</span></div>
+                  </div>
+
+                  <div style="margin-top:80px;padding-top:16px;border-top:1px solid var(--border)">
+                    <div class="invoice-small-label">Notes</div>
+                    <div class="invoice-text">Thank you for your business. Please include the invoice number with your remittance.</div>
+                  </div>
+                </article>
+              </div>
+            </section>
+
+            <aside class="review-groups">
+              <div class="panel-head">
+                <div class="panel-head-copy">
+                  <div class="panel-kicker">Detected boundaries</div>
+                  <div class="panel-title">6 invoice groups</div>
+                </div>
+                <button class="tiny-btn">+ Group</button>
+              </div>
+
+              <div class="group-list">
+                <section class="group-card selected">
+                  <div class="group-head">
+                    <div><div class="group-name">Invoice 01</div><div class="group-confidence">98% boundary confidence</div></div>
+                    <span class="status done">High</span>
+                  </div>
+                  <div class="page-chips"><div class="page-chip">1</div><div class="page-chip">2</div><div class="page-chip">3</div></div>
+                  <div class="group-actions"><button class="tiny-btn">Rename</button><button class="tiny-btn">Split</button></div>
+                </section>
+
+                <section class="group-card">
+                  <div class="group-head">
+                    <div><div class="group-name">Invoice 02</div><div class="group-confidence">94% boundary confidence</div></div>
+                    <span class="status done">High</span>
+                  </div>
+                  <div class="page-chips"><div class="page-chip">4</div><div class="page-chip">5</div></div>
+                  <div class="group-actions"><button class="tiny-btn">Rename</button><button class="tiny-btn">Split</button></div>
+                </section>
+
+                <section class="group-card">
+                  <div class="group-head">
+                    <div><div class="group-name">Invoice 03</div><div class="group-confidence">71% boundary confidence</div></div>
+                    <span class="status review">Check</span>
+                  </div>
+                  <div class="page-chips"><div class="page-chip">6</div><div class="page-chip">7</div><div class="page-chip">8</div><div class="page-chip">9</div></div>
+                  <div class="group-actions"><button class="tiny-btn">Rename</button><button class="tiny-btn">Split</button></div>
+                </section>
+
+                <section class="group-card">
+                  <div class="group-head">
+                    <div><div class="group-name">Invoice 04</div><div class="group-confidence">87% boundary confidence</div></div>
+                    <span class="status">Medium</span>
+                  </div>
+                  <div class="page-chips"><div class="page-chip">10</div><div class="page-chip">11</div><div class="page-chip">12</div></div>
+                  <div class="group-actions"><button class="tiny-btn">Rename</button><button class="tiny-btn">Split</button></div>
+                </section>
+
+                <section class="group-card">
+                  <div class="group-head">
+                    <div><div class="group-name">Invoice 05</div><div class="group-confidence">96% boundary confidence</div></div>
+                    <span class="status done">High</span>
+                  </div>
+                  <div class="page-chips"><div class="page-chip">13</div><div class="page-chip">14</div></div>
+                  <div class="group-actions"><button class="tiny-btn">Rename</button><button class="tiny-btn">Split</button></div>
+                </section>
+
+                <section class="group-card">
+                  <div class="group-head">
+                    <div><div class="group-name">Invoice 06</div><div class="group-confidence">89% boundary confidence</div></div>
+                    <span class="status">Medium</span>
+                  </div>
+                  <div class="page-chips"><div class="page-chip">15</div><div class="page-chip">16</div><div class="page-chip">17</div><div class="page-chip">18</div></div>
+                  <div class="group-actions"><button class="tiny-btn">Rename</button><button class="tiny-btn">Split</button></div>
+                </section>
+              </div>
+
+              <div class="review-footer">
+                <div class="hint">
+                  Drag pages between groups in production. Any low-confidence boundary should require explicit review before processing.
+                </div>
+                <div class="review-footer-actions">
+                  <button class="btn">Save draft</button>
+                  <button class="btn btn-primary" onclick="approveReview()">Approve</button>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const titles = {
+      splitter: "PDF Splitter",
+      documents: "Documents",
+      processed: "Processed",
+      review: "Review Queue"
+    };
+
+    function goTo(page) {
+      location.hash = page;
+    }
+
+    function route() {
+      const requested = location.hash.replace("#", "") || "splitter";
+      const page = titles[requested] ? requested : "splitter";
+
+      document.querySelectorAll(".page").forEach(el => {
+        el.classList.toggle("active", el.id === "page-" + page);
+      });
+
+      document.querySelectorAll(".nav-item").forEach(el => {
+        el.classList.toggle("active", el.dataset.page === page);
+      });
+
+      document.getElementById("crumb-current").textContent = titles[page];
+      document.title = "AI Accountant · " + titles[page];
+    }
+
+    window.addEventListener("hashchange", route);
+    route();
+
+    function simulateUpload() {
+      document.getElementById("session-file").textContent = "Vendor_Batch…";
+      document.getElementById("session-pages").textContent = "18";
+      document.getElementById("session-invoices").textContent = "6";
+      document.getElementById("session-status").textContent = "Review";
+      setTimeout(() => goTo("review"), 450);
+    }
+
+    let currentZoom = 1;
+
+    function zoom(delta) {
+      currentZoom = Math.min(1.3, Math.max(.7, currentZoom + delta));
+      document.getElementById("document-page").style.transform = `scale(${currentZoom})`;
+      document.getElementById("zoom-label").textContent = Math.round(currentZoom * 100) + "%";
+    }
+
+    function selectThumb(el, page) {
+      document.querySelectorAll(".thumb").forEach(t => t.classList.remove("active"));
+      el.classList.add("active");
+      document.getElementById("page-indicator").textContent = `Page ${page} of 18`;
+    }
+
+    function approveReview() {
+      goTo("processed");
+    }
+  </script>
+</body>
+</html>

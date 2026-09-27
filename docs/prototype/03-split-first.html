@@ -1,0 +1,1865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Accountant · Split First Flow</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Oxanium:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --background: oklch(1 0 0);
+      --foreground: oklch(0.147 0.004 49.25);
+      --card: oklch(1 0 0);
+      --card-foreground: oklch(0.147 0.004 49.25);
+      --popover: oklch(1 0 0);
+      --popover-foreground: oklch(0.147 0.004 49.25);
+      --primary: oklch(0.216 0.006 56.043);
+      --primary-foreground: oklch(0.985 0.001 106.423);
+      --secondary: oklch(0.97 0.001 106.424);
+      --secondary-foreground: oklch(0.216 0.006 56.043);
+      --muted: oklch(0.97 0.001 106.424);
+      --muted-foreground: oklch(0.553 0.013 58.071);
+      --accent: oklch(0.97 0.001 106.424);
+      --accent-foreground: oklch(0.216 0.006 56.043);
+      --destructive: oklch(0.577 0.245 27.325);
+      --border: oklch(0.923 0.003 48.717);
+      --input: oklch(0.923 0.003 48.717);
+      --ring: oklch(0.709 0.01 56.259);
+      --radius: 0;
+      --sidebar: oklch(0.985 0.001 106.423);
+      --sidebar-foreground: oklch(0.147 0.004 49.25);
+      --sidebar-primary: oklch(0.216 0.006 56.043);
+      --sidebar-primary-foreground: oklch(0.985 0.001 106.423);
+      --sidebar-accent: oklch(0.97 0.001 106.424);
+      --sidebar-accent-foreground: oklch(0.216 0.006 56.043);
+      --sidebar-border: oklch(0.923 0.003 48.717);
+
+      --sidebar-width: 236px;
+      --topbar-height: 58px;
+      --max: 1580px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      background: var(--background);
+      color: var(--foreground);
+      font-family: "Outfit", system-ui, sans-serif;
+      font-size: 14px;
+    }
+
+    button, input, select, textarea { font: inherit; color: inherit; }
+    button { cursor: pointer; }
+    svg { display: block; }
+    a { color: inherit; text-decoration: none; }
+
+    :focus-visible {
+      outline: 2px solid var(--ring);
+      outline-offset: 2px;
+    }
+
+    .app-shell {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+    }
+
+    .sidebar {
+      position: fixed;
+      inset: 0 auto 0 0;
+      width: var(--sidebar-width);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: var(--sidebar);
+      border-right: 1px solid var(--sidebar-border);
+      z-index: 50;
+    }
+
+    .brand {
+      height: var(--topbar-height);
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--sidebar-border);
+    }
+
+    .brand-mark {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      background: var(--sidebar-primary);
+      color: var(--sidebar-primary-foreground);
+      flex: 0 0 auto;
+    }
+
+    .brand-mark svg { width: 18px; height: 18px; }
+    .brand-mark svg * { fill: currentColor; }
+
+    .brand-name {
+      font-family: "Oxanium", sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: -.02em;
+    }
+
+    .sidebar-content { flex: 1; padding: 12px 10px; }
+    .sidebar-label {
+      padding: 9px 10px 7px;
+      color: var(--muted-foreground);
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .09em;
+    }
+
+    .nav { display: grid; gap: 2px; }
+
+    .nav-item {
+      height: 38px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 10px;
+      border: 1px solid transparent;
+      background: transparent;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .nav-item:hover { background: var(--sidebar-accent); }
+    .nav-item.active {
+      background: var(--sidebar-primary);
+      border-color: var(--sidebar-primary);
+      color: var(--sidebar-primary-foreground);
+    }
+
+    .nav-item svg { width: 15px; height: 15px; }
+    .nav-meta {
+      margin-left: auto;
+      min-width: 20px;
+      height: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid currentColor;
+      opacity: .48;
+      font-size: 10px;
+    }
+
+    .sidebar-footer {
+      padding: 10px;
+      border-top: 1px solid var(--sidebar-border);
+    }
+
+    .user-block {
+      padding: 10px;
+      display: grid;
+      grid-template-columns: 30px minmax(0, 1fr) auto;
+      gap: 9px;
+      align-items: center;
+      border: 1px solid var(--sidebar-border);
+      background: var(--background);
+    }
+
+    .avatar {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      background: var(--primary);
+      color: var(--primary-foreground);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .user-name { font-size: 12px; font-weight: 600; }
+    .user-role { color: var(--muted-foreground); font-size: 10px; margin-top: 1px; }
+
+    .main {
+      grid-column: 2;
+      min-width: 0;
+      min-height: 100vh;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      height: var(--topbar-height);
+      padding: 0 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      background: color-mix(in oklch, var(--background) 96%, transparent);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(8px);
+    }
+
+    .breadcrumbs {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--muted-foreground);
+      font-size: 12px;
+    }
+
+    .breadcrumbs strong { color: var(--foreground); font-weight: 600; }
+
+    .topbar-actions { display: flex; align-items: center; gap: 8px; }
+
+    .btn, .icon-btn, .input, .select, .textarea {
+      border: 1px solid var(--border);
+      background: var(--background);
+      border-radius: 0;
+    }
+
+    .btn {
+      height: 34px;
+      padding: 0 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .btn:hover, .icon-btn:hover { background: var(--accent); }
+
+    .btn-primary {
+      background: var(--primary);
+      color: var(--primary-foreground);
+      border-color: var(--primary);
+    }
+
+    .btn-primary:hover { background: var(--primary); opacity: .94; }
+    .btn-quiet { background: transparent; }
+    .btn-danger {
+      color: var(--destructive);
+      border-color: color-mix(in oklch, var(--destructive) 30%, var(--border));
+    }
+
+    .icon-btn {
+      width: 34px;
+      height: 34px;
+      padding: 0;
+      display: grid;
+      place-items: center;
+    }
+
+    .icon-btn svg { width: 15px; height: 15px; }
+
+    .content {
+      width: min(100%, var(--max));
+      margin: 0 auto;
+      padding: 22px;
+    }
+
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 20px;
+      margin-bottom: 18px;
+    }
+
+    .eyebrow {
+      margin-bottom: 5px;
+      color: var(--muted-foreground);
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      font-family: "Oxanium", sans-serif;
+      letter-spacing: -.03em;
+    }
+
+    h1 { font-size: 24px; font-weight: 600; }
+    h2 { font-size: 16px; font-weight: 600; }
+    h3 { font-size: 13px; font-weight: 600; }
+
+    .page-description {
+      max-width: 720px;
+      margin: 6px 0 0;
+      color: var(--muted-foreground);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .page-actions { display: flex; gap: 8px; align-items: center; }
+
+    .card {
+      border: 1px solid var(--border);
+      background: var(--card);
+    }
+
+    .card-header {
+      min-height: 54px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .card-title {
+      font-family: "Oxanium", sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .card-subtitle { color: var(--muted-foreground); font-size: 11px; margin-top: 3px; }
+
+    .status {
+      height: 24px;
+      padding: 0 7px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid var(--border);
+      background: var(--secondary);
+      font-size: 10px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: .6;
+    }
+
+    .status.dark {
+      color: var(--primary-foreground);
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .status.warn {
+      background: var(--background);
+      color: var(--foreground);
+      border-color: color-mix(in oklch, var(--foreground) 30%, var(--border));
+    }
+
+    /* Upload */
+
+    .upload-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 300px;
+      gap: 14px;
+      align-items: start;
+    }
+
+    .upload-area {
+      min-height: 480px;
+      padding: 24px;
+      display: grid;
+      place-items: center;
+      background:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 32px 32px;
+      background-position: -1px -1px;
+    }
+
+    .upload-box {
+      width: min(440px, 100%);
+      padding: 28px;
+      text-align: center;
+      background: var(--background);
+      border: 1px solid var(--foreground);
+    }
+
+    .upload-icon {
+      width: 38px;
+      height: 38px;
+      margin: 0 auto 14px;
+      display: grid;
+      place-items: center;
+      background: var(--primary);
+      color: var(--primary-foreground);
+    }
+
+    .upload-box p {
+      max-width: 330px;
+      margin: 8px auto 16px;
+      color: var(--muted-foreground);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .upload-note { margin-top: 13px; color: var(--muted-foreground); font-size: 10px; }
+
+    .flow-list { padding: 12px; display: grid; gap: 8px; }
+
+    .flow-step {
+      display: grid;
+      grid-template-columns: 22px minmax(0, 1fr);
+      gap: 9px;
+      padding: 8px;
+      border: 1px solid var(--border);
+    }
+
+    .flow-step.active { border-color: var(--foreground); }
+
+    .step-no {
+      width: 22px;
+      height: 22px;
+      display: grid;
+      place-items: center;
+      background: var(--secondary);
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .flow-step strong { display: block; font-size: 11px; }
+    .flow-step span { display: block; color: var(--muted-foreground); font-size: 10px; margin-top: 2px; line-height: 1.4; }
+
+    /* Split review */
+
+    .review-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 318px;
+      gap: 14px;
+      align-items: start;
+    }
+
+    .document-stream {
+      border: 1px solid var(--border);
+      background: var(--muted);
+    }
+
+    .stream-header {
+      position: sticky;
+      top: var(--topbar-height);
+      z-index: 25;
+      min-height: 58px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background: color-mix(in oklch, var(--background) 97%, transparent);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(8px);
+    }
+
+    .stream-file {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .file-icon {
+      width: 31px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--border);
+      background: var(--background);
+      font-family: "Oxanium", sans-serif;
+      font-size: 8px;
+      font-weight: 700;
+    }
+
+    .stream-file-name { font-weight: 600; font-size: 12px; }
+    .stream-file-meta { color: var(--muted-foreground); font-size: 10px; margin-top: 2px; }
+
+    .stream-controls { display: flex; align-items: center; gap: 6px; }
+    .zoom-text { min-width: 44px; text-align: center; color: var(--muted-foreground); font-size: 10px; }
+
+    .pages {
+      width: min(780px, calc(100% - 48px));
+      margin: 0 auto;
+      padding: 28px 0 80px;
+    }
+
+    .page-wrap { position: relative; }
+
+    .page-label {
+      position: absolute;
+      top: 10px;
+      left: -36px;
+      width: 28px;
+      text-align: right;
+      color: var(--muted-foreground);
+      font-family: "Oxanium", sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    .pdf-page {
+      min-height: 880px;
+      padding: 42px 46px;
+      background: white;
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 22px rgb(0 0 0 / .06);
+      transform-origin: top center;
+      transition: transform .15s ease;
+    }
+
+    .invoice-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+      padding-bottom: 22px;
+      border-bottom: 2px solid var(--foreground);
+    }
+
+    .invoice-brand {
+      font-family: "Oxanium", sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .invoice-title {
+      text-align: right;
+      font-family: "Oxanium", sans-serif;
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    .invoice-small {
+      margin-top: 6px;
+      color: var(--muted-foreground);
+      font-size: 10px;
+      line-height: 1.45;
+    }
+
+    .invoice-grid {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    .invoice-kicker {
+      margin-bottom: 6px;
+      color: var(--muted-foreground);
+      font-size: 8px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .invoice-copy { font-size: 10px; line-height: 1.55; }
+
+    .mock-table {
+      margin-top: 30px;
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: auto;
+    }
+
+    .mock-table th, .mock-table td {
+      padding: 8px 7px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      font-size: 9px;
+    }
+
+    .mock-table th {
+      color: var(--muted-foreground);
+      background: var(--muted);
+      font-weight: 600;
+    }
+
+    .mock-total {
+      width: 220px;
+      margin: 20px 0 0 auto;
+      display: grid;
+      gap: 8px;
+    }
+
+    .mock-total-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      font-size: 10px;
+    }
+
+    .mock-total-row.final {
+      padding-top: 9px;
+      border-top: 1px solid var(--foreground);
+      font-family: "Oxanium", sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .text-block {
+      margin-top: 30px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      display: grid;
+      gap: 6px;
+    }
+
+    .fake-line { height: 5px; background: var(--border); }
+    .fake-line.dark { background: var(--foreground); opacity: .78; }
+    .w90 { width: 90%; }
+    .w80 { width: 80%; }
+    .w70 { width: 70%; }
+    .w55 { width: 55%; }
+    .w40 { width: 40%; }
+
+    .boundary {
+      position: relative;
+      height: 92px;
+      display: grid;
+      place-items: center;
+    }
+
+    .boundary::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 50%;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .boundary-control {
+      position: relative;
+      z-index: 2;
+      min-width: 200px;
+      min-height: 34px;
+      padding: 0 11px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      border: 1px solid var(--border);
+      background: var(--background);
+      font-size: 10px;
+      font-weight: 600;
+      transition: .15s ease;
+    }
+
+    .boundary-control:hover { border-color: var(--foreground); }
+
+    .boundary.split::before { background: var(--foreground); }
+
+    .boundary.split .boundary-control {
+      background: var(--primary);
+      color: var(--primary-foreground);
+      border-color: var(--primary);
+    }
+
+    .boundary.split .ai-tag {
+      opacity: .72;
+      font-weight: 500;
+    }
+
+    .boundary:not(.split) .remove-label { display: none; }
+    .boundary.split .add-label { display: none; }
+
+    .summary-panel {
+      position: sticky;
+      top: calc(var(--topbar-height) + 14px);
+      border: 1px solid var(--border);
+      background: var(--card);
+    }
+
+    .summary-head {
+      padding: 12px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .summary-kicker {
+      color: var(--muted-foreground);
+      font-size: 9px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+    }
+
+    .summary-title {
+      margin-top: 3px;
+      font-family: "Oxanium", sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .invoice-groups { padding: 10px; display: grid; gap: 8px; max-height: calc(100vh - 318px); overflow: auto; }
+
+    .invoice-group {
+      border: 1px solid var(--border);
+      background: var(--background);
+    }
+
+    .invoice-group-head {
+      padding: 9px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .group-name {
+      font-family: "Oxanium", sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .group-pages { color: var(--muted-foreground); font-size: 9px; margin-top: 2px; }
+
+    .group-confidence {
+      padding: 8px 10px;
+      color: var(--muted-foreground);
+      font-size: 9px;
+      line-height: 1.4;
+    }
+
+    .summary-foot {
+      padding: 10px;
+      border-top: 1px solid var(--border);
+      display: grid;
+      gap: 8px;
+    }
+
+    .helper {
+      padding: 8px 9px;
+      border: 1px solid var(--border);
+      background: var(--muted);
+      color: var(--muted-foreground);
+      font-size: 9px;
+      line-height: 1.45;
+    }
+
+    .summary-actions { display: grid; grid-template-columns: 1fr; gap: 7px; }
+
+    /* Extraction review */
+
+    .extract-layout {
+      display: grid;
+      grid-template-columns: minmax(390px, 43%) minmax(0, 57%);
+      min-height: calc(100vh - var(--topbar-height) - 44px);
+      border: 1px solid var(--border);
+      background: var(--background);
+    }
+
+    .pdf-pane {
+      min-width: 0;
+      border-right: 1px solid var(--border);
+      background: var(--muted);
+    }
+
+    .pdf-pane-head {
+      min-height: 54px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background: var(--background);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .pane-file-name {
+      font-family: "Oxanium", sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .pdf-scroll {
+      height: calc(100vh - var(--topbar-height) - 99px);
+      min-height: 720px;
+      padding: 26px;
+      overflow: auto;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .extracted-pdf {
+      width: min(640px, 100%);
+      min-height: 870px;
+      padding: 42px;
+      background: white;
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 22px rgb(0 0 0 / .06);
+    }
+
+    .form-pane {
+      min-width: 0;
+      background: var(--background);
+    }
+
+    .form-head {
+      position: sticky;
+      top: var(--topbar-height);
+      z-index: 20;
+      min-height: 54px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: color-mix(in oklch, var(--background) 97%, transparent);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(8px);
+    }
+
+    .record-nav {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--muted-foreground);
+      font-size: 10px;
+    }
+
+    .form-scroll {
+      height: calc(100vh - var(--topbar-height) - 99px);
+      min-height: 720px;
+      overflow: auto;
+    }
+
+    .confidence-strip {
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid var(--border);
+      background: var(--muted);
+    }
+
+    .confidence-copy { font-size: 10px; color: var(--muted-foreground); }
+    .confidence-copy strong { color: var(--foreground); }
+
+    .form-section {
+      padding: 18px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-head {
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .section-title {
+      font-family: "Oxanium", sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .section-note { color: var(--muted-foreground); font-size: 10px; }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .field { display: grid; gap: 6px; }
+    .field.full { grid-column: 1 / -1; }
+
+    .label-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    label {
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    .required { color: var(--destructive); }
+
+    .confidence-badge {
+      color: var(--muted-foreground);
+      font-size: 9px;
+    }
+
+    .input, .select {
+      width: 100%;
+      height: 36px;
+      padding: 0 10px;
+      font-size: 11px;
+    }
+
+    .textarea {
+      width: 100%;
+      min-height: 72px;
+      padding: 9px 10px;
+      resize: vertical;
+      font-size: 11px;
+    }
+
+    .input.low {
+      border-color: var(--foreground);
+      background: var(--muted);
+    }
+
+    .line-items {
+      border: 1px solid var(--border);
+      overflow: auto;
+    }
+
+    .line-items table {
+      width: 100%;
+      min-width: 700px;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    .line-items th, .line-items td {
+      padding: 8px;
+      border-bottom: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      text-align: left;
+      font-size: 10px;
+    }
+
+    .line-items th {
+      background: var(--muted);
+      color: var(--muted-foreground);
+      font-weight: 600;
+    }
+
+    .line-items th:last-child, .line-items td:last-child { border-right: 0; }
+    .line-items tbody tr:last-child td { border-bottom: 0; }
+
+    .table-input {
+      width: 100%;
+      height: 30px;
+      padding: 0 7px;
+      border: 1px solid transparent;
+      background: transparent;
+      font-size: 10px;
+    }
+
+    .table-input:focus { border-color: var(--border); background: var(--background); outline: none; }
+
+    .totals {
+      width: min(360px, 100%);
+      margin-left: auto;
+      display: grid;
+      gap: 9px;
+    }
+
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      font-size: 11px;
+    }
+
+    .total-row.final {
+      padding-top: 10px;
+      border-top: 1px solid var(--foreground);
+      font-family: "Oxanium", sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .sticky-approve {
+      position: sticky;
+      bottom: 0;
+      z-index: 20;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background: color-mix(in oklch, var(--background) 97%, transparent);
+      border-top: 1px solid var(--border);
+      backdrop-filter: blur(8px);
+    }
+
+    .approval-copy { color: var(--muted-foreground); font-size: 10px; }
+    .approval-actions { display: flex; gap: 8px; }
+
+    /* Toast */
+
+    .toast {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 100;
+      min-width: 260px;
+      padding: 12px 14px;
+      border: 1px solid var(--foreground);
+      background: var(--foreground);
+      color: var(--primary-foreground);
+      font-size: 11px;
+      opacity: 0;
+      transform: translateY(8px);
+      pointer-events: none;
+      transition: .18s ease;
+    }
+
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 1080px) {
+      .upload-layout, .review-layout { grid-template-columns: 1fr; }
+      .summary-panel { position: static; }
+      .invoice-groups { max-height: none; grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .summary-actions { grid-template-columns: 1fr 1fr; }
+      .extract-layout { grid-template-columns: 1fr; }
+      .pdf-pane { border-right: 0; border-bottom: 1px solid var(--border); }
+      .pdf-scroll, .form-scroll { height: auto; min-height: 600px; }
+      .form-head { top: var(--topbar-height); }
+    }
+
+    @media (max-width: 760px) {
+      :root { --sidebar-width: 0px; }
+      .sidebar { display: none; }
+      .app-shell { grid-template-columns: 1fr; }
+      .main { grid-column: 1; }
+      .content { padding: 16px; }
+      .breadcrumbs { display: none; }
+      .page-header { align-items: flex-start; flex-direction: column; }
+      .pages { width: calc(100% - 18px); }
+      .page-label { left: -20px; }
+      .pdf-page { min-height: 720px; padding: 28px; }
+      .invoice-groups { grid-template-columns: 1fr; }
+      .field-grid { grid-template-columns: 1fr; }
+      .approval-actions { flex-wrap: wrap; justify-content: flex-end; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M29.68,23.34L21.08,4.79l-.18-.39c-1.01-2.23-2.6-3.35-4.22-3.39v10.54c.66,2.51,1.34,3.24,3.97,3.85.17.04.17.28,0,.32-2.63.62-3.37,1.39-3.97,3.82v7.27c2.37.04,4.7.74,6.79,2l1.43.86c.96.58,2.14.61,3.1.04,1.85-1.1,2.8-3.91,1.67-6.36Z"/>
+            <path d="M16.27,19.54c-.62-2.53-1.34-3.21-3.97-3.82-.17-.04-.17-.28,0-.32,2.63-.62,3.35-1.29,3.97-3.82V1c-1.61.05-3.21,1.16-4.22,3.39l-.18.39L3.28,23.34c-1.14,2.45-.18,5.25,1.67,6.36.96.58,2.14.54,3.1-.04l1.43-.86c2.09-1.26,4.42-1.95,6.79-2v-7.27Z"/>
+            <path d="M20.65,15.39c-2.69-.64-3.38-1.35-4.01-4.08-.04-.17-.28-.17-.32,0-.63,2.73-1.32,3.44-4.01,4.08-.17.04-.17.29,0,.33,2.69.64,3.38,1.35,4.01,4.08.04.17.28.17.32,0,.63-2.73,1.32-3.44,4.01-4.08.17-.04.17-.29,0-.33Z"/>
+            <polygon points="16.69 26.81 16.27 26.81 16.26 1 16.7 1 16.69 26.81"/>
+          </svg>
+        </div>
+        <div class="brand-name">AI Accountant</div>
+      </div>
+
+      <div class="sidebar-content">
+        <div class="sidebar-label">Workspace</div>
+        <nav class="nav">
+          <a class="nav-item active" href="#" onclick="showScreen('upload');return false;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+              <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+              <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+            </svg>
+            Splitter
+          </a>
+          <a class="nav-item" href="#">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 5h6l2 2h8v12H4z"/></svg>
+            Documents
+            <span class="nav-meta">24</span>
+          </a>
+          <a class="nav-item" href="#">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 12l4 4L19 6"/></svg>
+            Processed
+            <span class="nav-meta">18</span>
+          </a>
+          <a class="nav-item" href="#" onclick="showScreen('split');return false;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h5"/></svg>
+            Review Queue
+            <span class="nav-meta">3</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="user-block">
+          <div class="avatar">LK</div>
+          <div>
+            <div class="user-name">Lakksith</div>
+            <div class="user-role">Product workspace</div>
+          </div>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+            <circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/>
+          </svg>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="breadcrumbs">
+          <span>Accounts Payable</span><span>/</span><strong id="crumb">PDF Splitter</strong>
+        </div>
+        <div class="topbar-actions">
+          <button class="btn" onclick="showScreen('upload')">New upload</button>
+        </div>
+      </header>
+
+      <section class="content">
+
+        <!-- STEP 1: UPLOAD -->
+        <section class="screen active" id="screen-upload">
+          <div class="page-header">
+            <div>
+              <div class="eyebrow">Step 1 of 3 · Upload</div>
+              <h1>Split invoice PDF</h1>
+              <p class="page-description">Upload first. We only detect page boundaries at this stage. No invoice data is extracted until the split is confirmed.</p>
+            </div>
+          </div>
+
+          <div class="upload-layout">
+            <section class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">Upload source PDF</div>
+                  <div class="card-subtitle">Multi-invoice PDFs supported</div>
+                </div>
+                <span class="status"><span class="status-dot"></span> Ready</span>
+              </div>
+
+              <div class="upload-area">
+                <div class="upload-box">
+                  <div class="upload-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                      <path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M5 20h14"/>
+                    </svg>
+                  </div>
+                  <h2>Drop a PDF here</h2>
+                  <p>After upload, AI will only suggest where one invoice ends and the next begins.</p>
+                  <button class="btn btn-primary" onclick="simulateUpload()">Choose PDF</button>
+                  <div class="upload-note">Extraction starts only after you confirm the page boundaries.</div>
+                </div>
+              </div>
+            </section>
+
+            <aside class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">Workflow</div>
+                  <div class="card-subtitle">One job at a time</div>
+                </div>
+              </div>
+
+              <div class="flow-list">
+                <div class="flow-step active">
+                  <div class="step-no">01</div>
+                  <div><strong>Upload PDF</strong><span>Render every source page.</span></div>
+                </div>
+                <div class="flow-step">
+                  <div class="step-no">02</div>
+                  <div><strong>Confirm boundaries</strong><span>Keep, remove, or add invoice breaks.</span></div>
+                </div>
+                <div class="flow-step">
+                  <div class="step-no">03</div>
+                  <div><strong>Extract invoices</strong><span>Run extraction using the confirmed groups.</span></div>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <!-- STEP 2: SPLIT REVIEW -->
+        <section class="screen" id="screen-split">
+          <div class="page-header">
+            <div>
+              <div class="eyebrow">Step 2 of 3 · Confirm boundaries</div>
+              <h1>Review invoice splits</h1>
+              <p class="page-description">AI has suggested where each invoice ends. Click a boundary to remove it, or add one where AI missed a split.</p>
+            </div>
+
+            <div class="page-actions">
+              <button class="btn" onclick="showScreen('upload')">Back</button>
+              <button class="btn btn-primary" onclick="startExtraction()">Extract <span id="extract-count">4</span> invoices</button>
+            </div>
+          </div>
+
+          <div class="review-layout">
+            <section class="document-stream">
+              <div class="stream-header">
+                <div class="stream-file">
+                  <div class="file-icon">PDF</div>
+                  <div>
+                    <div class="stream-file-name">Vendor_Batch_Aug_11.pdf</div>
+                    <div class="stream-file-meta">8 pages · AI found <span id="header-count">4</span> invoices</div>
+                  </div>
+                </div>
+
+                <div class="stream-controls">
+                  <button class="icon-btn" onclick="changeZoom(-.08)" aria-label="Zoom out">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 12h14"/></svg>
+                  </button>
+                  <div class="zoom-text" id="zoom">100%</div>
+                  <button class="icon-btn" onclick="changeZoom(.08)" aria-label="Zoom in">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 5v14M5 12h14"/></svg>
+                  </button>
+                </div>
+              </div>
+
+              <div class="pages">
+
+                <!-- Page 1 -->
+                <div class="page-wrap">
+                  <div class="page-label">1</div>
+                  <article class="pdf-page">
+                    <div class="invoice-head">
+                      <div>
+                        <div class="invoice-brand">ORBIT OFFICE SYSTEMS</div>
+                        <div class="invoice-small">Bengaluru, Karnataka · GSTIN 29ABCDE1234F1Z8</div>
+                      </div>
+                      <div>
+                        <div class="invoice-title">TAX INVOICE</div>
+                        <div class="invoice-small" style="text-align:right">INV-2026-8841</div>
+                      </div>
+                    </div>
+                    <div class="invoice-grid">
+                      <div><div class="invoice-kicker">Bill to</div><div class="invoice-copy">AI Accountant Pvt. Ltd.<br>48 Residency Road<br>Bengaluru 560025</div></div>
+                      <div><div class="invoice-kicker">Invoice details</div><div class="invoice-copy">Date: 11 Aug 2026<br>Due: 26 Aug 2026<br>PO: AP-1108-22</div></div>
+                    </div>
+                    <table class="mock-table">
+                      <thead><tr><th>Description</th><th>Qty</th><th>Rate</th><th>Amount</th></tr></thead>
+                      <tbody>
+                        <tr><td>Annual ERP Support</td><td>1</td><td>₹58,000</td><td>₹58,000</td></tr>
+                        <tr><td>Document Processing Credits</td><td>12</td><td>₹3,500</td><td>₹42,000</td></tr>
+                        <tr><td>Implementation Services</td><td>8</td><td>₹1,500</td><td>₹12,000</td></tr>
+                      </tbody>
+                    </table>
+                    <div class="mock-total">
+                      <div class="mock-total-row"><span>Subtotal</span><span>₹1,12,000</span></div>
+                      <div class="mock-total-row"><span>GST</span><span>₹13,440</span></div>
+                      <div class="mock-total-row final"><span>Total</span><span>₹1,25,440</span></div>
+                    </div>
+                  </article>
+                </div>
+
+                <!-- Boundary 1, continue -->
+                <div class="boundary" data-index="0">
+                  <button class="boundary-control" onclick="toggleBoundary(this)">
+                    <span>＋</span>
+                    <span class="add-label">Split here</span>
+                    <span class="remove-label">New invoice · remove split</span>
+                  </button>
+                </div>
+
+                <!-- Page 2 -->
+                <div class="page-wrap">
+                  <div class="page-label">2</div>
+                  <article class="pdf-page">
+                    <div class="invoice-head">
+                      <div><div class="invoice-brand">ORBIT OFFICE SYSTEMS</div><div class="invoice-small">Invoice continuation</div></div>
+                      <div><div class="invoice-title">INV-2026-8841</div><div class="invoice-small" style="text-align:right">Page 2 of 2</div></div>
+                    </div>
+                    <div class="text-block">
+                      <div class="fake-line dark w40"></div><div class="fake-line w90"></div><div class="fake-line w80"></div><div class="fake-line w70"></div>
+                    </div>
+                    <div class="text-block">
+                      <div class="fake-line dark w55"></div><div class="fake-line w90"></div><div class="fake-line w90"></div><div class="fake-line w70"></div><div class="fake-line w80"></div>
+                    </div>
+                    <div class="text-block">
+                      <div class="fake-line dark w40"></div><div class="fake-line w80"></div><div class="fake-line w70"></div>
+                    </div>
+                  </article>
+                </div>
+
+                <!-- Boundary 2, AI split -->
+                <div class="boundary split" data-index="1">
+                  <button class="boundary-control" onclick="toggleBoundary(this)">
+                    <span>✓</span>
+                    <span class="add-label">Split here</span>
+                    <span class="remove-label">New invoice <span class="ai-tag">· AI suggested</span></span>
+                  </button>
+                </div>
+
+                <!-- Page 3 -->
+                <div class="page-wrap">
+                  <div class="page-label">3</div>
+                  <article class="pdf-page">
+                    <div class="invoice-head">
+                      <div><div class="invoice-brand">KEYSTONE LOGISTICS</div><div class="invoice-small">Mumbai, Maharashtra</div></div>
+                      <div><div class="invoice-title">INVOICE</div><div class="invoice-small" style="text-align:right">INV-11892</div></div>
+                    </div>
+                    <div class="invoice-grid">
+                      <div><div class="invoice-kicker">Bill to</div><div class="invoice-copy">AI Accountant Pvt. Ltd.<br>Bengaluru, Karnataka</div></div>
+                      <div><div class="invoice-kicker">Invoice details</div><div class="invoice-copy">Date: 10 Aug 2026<br>Freight ref: KL-8820</div></div>
+                    </div>
+                    <table class="mock-table">
+                      <thead><tr><th>Description</th><th>Qty</th><th>Rate</th><th>Amount</th></tr></thead>
+                      <tbody><tr><td>Freight services</td><td>1</td><td>₹69,857</td><td>₹69,857</td></tr></tbody>
+                    </table>
+                    <div class="mock-total">
+                      <div class="mock-total-row"><span>Tax</span><span>₹8,383</span></div>
+                      <div class="mock-total-row final"><span>Total</span><span>₹78,240</span></div>
+                    </div>
+                  </article>
+                </div>
+
+                <!-- Boundary 3, AI split -->
+                <div class="boundary split" data-index="2">
+                  <button class="boundary-control" onclick="toggleBoundary(this)">
+                    <span>✓</span>
+                    <span class="add-label">Split here</span>
+                    <span class="remove-label">New invoice <span class="ai-tag">· AI suggested</span></span>
+                  </button>
+                </div>
+
+                <!-- Page 4 -->
+                <div class="page-wrap">
+                  <div class="page-label">4</div>
+                  <article class="pdf-page">
+                    <div class="invoice-head">
+                      <div><div class="invoice-brand">SHREE STEEL WORKS</div><div class="invoice-small">Pune, Maharashtra</div></div>
+                      <div><div class="invoice-title">TAX INVOICE</div><div class="invoice-small" style="text-align:right">BILL-49022</div></div>
+                    </div>
+                    <div class="invoice-grid">
+                      <div><div class="invoice-kicker">Bill to</div><div class="invoice-copy">AI Accountant Pvt. Ltd.<br>Bengaluru, Karnataka</div></div>
+                      <div><div class="invoice-kicker">Invoice details</div><div class="invoice-copy">Date: 08 Aug 2026<br>PO: 1108-SSW</div></div>
+                    </div>
+                    <table class="mock-table">
+                      <thead><tr><th>Description</th><th>Qty</th><th>Rate</th><th>Amount</th></tr></thead>
+                      <tbody>
+                        <tr><td>Cold rolled sheets</td><td>14</td><td>₹18,400</td><td>₹2,57,600</td></tr>
+                        <tr><td>Handling</td><td>1</td><td>₹13,000</td><td>₹13,000</td></tr>
+                      </tbody>
+                    </table>
+                    <div class="mock-total">
+                      <div class="mock-total-row"><span>GST</span><span>₹71,510</span></div>
+                      <div class="mock-total-row final"><span>Total</span><span>₹3,42,110</span></div>
+                    </div>
+                  </article>
+                </div>
+
+                <!-- Boundary 4, continue -->
+                <div class="boundary" data-index="3">
+                  <button class="boundary-control" onclick="toggleBoundary(this)">
+                    <span>＋</span>
+                    <span class="add-label">Split here</span>
+                    <span class="remove-label">New invoice · remove split</span>
+                  </button>
+                </div>
+
+                <!-- Page 5 -->
+                <div class="page-wrap">
+                  <div class="page-label">5</div>
+                  <article class="pdf-page">
+                    <div class="invoice-head">
+                      <div><div class="invoice-brand">SHREE STEEL WORKS</div><div class="invoice-small">Invoice continuation</div></div>
+                      <div><div class="invoice-title">BILL-49022</div><div class="invoice-small" style="text-align:right">Page 2 of 3</div></div>
+                    </div>
+                    <div class="text-block"><div class="fake-line dark w55"></div><div class="fake-line w90"></div><div class="fake-line w80"></div><div class="fake-line w90"></div><div class="fake-line w70"></div></div>
+                    <div class="text-block"><div class="fake-line dark w40"></div><div class="fake-line w90"></div><div class="fake-line w70"></div></div>
+                  </article>
+                </div>
+
+                <!-- Boundary 5, continue -->
+                <div class="boundary" data-index="4">
+                  <button class="boundary-control" onclick="toggleBoundary(this)">
+                    <span>＋</span>
+                    <span class="add-label">Split here</span>
+                    <span class="remove-label">New invoice · remove split</span>
+                  </button>
+                </div>
+
+                <!-- Page 6 -->
+                <div class="page-wrap">
+                  <div class="page-label">6</div>
+                  <article class="pdf-page">
+                    <div class="invoice-head">
+                      <div><div class="invoice-brand">SHREE STEEL WORKS</div><div class="invoice-small">Invoice continuation</div></div>
+                      <div><div class="invoice-title">BILL-49022</div><div class="invoice-small" style="text-align:right">Page 3 of 3</div></div>
+                    </div>
+                    <div class="text-block"><div class="fake-line dark w40"></div><div class="fake-line w80"></div><div class="fake-line w70"></div><div class="fake-line w90"></div></div>
+                    <div class="text-block"><div class="fake-line dark w55"></div><div class="fake-line w90"></div><div class="fake-line w80"></div></div>
+                  </article>
+                </div>
+
+                <!-- Boundary 6, AI split -->
+                <div class="boundary split" data-index="5">
+                  <button class="boundary-control" onclick="toggleBoundary(this)">
+                    <span>✓</span>
+                    <span class="add-label">Split here</span>
+                    <span class="remove-label">New invoice <span class="ai-tag">· AI suggested</span></span>
+                  </button>
+                </div>
+
+                <!-- Page 7 -->
+                <div class="page-wrap">
+                  <div class="page-label">7</div>
+                  <article class="pdf-page">
+                    <div class="invoice-head">
+                      <div><div class="invoice-brand">NOVA TELECOM</div><div class="invoice-small">Chennai, Tamil Nadu</div></div>
+                      <div><div class="invoice-title">INVOICE</div><div class="invoice-small" style="text-align:right">TX-7726</div></div>
+                    </div>
+                    <div class="invoice-grid">
+                      <div><div class="invoice-kicker">Bill to</div><div class="invoice-copy">AI Accountant Pvt. Ltd.<br>Bengaluru, Karnataka</div></div>
+                      <div><div class="invoice-kicker">Invoice details</div><div class="invoice-copy">Date: 09 Aug 2026<br>Billing cycle: Jul 2026</div></div>
+                    </div>
+                    <table class="mock-table">
+                      <thead><tr><th>Description</th><th>Qty</th><th>Rate</th><th>Amount</th></tr></thead>
+                      <tbody><tr><td>Enterprise connectivity</td><td>1</td><td>₹16,850</td><td>₹16,850</td></tr></tbody>
+                    </table>
+                    <div class="mock-total">
+                      <div class="mock-total-row"><span>Tax</span><span>₹2,052</span></div>
+                      <div class="mock-total-row final"><span>Total</span><span>₹18,902</span></div>
+                    </div>
+                  </article>
+                </div>
+
+                <!-- Boundary 7, continue -->
+                <div class="boundary" data-index="6">
+                  <button class="boundary-control" onclick="toggleBoundary(this)">
+                    <span>＋</span>
+                    <span class="add-label">Split here</span>
+                    <span class="remove-label">New invoice · remove split</span>
+                  </button>
+                </div>
+
+                <!-- Page 8 -->
+                <div class="page-wrap">
+                  <div class="page-label">8</div>
+                  <article class="pdf-page">
+                    <div class="invoice-head">
+                      <div><div class="invoice-brand">NOVA TELECOM</div><div class="invoice-small">Invoice continuation</div></div>
+                      <div><div class="invoice-title">TX-7726</div><div class="invoice-small" style="text-align:right">Page 2 of 2</div></div>
+                    </div>
+                    <div class="text-block"><div class="fake-line dark w55"></div><div class="fake-line w90"></div><div class="fake-line w80"></div><div class="fake-line w90"></div><div class="fake-line w70"></div></div>
+                    <div class="text-block"><div class="fake-line dark w40"></div><div class="fake-line w80"></div><div class="fake-line w70"></div></div>
+                  </article>
+                </div>
+
+              </div>
+            </section>
+
+            <aside class="summary-panel">
+              <div class="summary-head">
+                <div>
+                  <div class="summary-kicker">Current split</div>
+                  <div class="summary-title"><span id="group-count">4</span> invoices from 8 pages</div>
+                </div>
+                <span class="status dark">AI proposed</span>
+              </div>
+
+              <div class="invoice-groups" id="invoice-groups"></div>
+
+              <div class="summary-foot">
+                <div class="helper">A boundary means the next page starts a new invoice. Pages without a boundary stay with the invoice above.</div>
+                <div class="summary-actions">
+                  <button class="btn btn-primary" onclick="startExtraction()">Extract <span id="summary-extract-count">4</span> invoices</button>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <!-- STEP 3: EXTRACTION REVIEW -->
+        <section class="screen" id="screen-extract">
+          <div class="page-header">
+            <div>
+              <div class="eyebrow">Step 3 of 3 · Review extracted invoice</div>
+              <h1>Invoice review</h1>
+              <p class="page-description">Each confirmed boundary becomes one invoice. Review extracted fields against the source pages before approving the voucher.</p>
+            </div>
+          </div>
+
+          <div class="extract-layout">
+            <section class="pdf-pane">
+              <div class="pdf-pane-head">
+                <div>
+                  <div class="pane-file-name">Invoice 1 · Pages 1–2</div>
+                  <div class="card-subtitle">Vendor_Batch_Aug_11.pdf</div>
+                </div>
+
+                <div class="stream-controls">
+                  <button class="icon-btn" aria-label="Zoom out">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 12h14"/></svg>
+                  </button>
+                  <div class="zoom-text">100%</div>
+                  <button class="icon-btn" aria-label="Zoom in">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 5v14M5 12h14"/></svg>
+                  </button>
+                </div>
+              </div>
+
+              <div class="pdf-scroll">
+                <article class="extracted-pdf">
+                  <div class="invoice-head">
+                    <div>
+                      <div class="invoice-brand">ORBIT OFFICE SYSTEMS</div>
+                      <div class="invoice-small">Bengaluru, Karnataka · GSTIN 29ABCDE1234F1Z8</div>
+                    </div>
+                    <div>
+                      <div class="invoice-title">TAX INVOICE</div>
+                      <div class="invoice-small" style="text-align:right">INV-2026-8841</div>
+                    </div>
+                  </div>
+                  <div class="invoice-grid">
+                    <div><div class="invoice-kicker">Bill to</div><div class="invoice-copy">AI Accountant Pvt. Ltd.<br>48 Residency Road<br>Bengaluru 560025</div></div>
+                    <div><div class="invoice-kicker">Invoice details</div><div class="invoice-copy">Date: 11 Aug 2026<br>Due: 26 Aug 2026<br>PO: AP-1108-22</div></div>
+                  </div>
+                  <table class="mock-table">
+                    <thead><tr><th>Description</th><th>Qty</th><th>Rate</th><th>Amount</th></tr></thead>
+                    <tbody>
+                      <tr><td>Annual ERP Support</td><td>1</td><td>₹58,000</td><td>₹58,000</td></tr>
+                      <tr><td>Document Processing Credits</td><td>12</td><td>₹3,500</td><td>₹42,000</td></tr>
+                      <tr><td>Implementation Services</td><td>8</td><td>₹1,500</td><td>₹12,000</td></tr>
+                    </tbody>
+                  </table>
+                  <div class="mock-total">
+                    <div class="mock-total-row"><span>Subtotal</span><span>₹1,12,000</span></div>
+                    <div class="mock-total-row"><span>GST</span><span>₹13,440</span></div>
+                    <div class="mock-total-row final"><span>Total</span><span>₹1,25,440</span></div>
+                  </div>
+                </article>
+              </div>
+            </section>
+
+            <section class="form-pane">
+              <div class="form-head">
+                <div>
+                  <div class="card-title">Voucher data</div>
+                  <div class="card-subtitle">Auto-extracted · editable before approval</div>
+                </div>
+
+                <div class="record-nav">
+                  <button class="icon-btn" aria-label="Previous invoice">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M15 18l-6-6 6-6"/></svg>
+                  </button>
+                  <span>Invoice 1 of <span id="record-total">4</span></span>
+                  <button class="icon-btn" aria-label="Next invoice">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 18l6-6-6-6"/></svg>
+                  </button>
+                </div>
+              </div>
+
+              <div class="form-scroll">
+                <div class="confidence-strip">
+                  <div class="confidence-copy"><strong>94% extraction confidence.</strong> 2 fields need attention before approval.</div>
+                  <span class="status warn">2 to review</span>
+                </div>
+
+                <section class="form-section">
+                  <div class="section-head">
+                    <div>
+                      <div class="section-title">Invoice details</div>
+                      <div class="section-note">Core voucher fields</div>
+                    </div>
+                  </div>
+
+                  <div class="field-grid">
+                    <div class="field">
+                      <div class="label-row"><label><span class="required">*</span> Voucher type</label><span class="confidence-badge">99%</span></div>
+                      <select class="select"><option>Purchase</option></select>
+                    </div>
+
+                    <div class="field">
+                      <div class="label-row"><label><span class="required">*</span> Voucher date</label><span class="confidence-badge">97%</span></div>
+                      <input class="input" value="11 Aug 2026">
+                    </div>
+
+                    <div class="field">
+                      <div class="label-row"><label><span class="required">*</span> Supplier invoice no.</label><span class="confidence-badge">99%</span></div>
+                      <input class="input" value="INV-2026-8841">
+                    </div>
+
+                    <div class="field">
+                      <div class="label-row"><label><span class="required">*</span> Bill date</label><span class="confidence-badge">72% · check</span></div>
+                      <input class="input low" value="11 Aug 2026">
+                    </div>
+
+                    <div class="field">
+                      <div class="label-row"><label>PO number</label><span class="confidence-badge">96%</span></div>
+                      <input class="input" value="AP-1108-22">
+                    </div>
+
+                    <div class="field">
+                      <div class="label-row"><label>Currency</label><span class="confidence-badge">99%</span></div>
+                      <select class="select"><option>INR · Indian Rupee</option></select>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="form-section">
+                  <div class="section-head">
+                    <div>
+                      <div class="section-title">Vendor</div>
+                      <div class="section-note">Matched to master data</div>
+                    </div>
+                    <span class="status dark">Matched</span>
+                  </div>
+
+                  <div class="field-grid">
+                    <div class="field full">
+                      <div class="label-row"><label><span class="required">*</span> Vendor name</label><span class="confidence-badge">99%</span></div>
+                      <select class="select"><option>Orbit Office Systems Pvt. Ltd.</option></select>
+                    </div>
+
+                    <div class="field">
+                      <div class="label-row"><label>GSTIN</label><span class="confidence-badge">98%</span></div>
+                      <input class="input" value="29ABCDE1234F1Z8">
+                    </div>
+
+                    <div class="field">
+                      <div class="label-row"><label>GST treatment</label><span class="confidence-badge">96%</span></div>
+                      <select class="select"><option>Regular</option></select>
+                    </div>
+
+                    <div class="field full">
+                      <div class="label-row"><label>Billing address</label><span class="confidence-badge">92%</span></div>
+                      <input class="input" value="Bengaluru, Karnataka">
+                    </div>
+                  </div>
+                </section>
+
+                <section class="form-section">
+                  <div class="section-head">
+                    <div>
+                      <div class="section-title">Accounting</div>
+                      <div class="section-note">Map the purchase before posting</div>
+                    </div>
+                  </div>
+
+                  <div class="field-grid">
+                    <div class="field">
+                      <div class="label-row"><label><span class="required">*</span> Purchase ledger</label><span class="confidence-badge">Suggested</span></div>
+                      <select class="select"><option>Software & SaaS Expense</option></select>
+                    </div>
+
+                    <div class="field">
+                      <div class="label-row"><label>Cost centre</label><span class="confidence-badge">Suggested</span></div>
+                      <select class="select"><option>Operations</option></select>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="form-section">
+                  <div class="section-head">
+                    <div>
+                      <div class="section-title">Line items</div>
+                      <div class="section-note">3 rows extracted</div>
+                    </div>
+                    <button class="btn">+ Add row</button>
+                  </div>
+
+                  <div class="line-items">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th style="width:38%">Description</th>
+                          <th style="width:12%">Qty</th>
+                          <th style="width:17%">Rate</th>
+                          <th style="width:17%">Tax</th>
+                          <th style="width:16%">Amount</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td><input class="table-input" value="Annual ERP Support"></td>
+                          <td><input class="table-input" value="1"></td>
+                          <td><input class="table-input" value="58,000"></td>
+                          <td><input class="table-input" value="12%"></td>
+                          <td><input class="table-input" value="58,000"></td>
+                        </tr>
+                        <tr>
+                          <td><input class="table-input" value="Document Processing Credits"></td>
+                          <td><input class="table-input" value="12"></td>
+                          <td><input class="table-input" value="3,500"></td>
+                          <td><input class="table-input" value="12%"></td>
+                          <td><input class="table-input" value="42,000"></td>
+                        </tr>
+                        <tr>
+                          <td><input class="table-input" value="Implementation Services"></td>
+                          <td><input class="table-input" value="8"></td>
+                          <td><input class="table-input" value="1,500"></td>
+                          <td><input class="table-input" value="12%"></td>
+                          <td><input class="table-input" value="12,000"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </section>
+
+                <section class="form-section">
+                  <div class="section-head">
+                    <div>
+                      <div class="section-title">Taxes & totals</div>
+                      <div class="section-note">Calculated from extracted values</div>
+                    </div>
+                  </div>
+
+                  <div class="field-grid" style="margin-bottom:18px">
+                    <div class="field">
+                      <div class="label-row"><label>GST amount</label><span class="confidence-badge">96%</span></div>
+                      <input class="input" value="₹13,440">
+                    </div>
+
+                    <div class="field">
+                      <div class="label-row"><label>TDS</label><span class="confidence-badge">Not found</span></div>
+                      <input class="input low" value="₹0">
+                    </div>
+                  </div>
+
+                  <div class="totals">
+                    <div class="total-row"><span>Subtotal</span><span>₹1,12,000</span></div>
+                    <div class="total-row"><span>GST</span><span>₹13,440</span></div>
+                    <div class="total-row"><span>TDS</span><span>₹0</span></div>
+                    <div class="total-row final"><span>Grand total</span><span>₹1,25,440</span></div>
+                  </div>
+                </section>
+
+                <section class="form-section">
+                  <div class="section-head">
+                    <div>
+                      <div class="section-title">Narration</div>
+                      <div class="section-note">Optional</div>
+                    </div>
+                  </div>
+                  <textarea class="textarea">Purchase from Orbit Office Systems Pvt. Ltd. against INV-2026-8841.</textarea>
+                </section>
+
+                <div class="sticky-approve">
+                  <div class="approval-copy">2 fields are marked for attention. You can still approve after checking them.</div>
+                  <div class="approval-actions">
+                    <button class="btn btn-danger">Delete invoice</button>
+                    <button class="btn">Save</button>
+                    <button class="btn btn-primary" onclick="approveNext()">Approve & next</button>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </section>
+
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const screenTitles = {
+      upload: "PDF Splitter",
+      split: "Review invoice splits",
+      extract: "Invoice review"
+    };
+
+    function showScreen(name) {
+      document.querySelectorAll(".screen").forEach(el => el.classList.remove("active"));
+      document.getElementById("screen-" + name).classList.add("active");
+      document.getElementById("crumb").textContent = screenTitles[name];
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function simulateUpload() {
+      const btn = event.currentTarget;
+      btn.textContent = "Uploading…";
+      btn.disabled = true;
+      setTimeout(() => {
+        btn.textContent = "Rendering pages…";
+        setTimeout(() => {
+          btn.disabled = false;
+          btn.textContent = "Choose PDF";
+          showScreen("split");
+        }, 550);
+      }, 550);
+    }
+
+    let zoomLevel = 1;
+
+    function changeZoom(delta) {
+      zoomLevel = Math.max(.76, Math.min(1.16, zoomLevel + delta));
+      document.querySelectorAll(".pdf-page").forEach(page => {
+        page.style.transform = `scale(${zoomLevel})`;
+        page.style.marginBottom = `${(zoomLevel - 1) * 880}px`;
+      });
+      document.getElementById("zoom").textContent = Math.round(zoomLevel * 100) + "%";
+    }
+
+    function toggleBoundary(button) {
+      button.closest(".boundary").classList.toggle("split");
+      updateGroups();
+    }
+
+    function updateGroups() {
+      const boundaries = [...document.querySelectorAll(".boundary")];
+      const splits = boundaries.map(b => b.classList.contains("split"));
+      const groups = [];
+      let start = 1;
+
+      splits.forEach((isSplit, i) => {
+        const afterPage = i + 1;
+        if (isSplit) {
+          groups.push([start, afterPage]);
+          start = afterPage + 1;
+        }
+      });
+      groups.push([start, 8]);
+
+      const host = document.getElementById("invoice-groups");
+      host.innerHTML = groups.map((g, i) => {
+        const pageLabel = g[0] === g[1] ? `Page ${g[0]}` : `Pages ${g[0]}–${g[1]}`;
+        const confidence = i === 2 ? "71% · check" : i % 2 === 0 ? "96% confidence" : "91% confidence";
+        const status = i === 2 ? "Review" : "Ready";
+        return `
+          <article class="invoice-group">
+            <div class="invoice-group-head">
+              <div>
+                <div class="group-name">Invoice ${String(i + 1).padStart(2, "0")}</div>
+                <div class="group-pages">${pageLabel}</div>
+              </div>
+              <span class="status ${i === 2 ? "warn" : ""}">${status}</span>
+            </div>
+            <div class="group-confidence">${confidence}</div>
+          </article>
+        `;
+      }).join("");
+
+      const count = groups.length;
+      document.getElementById("group-count").textContent = count;
+      document.getElementById("header-count").textContent = count;
+      document.getElementById("extract-count").textContent = count;
+      document.getElementById("summary-extract-count").textContent = count;
+      document.getElementById("record-total").textContent = count;
+    }
+
+    function startExtraction() {
+      const toast = document.getElementById("toast");
+      toast.textContent = "Splits confirmed. Extracting invoice groups…";
+      toast.classList.add("show");
+      setTimeout(() => {
+        toast.classList.remove("show");
+        showScreen("extract");
+      }, 900);
+    }
+
+    function approveNext() {
+      const toast = document.getElementById("toast");
+      toast.textContent = "Invoice approved. Loading the next extracted invoice…";
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 1600);
+    }
+
+    updateGroups();
+  </script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+.env.*
+!.env.example
+credentials.json
+*.local
+.secrets/
+.secrets/**
+secrets/
+secrets/**
+vendors/aia/fixtures/auth_session.json
+
+# Build / tooling caches
+src/aia_pdf_split.egg-info/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+
+# Generated artifacts
+.artifact/
+
+# Run artifacts — keep only the dense OCR fixture used by grounding tests
+output/**
+!output/
+!output/dense_29p_ocr.json
+
+# React web app
+web/node_modules/
+web/dist/

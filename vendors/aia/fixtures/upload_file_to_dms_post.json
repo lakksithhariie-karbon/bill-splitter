@@ -1,0 +1,10 @@
+{
+  "message": "success",
+  "data": {
+    "presignedUrl": "https://storage.example.test/presigned/fixture-upload",
+    "fileUuid": "00000000-0000-4000-8000-0000000000f1",
+    "dataKey": "00000000-0000-4000-8000-0000000000uc/bill/00000000-0000-4000-8000-0000000000f1.pdf"
+  },
+  "error": null,
+  "__http_status__": 201
+}

@@ -1,0 +1,20 @@
+{
+  "count": 1,
+  "next": null,
+  "previous": null,
+  "results": [
+    {
+      "billFileStatusUuid": "00000000-0000-4000-8000-0000000000s2",
+      "fileUuid": "00000000-0000-4000-8000-0000000000f2",
+      "fileName": "too_many_pages.pdf",
+      "fileCategory": "bill",
+      "fileExtension": "pdf",
+      "status": "file_hitl_rejected",
+      "statusMessage": "Extraction failed: PDF has 31 pages; limit is 12.",
+      "totalPages": 31,
+      "isErrorDetails": true,
+      "companyUuid": "00000000-0000-4000-8000-0000000000c1",
+      "thirdPartyProduct": "tally"
+    }
+  ]
+}

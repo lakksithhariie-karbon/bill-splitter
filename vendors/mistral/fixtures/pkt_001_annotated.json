@@ -1,0 +1,1841 @@
+{
+  "pages": [
+    {
+      "index": 0,
+      "markdown": "# INVOICE | packet pkt_001_control_multi_class\n\nA detailed breakdown of charges, taxes, and net total is provided.\n\nPage 1\n\nRef-pkt_001_control_multi_class-1-invoice",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 93,
+        "height": 1023,
+        "width": 791
+      },
+      "confidence_scores": {
+        "word_confidence_scores": [
+          {
+            "text": "#",
+            "confidence": 0.592664268361159,
+            "start_index": 0
+          },
+          {
+            "text": " INVOICE",
+            "confidence": 0.9476187031372567,
+            "start_index": 1
+          },
+          {
+            "text": " |",
+            "confidence": 0.9996856247678255,
+            "start_index": 9
+          },
+          {
+            "text": " packet",
+            "confidence": 0.9993668038212093,
+            "start_index": 11
+          },
+          {
+            "text": " pkt_001_control_multi_class",
+            "confidence": 0.9994615934046963,
+            "start_index": 18
+          },
+          {
+            "text": "A",
+            "confidence": 0.9772829640632613,
+            "start_index": 48
+          },
+          {
+            "text": " detailed",
+            "confidence": 0.9999891520726072,
+            "start_index": 49
+          },
+          {
+            "text": " breakdown",
+            "confidence": 0.9999940395710211,
+            "start_index": 58
+          },
+          {
+            "text": " of",
+            "confidence": 0.9999996423722521,
+            "start_index": 68
+          },
+          {
+            "text": " charges,",
+            "confidence": 0.9999882249182255,
+            "start_index": 71
+          },
+          {
+            "text": " taxes,",
+            "confidence": 0.9999978882971697,
+            "start_index": 80
+          },
+          {
+            "text": " and",
+            "confidence": 0.9999996423722521,
+            "start_index": 87
+          },
+          {
+            "text": " net",
+            "confidence": 0.9999953508594287,
+            "start_index": 91
+          },
+          {
+            "text": " total",
+            "confidence": 0.9999980926550052,
+            "start_index": 95
+          },
+          {
+            "text": " is",
+            "confidence": 0.9999992847447459,
+            "start_index": 101
+          },
+          {
+            "text": " provided.",
+            "confidence": 0.9999969601741941,
+            "start_index": 104
+          },
+          {
+            "text": "Page",
+            "confidence": 0.9999492194198731,
+            "start_index": 116
+          },
+          {
+            "text": " 1",
+            "confidence": 0.9999699604014469,
+            "start_index": 120
+          },
+          {
+            "text": "Ref-pkt_001_control_multi_class-1-invoice",
+            "confidence": 0.9998538841060322,
+            "start_index": 124
+          }
+        ],
+        "average_page_confidence_score": 0.9745163841852453,
+        "minimum_page_confidence_score": 0.592664268361159
+      },
+      "blocks": [
+        {
+          "top_left_x": 60,
+          "top_left_y": 59,
+          "bottom_right_x": 487,
+          "bottom_right_y": 83,
+          "content": "# INVOICE | packet pkt_001_control_multi_class",
+          "confidence_scores": null,
+          "type": "title"
+        },
+        {
+          "top_left_x": 60,
+          "top_left_y": 119,
+          "bottom_right_x": 479,
+          "bottom_right_y": 139,
+          "content": "A detailed breakdown of charges, taxes, and net total is provided.",
+          "confidence_scores": null,
+          "type": "text"
+        },
+        {
+          "top_left_x": 60,
+          "top_left_y": 146,
+          "bottom_right_x": 112,
+          "bottom_right_y": 165,
+          "content": "Page 1",
+          "confidence_scores": null,
+          "type": "text"
+        },
+        {
+          "top_left_x": 60,
+          "top_left_y": 171,
+          "bottom_right_x": 337,
+          "bottom_right_y": 191,
+          "content": "Ref-pkt_001_control_multi_class-1-invoice",
+          "confidence_scores": null,
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "markdown": "# INVOICE | packet pkt_001_control_multi_class\n\nApproval signatures and review notes appear on the final page.\n\nPage 2\n\nRef-pkt_001_control_multi_class-2-invoice",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 93,
+        "height": 1023,
+        "width": 791
+      },
+      "confidence_scores": {
+        "word_confidence_scores": [
+          {
+            "text": "#",
+            "confidence": 0.5621745590888318,
+            "start_index": 0
+          },
+          {
+            "text": " INVOICE",
+            "confidence": 0.9476113922148941,
+            "start_index": 1
+          },
+          {
+            "text": " |",
+            "confidence": 0.9996392836304936,
+            "start_index": 9
+          },
+          {
+            "text": " packet",
+            "confidence": 0.999369184987739,
+            "start_index": 11
+          },
+          {
+            "text": " pkt_001_control_multi_class",
+            "confidence": 0.9996105484177307,
+            "start_index": 18
+          },
+          {
+            "text": "Approval",
+            "confidence": 0.9870297591094043,
+            "start_index": 48
+          },
+          {
+            "text": " signatures",
+            "confidence": 0.9999645960934689,
+            "start_index": 56
+          },
+          {
+            "text": " and",
+            "confidence": 0.9999986886995842,
+            "start_index": 67
+          },
+          {
+            "text": " review",
+            "confidence": 0.9999936819476216,
+            "start_index": 71
+          },
+          {
+            "text": " notes",
+            "confidence": 0.999997854237364,
+            "start_index": 78
+          },
+          {
+            "text": " appear",
+            "confidence": 0.9999979734461775,
+            "start_index": 84
+          },
+          {
+            "text": " on",
+            "confidence": 0.9999972581939645,
+            "start_index": 91
+          },
+          {
+            "text": " the",
+            "confidence": 0.9999995231630692,
+            "start_index": 94
+          },
+          {
+            "text": " final",
+            "confidence": 0.9999986886995842,
+            "start_index": 98
+          },
+          {
+            "text": " page.",
+            "confidence": 0.9999944568026504,
+            "start_index": 104
+          },
+          {
+            "text": "Page",
+            "confidence": 0.9999744898630243,
+            "start_index": 112
+          },
+          {
+            "text": " 2",
+            "confidence": 0.9999936819595019,
+            "start_index": 116
+          },
+          {
+            "text": "Ref-pkt_001_control_multi_class-2-invoice",
+            "confidence": 0.9998570918749511,
+            "start_index": 120
+          }
+        ],
+        "average_page_confidence_score": 0.971955706246114,
+        "minimum_page_confidence_score": 0.5621745590888318
+      },
+      "blocks": [
+        {
+          "top_left_x": 61,
+          "top_left_y": 59,
+          "bottom_right_x": 487,
+          "bottom_right_y": 83,
+          "content": "# INVOICE | packet pkt_001_control_multi_class",
+          "confidence_scores": null,
+          "type": "title"
+        },
+        {
+          "top_left_x": 61,
+          "top_left_y": 120,
+          "bottom_right_x": 465,
+          "bottom_right_y": 139,
+          "content": "Approval signatures and review notes appear on the final page.",
+          "confidence_scores": null,
+          "type": "text"
+        },
+        {
+          "top_left_x": 61,
+          "top_left_y": 146,
+          "bottom_right_x": 113,
+          "bottom_right_y": 164,
+          "content": "Page 2",
+          "confidence_scores": null,
+          "type": "text"
+        },
+        {
+          "top_left_x": 61,
+          "top_left_y": 171,
+          "bottom_right_x": 335,
+          "bottom_right_y": 190,
+          "content": "Ref-pkt_001_control_multi_class-2-invoice",
+          "confidence_scores": null,
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "markdown": "# INVOICE | packet pkt_001_control_multi_class\n\nThis document covers the current period activity and associated line items.\n\nPage 3\n\nRef-pkt_001_control_multi_class-3-invoice",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 93,
+        "height": 1023,
+        "width": 791
+      },
+      "confidence_scores": {
+        "word_confidence_scores": [
+          {
+            "text": "#",
+            "confidence": 0.6513535593651232,
+            "start_index": 0
+          },
+          {
+            "text": " INVOICE",
+            "confidence": 0.9185869520742751,
+            "start_index": 1
+          },
+          {
+            "text": " |",
+            "confidence": 0.999708141656833,
+            "start_index": 9
+          },
+          {
+            "text": " packet",
+            "confidence": 0.9992334762164113,
+            "start_index": 11
+          },
+          {
+            "text": " pkt_001_control_multi_class",
+            "confidence": 0.9995410942757609,
+            "start_index": 18
+          },
+          {
+            "text": "This",
+            "confidence": 0.97242266372296,
+            "start_index": 48
+          },
+          {
+            "text": " document",
+            "confidence": 0.9999965429424904,
+            "start_index": 52
+          },
+          {
+            "text": " covers",
+            "confidence": 0.9999960661089133,
+            "start_index": 61
+          },
+          {
+            "text": " the",
+            "confidence": 0.9999985694905718,
+            "start_index": 68
+          },
+          {
+            "text": " current",
+            "confidence": 0.9999986886995842,
+            "start_index": 72
+          },
+          {
+            "text": " period",
+            "confidence": 0.9999893904859,
+            "start_index": 80
+          },
+          {
+            "text": " activity",
+            "confidence": 0.9999849798550975,
+            "start_index": 87
+          },
+          {
+            "text": " and",
+            "confidence": 0.9999991655356624,
+            "start_index": 96
+          },
+          {
+            "text": " associated",
+            "confidence": 0.9999955892755635,
+            "start_index": 100
+          },
+          {
+            "text": " line",
+            "confidence": 0.9999926090786457,
+            "start_index": 111
+          },
+          {
+            "text": " items.",
+            "confidence": 0.9999875513653762,
+            "start_index": 116
+          },
+          {
+            "text": "Page",
+            "confidence": 0.9999623312833917,
+            "start_index": 125
+          },
+          {
+            "text": " 3",
+            "confidence": 0.9999903441475972,
+            "start_index": 129
+          },
+          {
+            "text": "Ref-pkt_001_control_multi_class-3-invoice",
+            "confidence": 0.999859098528339,
+            "start_index": 133
+          }
+        ],
+        "average_page_confidence_score": 0.9758208849530788,
+        "minimum_page_confidence_score": 0.6513535593651232
+      },
+      "blocks": [
+        {
+          "top_left_x": 60,
+          "top_left_y": 59,
+          "bottom_right_x": 487,
+          "bottom_right_y": 83,
+          "content": "# INVOICE | packet pkt_001_control_multi_class",
+          "confidence_scores": null,
+          "type": "title"
+        },
+        {
+          "top_left_x": 60,
+          "top_left_y": 119,
+          "bottom_right_x": 538,
+          "bottom_right_y": 139,
+          "content": "This document covers the current period activity and associated line items.",
+          "confidence_scores": null,
+          "type": "text"
+        },
+        {
+          "top_left_x": 60,
+          "top_left_y": 145,
+          "bottom_right_x": 114,
+          "bottom_right_y": 165,
+          "content": "Page 3",
+          "confidence_scores": null,
+          "type": "text"
+        },
+        {
+          "top_left_x": 60,
+          "top_left_y": 171,
+          "bottom_right_x": 337,
+          "bottom_right_y": 191,
+          "content": "Ref-pkt_001_control_multi_class-3-invoice",
+          "confidence_scores": null,
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "markdown": "# BANK STATEMENT | packet pkt_001_control_multi_class\n\nAmount due and payment reference details are summarized below.\n\nPage 4\n\nRef-pkt_001_control_multi_class-4-bank_statement",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 93,
+        "height": 1023,
+        "width": 791
+      },
+      "confidence_scores": {
+        "word_confidence_scores": [
+          {
+            "text": "#",
+            "confidence": 0.6224563246627063,
+            "start_index": 0
+          },
+          {
+            "text": " BANK",
+            "confidence": 0.524273981074563,
+            "start_index": 1
+          },
+          {
+            "text": " STATEMENT",
+            "confidence": 0.9999930859108017,
+            "start_index": 6
+          },
+          {
+            "text": " |",
+            "confidence": 0.9993750189104341,
+            "start_index": 16
+          },
+          {
+            "text": " packet",
+            "confidence": 0.9981642153848129,
+            "start_index": 18
+          },
+          {
+            "text": " pkt_001_control_multi_class",
+            "confidence": 0.9990617413380217,
+            "start_index": 25
+          },
+          {
+            "text": "Amount",
+            "confidence": 0.4693414276534192,
+            "start_index": 55
+          },
+          {
+            "text": " due",
+            "confidence": 0.9999804500586101,
+            "start_index": 61
+          },
+          {
+            "text": " and",
+            "confidence": 0.9999970197767496,
+            "start_index": 65
+          },
+          {
+            "text": " payment",
+            "confidence": 0.9999966621509202,
+            "start_index": 69
+          },
+          {
+            "text": " reference",
+            "confidence": 0.9999970197767496,
+            "start_index": 77
+          },
+          {
+            "text": " details",
+            "confidence": 0.9999990463265931,
+            "start_index": 87
+          },
+          {
+            "text": " are",
+            "confidence": 0.9999991655356624,
+            "start_index": 95
+          },
+          {
+            "text": " summarized",
+            "confidence": 0.9999644768920447,
+            "start_index": 99
+          },
+          {
+            "text": " below.",
+            "confidence": 0.9999977350293118,
+            "start_index": 110
+          },
+          {
+            "text": "Page",
+            "confidence": 0.9998358757532201,
+            "start_index": 119
+          },
+          {
+            "text": " 4",
+            "confidence": 0.9999482071855422,
+            "start_index": 123
+          },
+          {
+            "text": "Ref-pkt_001_control_multi_class-4-bank_statement",
+            "confidence": 0.9993846096256932,
+            "start_index": 127
+          }
+        ],
+        "average_page_confidence_score": 0.9228758923914364,
+        "minimum_page_confidence_score": 0.4693414276534192
+      },
+      "blocks": [
+        {
+          "top_left_x": 61,
+          "top_left_y": 59,
+          "bottom_right_x": 580,
+          "bottom_right_y": 84,
+          "content": "# BANK STATEMENT | packet pkt_001_control_multi_class",
+          "confidence_scores": null,
+          "type": "title"
+        },
+        {
+          "top_left_x": 61,
+          "top_left_y": 120,
+          "bottom_right_x": 490,
+          "bottom_right_y": 138,
+          "content": "Amount due and payment reference details are summarized below.",
+          "confidence_scores": null,
+          "type": "text"
+        },
+        {
+          "top_left_x": 61,
+          "top_left_y": 146,
+          "bottom_right_x": 113,
+          "bottom_right_y": 165,
+          "content": "Page 4",
+          "confidence_scores": null,
+          "type": "text"
+        },
+        {
+          "top_left_x": 61,
+          "top_left_y": 171,
+          "bottom_right_x": 394,
+          "bottom_right_y": 191,
+          "content": "Ref-pkt_001_control_multi_class-4-bank_statement",
+          "confidence_scores": null,
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "markdown": "# BANK STATEMENT | packet pkt_001_control_multi_class\n\nAccount summary, transaction history, and closing balance are listed.\n\nPage 5\n\nRef-pkt_001_control_multi_class-5-bank_statement",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 93,
+        "height": 1023,
+        "width": 791
+      },
+      "confidence_scores": {
+        "word_confidence_scores": [
+          {
+            "text": "#",
+            "confidence": 0.5312057213303466,
+            "start_index": 0
+          },
+          {
+            "text": " BANK",
+            "confidence": 0.5841521252970934,
+            "start_index": 1
+          },
+          {
+            "text": " STATEMENT",
+            "confidence": 0.9999914170095958,
+            "start_index": 6
+          },
+          {
+            "text": " |",
+            "confidence": 0.9995130288988571,
+            "start_index": 16
+          },
+          {
+            "text": " packet",
+            "confidence": 0.9988268088925892,
+            "start_index": 18
+          },
+          {
+            "text": " pkt_001_control_multi_class",
+            "confidence": 0.999205289499472,
+            "start_index": 25
+          },
+          {
+            "text": "Account",
+            "confidence": 0.8540723362067104,
+            "start_index": 55
+          },
+          {
+            "text": " summary,",
+            "confidence": 0.999993364061223,
+            "start_index": 62
+          },
+          {
+            "text": " transaction",
+            "confidence": 0.9999983310727032,
+            "start_index": 71
+          },
+          {
+            "text": " history,",
+            "confidence": 0.9999994701812273,
+            "start_index": 83
+          },
+          {
+            "text": " and",
+            "confidence": 0.9999994039539004,
+            "start_index": 92
+          },
+          {
+            "text": " closing",
+            "confidence": 0.9999870063564401,
+            "start_index": 96
+          },
+          {
+            "text": " balance",
+            "confidence": 0.9999891520726072,
+            "start_index": 104
+          },
+          {
+            "text": " are",
+            "confidence": 0.9999966621509202,
+            "start_index": 112
+          },
+          {
+            "text": " listed.",
+            "confidence": 0.9999949187795838,
+            "start_index": 116
+          },
+          {
+            "text": "Page",
+            "confidence": 0.9998843803602065,
+            "start_index": 126
+          },
+          {
+            "text": " 5",
+            "confidence": 0.9999314007847606,
+            "start_index": 130
+          },
+          {
+            "text": "Ref-pkt_001_control_multi_class-5-bank_statement",
+            "confidence": 0.9995339642163175,
+            "start_index": 134
+          }
+        ],
+        "average_page_confidence_score": 0.9425708211735864,
+        "minimum_page_confidence_score": 0.5312057213303466
+      },
+      "blocks": [
+        {
+          "top_left_x": 61,
+          "top_left_y": 59,
+          "bottom_right_x": 580,
+          "bottom_right_y": 84,
+          "content": "# BANK STATEMENT | packet pkt_001_control_multi_class",
+          "confidence_scores": null,
+          "type": "title"
+        },
+        {
+          "top_left_x": 61,
+          "top_left_y": 120,
+          "bottom_right_x": 504,
+          "bottom_right_y": 139,
+          "content": "Account summary, transaction history, and closing balance are listed.",
+          "confidence_scores": null,
+          "type": "text"
+        },
+        {
+          "top_left_x": 61,
+          "top_left_y": 146,
+          "bottom_right_x": 113,
+          "bottom_right_y": 165,
+          "content": "Page 5",
+          "confidence_scores": null,
+          "type": "text"
+        },
+        {
+          "top_left_x": 61,
+          "top_left_y": 171,
+          "bottom_right_x": 394,
+          "bottom_right_y": 191,
+          "content": "Ref-pkt_001_control_multi_class-5-bank_statement",
+          "confidence_scores": null,
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "markdown": "# BANK STATEMENT | packet pkt_001_control_multi_class\n\nThe following sections describe the terms and conditions of the agreement.\n\nPage 6\n\nRef-pkt_001_control_multi_class-6-bank_statement",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 93,
+        "height": 1023,
+        "width": 791
+      },
+      "confidence_scores": {
+        "word_confidence_scores": [
+          {
+            "text": "#",
+            "confidence": 0.7057847964438116,
+            "start_index": 0
+          },
+          {
+            "text": " BANK",
+            "confidence": 0.915479576021098,
+            "start_index": 1
+          },
+          {
+            "text": " STATEMENT",
+            "confidence": 0.999997913841769,
+            "start_index": 6
+          },
+          {
+            "text": " |",
+            "confidence": 0.999931697745375,
+            "start_index": 16
+          },
+          {
+            "text": " packet",
+            "confidence": 0.9996504813676652,
+            "start_index": 18
+          },
+          {
+            "text": " pkt_001_control_multi_class",
+            "confidence": 0.9995580721496852,
+            "start_index": 25
+          },
+          {
+            "text": "The",
+            "confidence": 0.9908718355054137,
+            "start_index": 55
+          },
+          {
+            "text": " following",
+            "confidence": 0.9999998807907247,
+            "start_index": 58
+          },
+          {
+            "text": " sections",
+            "confidence": 0.9999843838268748,
+            "start_index": 68
+          },
+          {
+            "text": " describe",
+            "confidence": 0.999985218266486,
+            "start_index": 77
+          },
+          {
+            "text": " the",
+            "confidence": 1.0,
+            "start_index": 86
+          },
+          {
+            "text": " terms",
+            "confidence": 0.9999994039539004,
+            "start_index": 90
+          },
+          {
+            "text": " and",
+            "confidence": 0.9999998807907247,
+            "start_index": 96
+          },
+          {
+            "text": " conditions",
+            "confidence": 0.9999996423722521,
+            "start_index": 100
+          },
+          {
+            "text": " of",
+            "confidence": 1.0,
+            "start_index": 111
+          },
+          {
+            "text": " the",
+            "confidence": 0.9999996423722521,
+            "start_index": 114
+          },
+          {
+            "text": " agreement.",
+            "confidence": 0.9999918614748036,
+            "start_index": 118
+          },
+          {
+            "text": "Page",
+            "confidence": 0.9999979734461775,
+            "start_index": 131
+          },
+          {
+            "text": " 6",
+            "confidence": 0.999999642372309,
+            "start_index": 135
+          },
+          {
+            "text": "Ref-pkt_001_control_multi_class-6-bank_statement",
+            "confidence": 0.9998995031291821,
+            "start_index": 139
+          }
+        ],
+        "average_page_confidence_score": 0.9805565702935253,
+        "minimum_page_confidence_score": 0.7057847964438116
+      },
+      "blocks": [
+        {
+          "top_left_x": 61,
+          "top_left_y": 59,
+          "bottom_right_x": 578,
+          "bottom_right_y": 83,
+          "content": "# BANK STATEMENT | packet pkt_001_control_multi_class",
+          "confidence_scores": null,
+          "type": "title"
+        },
+        {
+          "top_left_x": 61,
+          "top_left_y": 119,
+          "bottom_right_x": 536,
+          "bottom_right_y": 138,
+          "content": "The following sections describe the terms and conditions of the agreement.",
+          "confidence_scores": null,
+          "type": "text"
+        },
+        {
+          "top_left_x": 61,
+          "top_left_y": 146,
+          "bottom_right_x": 111,
+          "bottom_right_y": 164,
+          "content": "Page 6",
+          "confidence_scores": null,
+          "type": "text"
+        },
+        {
+          "top_left_x": 61,
+          "top_left_y": 172,
+          "bottom_right_x": 391,
+          "bottom_right_y": 190,
+          "content": "Ref-pkt_001_control_multi_class-6-bank_statement",
+          "confidence_scores": null,
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "index": 6,
+      "markdown": "# BANK STATEMENT | packet pkt_001_control_multi_class\n\nA detailed breakdown of charges, taxes, and net total is provided.\n\nPage 7\n\nRef-pkt_001_control_multi_class-7-bank_statement",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 93,
+        "height": 1023,
+        "width": 791
+      },
+      "confidence_scores": {
+        "word_confidence_scores": [
+          {
+            "text": "#",
+            "confidence": 0.5621726826319293,
+            "start_index": 0
+          },
+          {
+            "text": " BANK",
+            "confidence": 0.6966203851230859,
+            "start_index": 1
+          },
+          {
+            "text": " STATEMENT",
+            "confidence": 0.9999917746324125,
+            "start_index": 6
+          },
+          {
+            "text": " |",
+            "confidence": 0.9996801445960298,
+            "start_index": 16
+          },
+          {
+            "text": " packet",
+            "confidence": 0.9990398574682816,
+            "start_index": 18
+          },
+          {
+            "text": " pkt_001_control_multi_class",
+            "confidence": 0.9993175605837185,
+            "start_index": 25
+          },
+          {
+            "text": "A",
+            "confidence": 0.9840976751844746,
+            "start_index": 55
+          },
+          {
+            "text": " detailed",
+            "confidence": 0.9999809268774651,
+            "start_index": 56
+          },
+          {
+            "text": " breakdown",
+            "confidence": 0.9999923706636761,
+            "start_index": 65
+          },
+          {
+            "text": " of",
+            "confidence": 0.9999995231630692,
+            "start_index": 75
+          },
+          {
+            "text": " charges,",
+            "confidence": 0.9999953111244002,
+            "start_index": 78
+          },
+          {
+            "text": " taxes,",
+            "confidence": 0.9999977350288408,
+            "start_index": 87
+          },
+          {
+            "text": " and",
+            "confidence": 0.9999996423722521,
+            "start_index": 94
+          },
+          {
+            "text": " net",
+            "confidence": 0.9999940395710211,
+            "start_index": 98
+          },
+          {
+            "text": " total",
+            "confidence": 0.9999980926550052,
+            "start_index": 102
+          },
+          {
+            "text": " is",
+            "confidence": 0.9999988079084972,
+            "start_index": 108
+          },
+          {
+            "text": " provided.",
+            "confidence": 0.9999964714211454,
+            "start_index": 111
+          },
+          {
+            "text": "Page",
+            "confidence": 0.9999023771230333,
+            "start_index": 123
+          },
+          {
+            "text": " 7",
+            "confidence": 0.9999764567307706,
+            "start_index": 127
+          },
+          {
+            "text": "Ref-pkt_001_control_multi_class-7-bank_statement",
+            "confidence": 0.9995028265241888,
+            "start_index": 131
+          }
+        ],
+        "average_page_confidence_score": 0.9620127330691648,
+        "minimum_page_confidence_score": 0.5621726826319293
+      },
+      "blocks": [
+        {
+          "top_left_x": 61,
+          "top_left_y": 59,
+          "bottom_right_x": 580,
+          "bottom_right_y": 83,
+          "content": "# BANK STATEMENT | packet pkt_001_control_multi_class",
+          "confidence_scores": null,
+          "type": "title"
+        },
+        {
+          "top_left_x": 61,
+          "top_left_y": 119,
+          "bottom_right_x": 479,
+          "bottom_right_y": 139,
+          "content": "A detailed breakdown of charges, taxes, and net total is provided.",
+          "confidence_scores": null,
+          "type": "text"
+        },
+        {
+          "top_left_x": 61,
+          "top_left_y": 146,
+          "bottom_right_x": 113,
+          "bottom_right_y": 165,
+          "content": "Page 7",
+          "confidence_scores": null,
+          "type": "text"
+        },
+        {
+          "top_left_x": 61,
+          "top_left_y": 171,
+          "bottom_right_x": 394,
+          "bottom_right_y": 191,
+          "content": "Ref-pkt_001_control_multi_class-7-bank_statement",
+          "confidence_scores": null,
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "index": 7,
+      "markdown": "## MONTHLY REPORT | packet pkt_001_control_multi_class\n\nApproval signatures and review notes appear on the final page.\n\nPage 8\n\nRef-pkt_001_control_multi_class-8-report",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 93,
+        "height": 1023,
+        "width": 791
+      },
+      "confidence_scores": {
+        "word_confidence_scores": [
+          {
+            "text": "##",
+            "confidence": 0.6969543420253065,
+            "start_index": 0
+          },
+          {
+            "text": " MONTHLY",
+            "confidence": 0.9952638653991229,
+            "start_index": 2
+          },
+          {
+            "text": " REPORT",
+            "confidence": 0.9999945164027223,
+            "start_index": 10
+          },
+          {
+            "text": " |",
+            "confidence": 0.9999394453479565,
+            "start_index": 17
+          },
+          {
+            "text": " packet",
+            "confidence": 0.9997959553400235,
+            "start_index": 19
+          },
+          {
+            "text": " pkt_001_control_multi_class",
+            "confidence": 0.9997773316562364,
+            "start_index": 26
+          },
+          {
+            "text": "Approval",
+            "confidence": 0.9967596962762154,
+            "start_index": 56
+          },
+          {
+            "text": " signatures",
+            "confidence": 0.9998790172097274,
+            "start_index": 64
+          },
+          {
+            "text": " and",
+            "confidence": 0.9999992847447459,
+            "start_index": 75
+          },
+          {
+            "text": " review",
+            "confidence": 0.9999965429424904,
+            "start_index": 79
+          },
+          {
+            "text": " notes",
+            "confidence": 0.9999970197767496,
+            "start_index": 86
+          },
+          {
+            "text": " appear",
+            "confidence": 0.9999974966112362,
+            "start_index": 92
+          },
+          {
+            "text": " on",
+            "confidence": 0.9999985694905718,
+            "start_index": 99
+          },
+          {
+            "text": " the",
+            "confidence": 0.9999998807907247,
+            "start_index": 102
+          },
+          {
+            "text": " final",
+            "confidence": 0.9999995231630692,
+            "start_index": 106
+          },
+          {
+            "text": " page.",
+            "confidence": 0.9999938806273228,
+            "start_index": 112
+          },
+          {
+            "text": "Page",
+            "confidence": 0.9999974966112362,
+            "start_index": 120
+          },
+          {
+            "text": " 8",
+            "confidence": 0.9999985098862982,
+            "start_index": 124
+          },
+          {
+            "text": "Ref-pkt_001_control_multi_class-8-report",
+            "confidence": 0.999930800499124,
+            "start_index": 128
+          }
+        ],
+        "average_page_confidence_score": 0.98359332498952,
+        "minimum_page_confidence_score": 0.6969543420253065
+      },
+      "blocks": [
+        {
+          "top_left_x": 61,
+          "top_left_y": 59,
+          "bottom_right_x": 581,
+          "bottom_right_y": 83,
+          "content": "## MONTHLY REPORT | packet pkt_001_control_multi_class",
+          "confidence_scores": null,
+          "type": "title"
+        },
+        {
+          "top_left_x": 61,
+          "top_left_y": 119,
+          "bottom_right_x": 463,
+          "bottom_right_y": 139,
+          "content": "Approval signatures and review notes appear on the final page.",
+          "confidence_scores": null,
+          "type": "text"
+        },
+        {
+          "top_left_x": 61,
+          "top_left_y": 145,
+          "bottom_right_x": 111,
+          "bottom_right_y": 164,
+          "content": "Page 8",
+          "confidence_scores": null,
+          "type": "text"
+        },
+        {
+          "top_left_x": 61,
+          "top_left_y": 171,
+          "bottom_right_x": 327,
+          "bottom_right_y": 190,
+          "content": "Ref-pkt_001_control_multi_class-8-report",
+          "confidence_scores": null,
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "index": 8,
+      "markdown": "## MONTHLY REPORT | packet pkt_001_control_multi_class\n\nThis document covers the current period activity and associated line items.\n\nPage 9\n\nRef-pkt_001_control_multi_class-9-report",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 93,
+        "height": 1023,
+        "width": 791
+      },
+      "confidence_scores": {
+        "word_confidence_scores": [
+          {
+            "text": "##",
+            "confidence": 0.9874229232069222,
+            "start_index": 0
+          },
+          {
+            "text": " MONTHLY",
+            "confidence": 0.8373769566577056,
+            "start_index": 2
+          },
+          {
+            "text": " REPORT",
+            "confidence": 0.9999893904859,
+            "start_index": 10
+          },
+          {
+            "text": " |",
+            "confidence": 0.9995484008322466,
+            "start_index": 17
+          },
+          {
+            "text": " packet",
+            "confidence": 0.9989287420641314,
+            "start_index": 19
+          },
+          {
+            "text": " pkt_001_control_multi_class",
+            "confidence": 0.9970496234666781,
+            "start_index": 26
+          },
+          {
+            "text": "This",
+            "confidence": 0.9530738314445741,
+            "start_index": 56
+          },
+          {
+            "text": " document",
+            "confidence": 0.9999930859092101,
+            "start_index": 60
+          },
+          {
+            "text": " covers",
+            "confidence": 0.9999959469005546,
+            "start_index": 69
+          },
+          {
+            "text": " the",
+            "confidence": 0.9999982118638471,
+            "start_index": 76
+          },
+          {
+            "text": " current",
+            "confidence": 0.9999980926550052,
+            "start_index": 80
+          },
+          {
+            "text": " period",
+            "confidence": 0.9999816421070834,
+            "start_index": 88
+          },
+          {
+            "text": " activity",
+            "confidence": 0.9999839070045525,
+            "start_index": 95
+          },
+          {
+            "text": " and",
+            "confidence": 0.9999990463265931,
+            "start_index": 104
+          },
+          {
+            "text": " associated",
+            "confidence": 0.9999942779868433,
+            "start_index": 108
+          },
+          {
+            "text": " line",
+            "confidence": 0.9999921322487634,
+            "start_index": 119
+          },
+          {
+            "text": " items.",
+            "confidence": 0.9999833111578259,
+            "start_index": 124
+          },
+          {
+            "text": "Page",
+            "confidence": 0.9999660265080288,
+            "start_index": 133
+          },
+          {
+            "text": " 9",
+            "confidence": 0.9999855162826206,
+            "start_index": 137
+          },
+          {
+            "text": "Ref-pkt_001_control_multi_class-9-report",
+            "confidence": 0.999819651612261,
+            "start_index": 141
+          }
+        ],
+        "average_page_confidence_score": 0.9886540358360673,
+        "minimum_page_confidence_score": 0.8373769566577056
+      },
+      "blocks": [
+        {
+          "top_left_x": 60,
+          "top_left_y": 59,
+          "bottom_right_x": 583,
+          "bottom_right_y": 84,
+          "content": "## MONTHLY REPORT | packet pkt_001_control_multi_class",
+          "confidence_scores": null,
+          "type": "title"
+        },
+        {
+          "top_left_x": 60,
+          "top_left_y": 119,
+          "bottom_right_x": 538,
+          "bottom_right_y": 139,
+          "content": "This document covers the current period activity and associated line items.",
+          "confidence_scores": null,
+          "type": "text"
+        },
+        {
+          "top_left_x": 60,
+          "top_left_y": 145,
+          "bottom_right_x": 113,
+          "bottom_right_y": 165,
+          "content": "Page 9",
+          "confidence_scores": null,
+          "type": "text"
+        },
+        {
+          "top_left_x": 60,
+          "top_left_y": 171,
+          "bottom_right_x": 329,
+          "bottom_right_y": 191,
+          "content": "Ref-pkt_001_control_multi_class-9-report",
+          "confidence_scores": null,
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "index": 9,
+      "markdown": "## MONTHLY REPORT | packet pkt_001_control_multi_class\n\nAmount due and payment reference details are summarized below.\n\nPage 10\n\nRef-pkt_001_control_multi_class-10-report",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 93,
+        "height": 1023,
+        "width": 791
+      },
+      "confidence_scores": {
+        "word_confidence_scores": [
+          {
+            "text": "##",
+            "confidence": 0.9963809572275657,
+            "start_index": 0
+          },
+          {
+            "text": " MONTHLY",
+            "confidence": 0.7821267135569476,
+            "start_index": 2
+          },
+          {
+            "text": " REPORT",
+            "confidence": 0.9999908209686689,
+            "start_index": 10
+          },
+          {
+            "text": " |",
+            "confidence": 0.9993044211294042,
+            "start_index": 17
+          },
+          {
+            "text": " packet",
+            "confidence": 0.998452796028276,
+            "start_index": 19
+          },
+          {
+            "text": " pkt_001_control_multi_class",
+            "confidence": 0.9978077075368252,
+            "start_index": 26
+          },
+          {
+            "text": "Amount",
+            "confidence": 0.39238839537331405,
+            "start_index": 56
+          },
+          {
+            "text": " due",
+            "confidence": 0.9999396837375756,
+            "start_index": 62
+          },
+          {
+            "text": " and",
+            "confidence": 0.9999941587791524,
+            "start_index": 66
+          },
+          {
+            "text": " payment",
+            "confidence": 0.9999957084838798,
+            "start_index": 70
+          },
+          {
+            "text": " reference",
+            "confidence": 0.9999953508594287,
+            "start_index": 78
+          },
+          {
+            "text": " details",
+            "confidence": 0.9999985694905718,
+            "start_index": 88
+          },
+          {
+            "text": " are",
+            "confidence": 0.999998927117538,
+            "start_index": 96
+          },
+          {
+            "text": " summarized",
+            "confidence": 0.9999680529300359,
+            "start_index": 100
+          },
+          {
+            "text": " below.",
+            "confidence": 0.9999967473074081,
+            "start_index": 111
+          },
+          {
+            "text": "Page",
+            "confidence": 0.9999716289935482,
+            "start_index": 120
+          },
+          {
+            "text": " 10",
+            "confidence": 0.9999927282982783,
+            "start_index": 124
+          },
+          {
+            "text": "Ref-pkt_001_control_multi_class-10-report",
+            "confidence": 0.9998243640500347,
+            "start_index": 129
+          }
+        ],
+        "average_page_confidence_score": 0.9536737628815808,
+        "minimum_page_confidence_score": 0.39238839537331405
+      },
+      "blocks": [
+        {
+          "top_left_x": 61,
+          "top_left_y": 59,
+          "bottom_right_x": 583,
+          "bottom_right_y": 84,
+          "content": "## MONTHLY REPORT | packet pkt_001_control_multi_class",
+          "confidence_scores": null,
+          "type": "title"
+        },
+        {
+          "top_left_x": 61,
+          "top_left_y": 119,
+          "bottom_right_x": 490,
+          "bottom_right_y": 139,
+          "content": "Amount due and payment reference details are summarized below.",
+          "confidence_scores": null,
+          "type": "text"
+        },
+        {
+          "top_left_x": 61,
+          "top_left_y": 145,
+          "bottom_right_x": 121,
+          "bottom_right_y": 165,
+          "content": "Page 10",
+          "confidence_scores": null,
+          "type": "text"
+        },
+        {
+          "top_left_x": 61,
+          "top_left_y": 171,
+          "bottom_right_x": 337,
+          "bottom_right_y": 191,
+          "content": "Ref-pkt_001_control_multi_class-10-report",
+          "confidence_scores": null,
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "index": 10,
+      "markdown": "## MONTHLY REPORT | packet pkt_001_control_multi_class\n\nAccount summary, transaction history, and closing balance are listed.\n\nPage 11\n\nRef-pkt_001_control_multi_class-11-report",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 93,
+        "height": 1023,
+        "width": 791
+      },
+      "confidence_scores": {
+        "word_confidence_scores": [
+          {
+            "text": "##",
+            "confidence": 0.9886125698994682,
+            "start_index": 0
+          },
+          {
+            "text": " MONTHLY",
+            "confidence": 0.8378763864263595,
+            "start_index": 2
+          },
+          {
+            "text": " REPORT",
+            "confidence": 0.9999871255623688,
+            "start_index": 10
+          },
+          {
+            "text": " |",
+            "confidence": 0.9992518066421435,
+            "start_index": 17
+          },
+          {
+            "text": " packet",
+            "confidence": 0.9988485734874183,
+            "start_index": 19
+          },
+          {
+            "text": " pkt_001_control_multi_class",
+            "confidence": 0.9966848636886646,
+            "start_index": 26
+          },
+          {
+            "text": "Account",
+            "confidence": 0.740443883902575,
+            "start_index": 56
+          },
+          {
+            "text": " summary,",
+            "confidence": 0.9999923441742643,
+            "start_index": 63
+          },
+          {
+            "text": " transaction",
+            "confidence": 0.9999982118638471,
+            "start_index": 72
+          },
+          {
+            "text": " history,",
+            "confidence": 0.9999994966721415,
+            "start_index": 84
+          },
+          {
+            "text": " and",
+            "confidence": 0.9999994039539004,
+            "start_index": 93
+          },
+          {
+            "text": " closing",
+            "confidence": 0.9999839070045525,
+            "start_index": 97
+          },
+          {
+            "text": " balance",
+            "confidence": 0.9999837877990074,
+            "start_index": 105
+          },
+          {
+            "text": " are",
+            "confidence": 0.9999969005680498,
+            "start_index": 113
+          },
+          {
+            "text": " listed.",
+            "confidence": 0.9999904039988637,
+            "start_index": 117
+          },
+          {
+            "text": "Page",
+            "confidence": 0.9999660265080288,
+            "start_index": 127
+          },
+          {
+            "text": " 11",
+            "confidence": 0.9999678145518428,
+            "start_index": 131
+          },
+          {
+            "text": "Ref-pkt_001_control_multi_class-11-report",
+            "confidence": 0.999817623363424,
+            "start_index": 136
+          }
+        ],
+        "average_page_confidence_score": 0.9756333961148288,
+        "minimum_page_confidence_score": 0.740443883902575
+      },
+      "blocks": [
+        {
+          "top_left_x": 61,
+          "top_left_y": 59,
+          "bottom_right_x": 583,
+          "bottom_right_y": 84,
+          "content": "## MONTHLY REPORT | packet pkt_001_control_multi_class",
+          "confidence_scores": null,
+          "type": "title"
+        },
+        {
+          "top_left_x": 61,
+          "top_left_y": 120,
+          "bottom_right_x": 504,
+          "bottom_right_y": 139,
+          "content": "Account summary, transaction history, and closing balance are listed.",
+          "confidence_scores": null,
+          "type": "text"
+        },
+        {
+          "top_left_x": 61,
+          "top_left_y": 146,
+          "bottom_right_x": 120,
+          "bottom_right_y": 165,
+          "content": "Page 11",
+          "confidence_scores": null,
+          "type": "text"
+        },
+        {
+          "top_left_x": 61,
+          "top_left_y": 171,
+          "bottom_right_x": 337,
+          "bottom_right_y": 191,
+          "content": "Ref-pkt_001_control_multi_class-11-report",
+          "confidence_scores": null,
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "index": 11,
+      "markdown": "# MONTHLY REPORT | packet pkt_001_control_multi_class\n\nThe following sections describe the terms and conditions of the agreement.\n\nPage 12\n\nRef-pkt_001_control_multi_class-12-report",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 93,
+        "height": 1023,
+        "width": 791
+      },
+      "confidence_scores": {
+        "word_confidence_scores": [
+          {
+            "text": "#",
+            "confidence": 0.6224566956756981,
+            "start_index": 0
+          },
+          {
+            "text": " MONTHLY",
+            "confidence": 0.9548569055039815,
+            "start_index": 1
+          },
+          {
+            "text": " REPORT",
+            "confidence": 0.9999970197767496,
+            "start_index": 9
+          },
+          {
+            "text": " |",
+            "confidence": 0.9999108393991315,
+            "start_index": 16
+          },
+          {
+            "text": " packet",
+            "confidence": 0.9995524502931971,
+            "start_index": 18
+          },
+          {
+            "text": " pkt_001_control_multi_class",
+            "confidence": 0.9996970954328962,
+            "start_index": 25
+          },
+          {
+            "text": "The",
+            "confidence": 0.986411833333652,
+            "start_index": 55
+          },
+          {
+            "text": " following",
+            "confidence": 0.9999996423722521,
+            "start_index": 58
+          },
+          {
+            "text": " sections",
+            "confidence": 0.9999821189265068,
+            "start_index": 68
+          },
+          {
+            "text": " describe",
+            "confidence": 0.9999864103261001,
+            "start_index": 77
+          },
+          {
+            "text": " the",
+            "confidence": 0.9999998807907247,
+            "start_index": 86
+          },
+          {
+            "text": " terms",
+            "confidence": 0.9999994039539004,
+            "start_index": 90
+          },
+          {
+            "text": " and",
+            "confidence": 0.9999998807907247,
+            "start_index": 96
+          },
+          {
+            "text": " conditions",
+            "confidence": 0.9999996423722521,
+            "start_index": 100
+          },
+          {
+            "text": " of",
+            "confidence": 1.0,
+            "start_index": 111
+          },
+          {
+            "text": " the",
+            "confidence": 0.9999992847447459,
+            "start_index": 114
+          },
+          {
+            "text": " agreement.",
+            "confidence": 0.9999838642641993,
+            "start_index": 118
+          },
+          {
+            "text": "Page",
+            "confidence": 0.9999952316511552,
+            "start_index": 131
+          },
+          {
+            "text": " 12",
+            "confidence": 0.9999982516014572,
+            "start_index": 135
+          },
+          {
+            "text": "Ref-pkt_001_control_multi_class-12-report",
+            "confidence": 0.9999629571870339,
+            "start_index": 140
+          }
+        ],
+        "average_page_confidence_score": 0.978139470419818,
+        "minimum_page_confidence_score": 0.6224566956756981
+      },
+      "blocks": [
+        {
+          "top_left_x": 61,
+          "top_left_y": 59,
+          "bottom_right_x": 581,
+          "bottom_right_y": 83,
+          "content": "# MONTHLY REPORT | packet pkt_001_control_multi_class",
+          "confidence_scores": null,
+          "type": "title"
+        },
+        {
+          "top_left_x": 61,
+          "top_left_y": 119,
+          "bottom_right_x": 538,
+          "bottom_right_y": 138,
+          "content": "The following sections describe the terms and conditions of the agreement.",
+          "confidence_scores": null,
+          "type": "text"
+        },
+        {
+          "top_left_x": 61,
+          "top_left_y": 145,
+          "bottom_right_x": 120,
+          "bottom_right_y": 164,
+          "content": "Page 12",
+          "confidence_scores": null,
+          "type": "text"
+        },
+        {
+          "top_left_x": 61,
+          "top_left_y": 171,
+          "bottom_right_x": 335,
+          "bottom_right_y": 190,
+          "content": "Ref-pkt_001_control_multi_class-12-report",
+          "confidence_scores": null,
+          "type": "text"
+        }
+      ]
+    }
+  ],
+  "model": "mistral-ocr-latest",
+  "document_annotation": "{\"documents\": [{\"page_start\": 1, \"page_end\": 3, \"doc_type\": \"INVOICE\", \"vendor_name\": \"\", \"invoice_number\": \"pkt_001_control_multi_class\", \"invoice_date\": \"\", \"currency\": \"\", \"gstin\": \"\", \"total_amount\": \"\", \"tax_amount\": \"\", \"line_items\": [{\"page\": 1, \"description\": \"A detailed breakdown of charges, taxes, and net total is provided.\", \"quantity\": \"1\", \"unit_price\": \"\", \"amount\": \"\"}, {\"page\": 2, \"description\": \"Approval signatures and review notes appear on the final page.\", \"quantity\": \"1\", \"unit_price\": \"\", \"amount\": \"\"}, {\"page\": 3, \"description\": \"This document covers the current period activity and associated line items.\", \"quantity\": \"1\", \"unit_price\": \"\", \"amount\": \"\"}]}, {\"page_start\": 4, \"page_end\": 7, \"doc_type\": \"BANK STATEMENT\", \"vendor_name\": \"\", \"invoice_number\": \"pkt_001_control_multi_class\", \"invoice_date\": \"\", \"currency\": \"\", \"gstin\": \"\", \"total_amount\": \"\", \"tax_amount\": \"\", \"line_items\": [{\"page\": 4, \"description\": \"Amount due and payment reference details are summarized below.\", \"quantity\": \"1\", \"unit_price\": \"\", \"amount\": \"\"}, {\"page\": 5, \"description\": \"Account summary, transaction history, and closing balance are listed.\", \"quantity\": \"1\", \"unit_price\": \"\", \"amount\": \"\"}, {\"page\": 6, \"description\": \"The following sections describe the terms and conditions of the agreement.\", \"quantity\": \"1\", \"unit_price\": \"\", \"amount\": \"\"}, {\"page\": 7, \"description\": \"A detailed breakdown of charges, taxes, and net total is provided.\", \"quantity\": \"1\", \"unit_price\": \"\", \"amount\": \"\"}]}, {\"page_start\": 8, \"page_end\": 12, \"doc_type\": \"MONTHLY REPORT\", \"vendor_name\": \"\", \"invoice_number\": \"pkt_001_control_multi_class\", \"invoice_date\": \"\", \"currency\": \"\", \"gstin\": \"\", \"total_amount\": \"\", \"tax_amount\": \"\", \"line_items\": [{\"page\": 8, \"description\": \"Approval signatures and review notes appear on the final page.\", \"quantity\": \"1\", \"unit_price\": \"\", \"amount\": \"\"}, {\"page\": 9, \"description\": \"This document covers the current period activity and associated line items.\", \"quantity\": \"1\", \"unit_price\": \"\", \"amount\": \"\"}, {\"page\": 10, \"description\": \"Amount due and payment reference details are summarized below.\", \"quantity\": \"1\", \"unit_price\": \"\", \"amount\": \"\"}, {\"page\": 11, \"description\": \"Account summary, transaction history, and closing balance are listed.\", \"quantity\": \"1\", \"unit_price\": \"\", \"amount\": \"\"}, {\"page\": 12, \"description\": \"The following sections describe the terms and conditions of the agreement.\", \"quantity\": \"1\", \"unit_price\": \"\", \"amount\": \"\"}]}]}",
+  "usage_info": {
+    "pages_processed": 12,
+    "doc_size_bytes": 8644
+  }
+}

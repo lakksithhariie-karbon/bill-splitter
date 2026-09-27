@@ -1,0 +1,65 @@
+{
+  "model": "replay-redacted-annexure",
+  "usage_info": {
+    "pages_processed": 3,
+    "doc_size_bytes": 0
+  },
+  "pages": [
+    {
+      "index": 0,
+      "markdown": "# TAX INVOICE\n\nZZ Test Components Pvt Ltd\nGSTIN: 22AAAAA0000A1Z5\n\nBill To: ZZ Test Retail LLP\nGSTIN: 27BBBBB0000B1Z5\n\nZZCO/8801/26-27\nDate: 12-08-2026\n\n| Description | Qty | Rate | Amount |\n| Widget A | 10 | 100.00 | 1,000.00 |\n| Widget B | 5 | 200.00 | 1,000.00 |\n\nThis invoice is continued to page number 3.\n\nPage 2\n",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": "This invoice is continued to page number 3.",
+      "dimensions": { "dpi": 72, "height": 842, "width": 595 },
+      "blocks": [
+        {
+          "type": "title",
+          "content": "TAX INVOICE",
+          "top_left_y": 24
+        },
+        {
+          "type": "footer",
+          "content": "This invoice is continued to page number 3.",
+          "top_left_y": 780
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "markdown": "# TAX INVOICE\n\nZZ Test Components Pvt Ltd\nZZCO/8801/26-27\n\n| Description | Qty | Rate | Amount |\n| Widget C | 2 | 500.00 | 1,000.00 |\n\nTaxable Value  3,000.00\nCGST 9%        270.00\nSGST 9%        270.00\nGrand Total    3,540.00\n\nDeclaration: Goods supplied as per order.\nAuthorized Signatory\nZZ Test Components Pvt Ltd\n\nPage 3\n",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": { "dpi": 72, "height": 842, "width": 595 },
+      "blocks": [
+        {
+          "type": "signature",
+          "content": "Authorized Signatory",
+          "top_left_y": 640
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "markdown": "# STATUTORY TAX ANALYSIS\n\nZZ Test Components Pvt Ltd\nGSTIN: 22AAAAA0000A1Z5\nZZCO/8801/26-27\n\nHSN-wise tax breakup for the invoice above.\n\n| HSN | Taxable | CGST | SGST | Total Tax |\n| 8481 | 3,000.00 | 270.00 | 270.00 | 540.00 |\n\nTax Total 540.00\n\nPage 2\n",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": { "dpi": 72, "height": 842, "width": 595 },
+      "blocks": [
+        {
+          "type": "title",
+          "content": "STATUTORY TAX ANALYSIS",
+          "top_left_y": 24
+        }
+      ]
+    }
+  ]
+}

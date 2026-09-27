@@ -1,0 +1,16 @@
+# Runtime deps
+pikepdf
+pypdf
+pydantic
+python-dotenv
+reportlab
+Pillow
+requests
+fastapi
+uvicorn
+python-multipart
+pypdfium2
+httpx
+
+# Dev/test
+pytest

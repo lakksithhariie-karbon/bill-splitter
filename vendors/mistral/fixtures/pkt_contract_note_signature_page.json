@@ -1,0 +1,48 @@
+{
+  "model": "replay-redacted-contract-note",
+  "usage_info": {
+    "pages_processed": 2,
+    "doc_size_bytes": 0
+  },
+  "pages": [
+    {
+      "index": 0,
+      "markdown": "# CONTRACT NOTE\n\nZZ Test Broking Ltd\nGSTIN: 27AAAAA0000A1Z5\nPAN: AAAAA0000A\nCIN: U67120MH2001PLC123456\n\nTo,\nZZ Test Client LLP\nClient Code: ZZCL-0091\nGSTIN: 27BBBBB0000B1Z5\n\nContract Note No COMBINED/14531\nTrade Date: 12-08-2026\nSettlement No: 2026158\n\n| Scrip | Qty | Rate | Amount |\n| --- | --- | --- | --- |\n| ZZCO Equity | 100 | 250.00 | 25,000.00 |\n\nBrokerage  25.00\nSTT        25.00\nGrand Total    25,050.00\n",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": { "dpi": 72, "height": 842, "width": 595 },
+      "blocks": [
+        {
+          "type": "title",
+          "content": "CONTRACT NOTE",
+          "top_left_y": 24
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "markdown": "# CONTRACT NOTE\n\nZZ Test Broking Ltd\nGSTIN: 27AAAAA0000A1Z5\nPAN: AAAAA0000A\nCIN: U67120MH2001PLC123456\n\nTo,\nZZ Test Client LLP\nClient Code: ZZCL-0091\nGSTIN: 27BBBBB0000B1Z5\n\nContract Note No COMBINED/14531\nTrade Date: 12-08-2026\nSettlement No: 2026158\n\n| Scrip | Qty | Rate | Amount |\n| --- | --- | --- | --- |\n\nYours faithfully\nFor ZZ Test Broking Ltd\nDate: 12-08-2026\nPlace: Mumbai\nGSTIN: 27AAAAA0000A1Z5\nAuthorised Signatory\n",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": { "dpi": 72, "height": 842, "width": 595 },
+      "blocks": [
+        {
+          "type": "title",
+          "content": "CONTRACT NOTE",
+          "top_left_y": 24
+        },
+        {
+          "type": "signature",
+          "content": "Authorised Signatory",
+          "top_left_y": 640
+        }
+      ]
+    }
+  ]
+}

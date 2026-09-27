@@ -1,0 +1,13 @@
+{
+  "message": "File upload status updated successfully",
+  "data": {
+    "fileUuid": "00000000-0000-4000-8000-0000000000f1",
+    "ucUuid": "00000000-0000-4000-8000-0000000000uc",
+    "companyUuid": "00000000-0000-4000-8000-0000000000c0",
+    "fileUrl": "https://storage.example.test/object/fixture.pdf",
+    "noPasswordFileUrl": "https://storage.example.test/object/fixture.pdf",
+    "status": "uploaded",
+    "thirdPartyProduct": "tally"
+  },
+  "__http_status__": 200
+}
