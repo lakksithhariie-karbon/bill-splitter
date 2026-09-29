@@ -850,8 +850,11 @@ export default function ExtractionApp() {
       <div className="min-h-svh bg-background">
         <main className="min-h-svh min-w-0 flex flex-col bg-background">
           <div className="w-full py-6 text-center px-4">
-            <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+            <h1 className="flex flex-wrap items-center justify-center gap-3 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
               AI Invoice Splitter: Split a Multi-Invoice PDF into Separate Bills
+              <span className="rounded-full bg-success/15 px-2.5 py-0.5 text-[13px] font-bold uppercase tracking-wider text-success-foreground shadow-sm ring-1 ring-inset ring-success/30">
+                Free
+              </span>
             </h1>
           </div>
           <div
