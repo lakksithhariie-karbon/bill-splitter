@@ -51,6 +51,7 @@ export type InvoiceReviewScreenProps = {
   aiaAllowWrites?: boolean
   aiaDisabledReason?: string | null
   aiaPushSummary?: string | null
+  onStartOver?: () => void
 }
 
 function formatProposedSplits(
@@ -120,6 +121,7 @@ export function InvoiceReviewScreen({
   aiaAllowWrites = false,
   aiaDisabledReason = null,
   aiaPushSummary = null,
+  onStartOver,
 }: InvoiceReviewScreenProps) {
   const [zoom, setZoom] = React.useState(1)
   const pdfScrollRef = React.useRef<HTMLDivElement>(null)
@@ -181,6 +183,16 @@ export function InvoiceReviewScreen({
         eyebrow="Step 3 of 3 · Review extracted bill"
         title="Bill review"
         description="Each confirmed boundary becomes one bill. Review extracted fields against the source pages before approving the voucher."
+        actions={onStartOver ? (
+          <Button
+            type="button"
+            variant="outline"
+            className="border-black bg-black text-white hover:bg-black/90 hover:text-white"
+            onClick={onStartOver}
+          >
+            Start over
+          </Button>
+        ) : null}
       />
 
       <div

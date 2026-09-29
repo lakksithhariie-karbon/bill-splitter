@@ -3,7 +3,6 @@ import { DocumentsScreen } from "@/components/DocumentsScreen"
 import { InvoiceReviewScreen } from "@/components/InvoiceReviewScreen"
 import { PageHeader } from "@/components/PageHeader"
 import { SplitReviewScreen } from "@/components/SplitReviewScreen"
-import { Topbar } from "@/components/Topbar"
 import {
   UploadScreen,
   type UploadStatusVariant,
@@ -850,13 +849,6 @@ export default function ExtractionApp() {
 
       <div className="min-h-svh bg-background">
         <main className="min-h-svh min-w-0 bg-background">
-          <Topbar
-            onStartOver={() => {
-              setState(initialState())
-              navigate("upload")
-            }}
-          />
-
           <div
             className={
               route === "split"
@@ -870,7 +862,20 @@ export default function ExtractionApp() {
                 title={meta.title}
                 description={meta.description}
                 actions={
-                  splitHeaderActions ?? <PageActions route={route} />
+                  <>
+                    {splitHeaderActions ?? <PageActions route={route} />}
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="border-black bg-black text-white hover:bg-black/90 hover:text-white"
+                      onClick={() => {
+                        setState(initialState())
+                        navigate("upload")
+                      }}
+                    >
+                      Start over
+                    </Button>
+                  </>
                 }
               />
             ) : null}
@@ -1047,6 +1052,10 @@ export default function ExtractionApp() {
                   aiaAllowWrites={aiaAllowWrites}
                   aiaDisabledReason={aiaDisabledReason}
                   aiaPushSummary={aiaPushSummary}
+                  onStartOver={() => {
+                    setState(initialState())
+                    navigate("upload")
+                  }}
                 />
               ) : (
                 <div className="border border-border bg-card p-6 text-sm text-muted-foreground">
