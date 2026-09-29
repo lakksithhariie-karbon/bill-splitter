@@ -10,5 +10,54 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx?v=2"></script>
+    <script>
+      (function () {
+        // Only run when loaded inside an iframe
+        if (window.self === window.top) return;
+
+        document.documentElement.classList.add("is-embedded");
+
+        // Kill full-viewport heights in embed mode, otherwise the height can grow but never shrink
+        var css = document.createElement("style");
+        css.textContent =
+          ".is-embedded, .is-embedded body{height:auto!important;min-height:0!important;overflow:hidden!important;}" +
+          ".is-embedded .min-h-screen, .is-embedded .h-screen{min-height:0!important;height:auto!important;}";
+        document.head.appendChild(css);
+
+        var last = 0;
+        function measure() {
+          var b = document.body;
+          var s = getComputedStyle(b);
+          return Math.ceil(
+            b.getBoundingClientRect().height +
+            parseFloat(s.marginTop || 0) +
+            parseFloat(s.marginBottom || 0)
+          );
+        }
+        function send() {
+          var h = measure();
+          if (h && Math.abs(h - last) > 1) {
+            last = h;
+            window.parent.postMessage({ type: "bs:height", height: h }, "*");
+          }
+        }
+
+        var raf;
+        function queue() { cancelAnimationFrame(raf); raf = requestAnimationFrame(send); }
+
+        new ResizeObserver(queue).observe(document.body);
+        new MutationObserver(queue).observe(document.body, { childList: true, subtree: true, attributes: true, characterData: true });
+        window.addEventListener("load", queue);
+        window.addEventListener("resize", queue);
+        document.fonts && document.fonts.ready.then(queue);
+
+        // Parent can request a fresh height
+        window.addEventListener("message", function (e) {
+          if (e.data && e.data.type === "bs:ping") { last = 0; send(); }
+        });
+
+        queue();
+      })();
+    </script>
   </body>
 </html>
