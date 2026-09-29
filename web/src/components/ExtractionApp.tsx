@@ -3,7 +3,6 @@ import { DocumentsScreen } from "@/components/DocumentsScreen"
 import { InvoiceReviewScreen } from "@/components/InvoiceReviewScreen"
 import { PageHeader } from "@/components/PageHeader"
 import { SplitReviewScreen } from "@/components/SplitReviewScreen"
-import { Topbar } from "@/components/Topbar"
 import {
   UploadScreen,
   type UploadStatusVariant,
@@ -850,13 +849,6 @@ export default function ExtractionApp() {
 
       <div className="min-h-svh bg-background">
         <main className="min-h-svh min-w-0 bg-background">
-          <Topbar
-            onStartOver={() => {
-              setState(initialState())
-              navigate("upload")
-            }}
-          />
-
           <div
             className={
               route === "split"
