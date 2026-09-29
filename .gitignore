@@ -17,6 +17,9 @@ src/aia_pdf_split.egg-info/
 .mypy_cache/
 .pytest_cache/
 .ruff_cache/
+.npm-cache/
+.vercel/
+.vercel-cli-config/
 
 # Generated artifacts
 .artifact/
@@ -29,3 +32,5 @@ output/**
 # React web app
 web/node_modules/
 web/dist/
+.vercel
+.env*

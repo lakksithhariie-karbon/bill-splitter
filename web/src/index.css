@@ -136,8 +136,8 @@
 
   /* Prototype layout constants */
   --sidebar-width: 236px;
-  --topbar-height: 0px;
-  --topbar: 0px;
+  --topbar-height: 58px;
+  --topbar: 58px;
   --page-max: 1500px;
 
   /* Spacing rhythm (4px base) */
