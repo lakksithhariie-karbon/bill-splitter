@@ -125,7 +125,11 @@ class Settings:
             os.getenv("OUTPUT_DIR")
             or os.getenv("PDFSPLIT_OUTPUT_DIR")
             or os.getenv("DOCAI_OUTPUT_DIR")
-            or str(PROJECT_ROOT / "output")
+            or (
+                "/tmp/pdfsplit-output"
+                if os.getenv("VERCEL")
+                else str(PROJECT_ROOT / "output")
+            )
         )
     )
     corpus_dir: Path = field(
