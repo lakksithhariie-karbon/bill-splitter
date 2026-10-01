@@ -26,14 +26,9 @@
 
         var last = 0;
         function measure() {
-          var b = document.body;
-          var de = document.documentElement;
-          var height = Math.max(
-            b.scrollHeight, de.scrollHeight,
-            b.offsetHeight, de.offsetHeight,
-            de.clientHeight
-          );
-          return Math.ceil(height);
+          var root = document.getElementById("root");
+          if (!root) return 0;
+          return Math.ceil(Math.max(root.scrollHeight, root.offsetHeight));
         }
         function send() {
           var h = measure();
