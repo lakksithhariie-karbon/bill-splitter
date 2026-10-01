@@ -21,18 +21,19 @@
         var css = document.createElement("style");
         css.textContent =
           ".is-embedded, .is-embedded body{height:auto!important;min-height:0!important;overflow:hidden!important;}" +
-          ".is-embedded .min-h-screen, .is-embedded .h-screen{min-height:0!important;height:auto!important;}";
+          ".is-embedded .min-h-screen, .is-embedded .h-screen, .is-embedded .min-h-svh, .is-embedded .h-svh {min-height:0!important;height:auto!important;}";
         document.head.appendChild(css);
 
         var last = 0;
         function measure() {
           var b = document.body;
-          var s = getComputedStyle(b);
-          return Math.ceil(
-            b.getBoundingClientRect().height +
-            parseFloat(s.marginTop || 0) +
-            parseFloat(s.marginBottom || 0)
+          var de = document.documentElement;
+          var height = Math.max(
+            b.scrollHeight, de.scrollHeight,
+            b.offsetHeight, de.offsetHeight,
+            de.clientHeight
           );
+          return Math.ceil(height);
         }
         function send() {
           var h = measure();
