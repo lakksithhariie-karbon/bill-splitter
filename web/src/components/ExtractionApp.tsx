@@ -7,6 +7,7 @@ import {
   UploadScreen,
   type UploadStatusVariant,
 } from "@/components/UploadScreen"
+import { LandingContent } from "@/components/LandingContent"
 import { Button } from "@/components/ui/button"
 import { ProgressBar } from "@/components/ui/progress-bar"
 import { TooltipProvider } from "@/components/ui/tooltip"
@@ -389,11 +390,11 @@ export default function ExtractionApp() {
         overlayUndoByCut: { ...prev.overlayUndoByCut },
         overlay: prev.overlay
           ? {
-              ...prev.overlay,
-              merges: [...(prev.overlay.merges || [])],
-              suggestions: [...(prev.overlay.suggestions || [])],
-              blocked: [...(prev.overlay.blocked || [])],
-            }
+            ...prev.overlay,
+            merges: [...(prev.overlay.merges || [])],
+            suggestions: [...(prev.overlay.suggestions || [])],
+            blocked: [...(prev.overlay.blocked || [])],
+          }
           : null,
         extraction: prev.extraction.map((d) => ({
           ...d,
@@ -514,7 +515,7 @@ export default function ExtractionApp() {
             ) {
               setStatus(
                 event.reason ||
-                  "AI Accountant session expired — needs a fresh cookie",
+                "AI Accountant session expired — needs a fresh cookie",
                 true
               )
             }
@@ -889,19 +890,19 @@ export default function ExtractionApp() {
               >
                 {state.analyzing ? (
                   <div className="mt-2 w-full max-w-sm text-left">
-                  <ProgressBar
+                    <ProgressBar
                       value={Math.min(
                         95,
                         (state.analyzeElapsed / TYPICAL_ANALYZE_SECONDS) * 95
                       )}
                       max={100}
                       label="Boundary detection progress (estimated)"
-                  />
-                  <p className="mt-2 text-xs text-muted-foreground">
-                    Detecting bill boundaries. You can review them when detection finishes.
-                  </p>
-                </div>
-              ) : null}
+                    />
+                    <p className="mt-2 text-xs text-muted-foreground">
+                      Detecting bill boundaries. You can review them when detection finishes.
+                    </p>
+                  </div>
+                ) : null}
                 {state.sessionId && state.analyzeDone && !state.extractDone ? (
                   <Button
                     type="button"
@@ -1108,6 +1109,8 @@ export default function ExtractionApp() {
                 </p>
               </div>
             ) : null}
+
+            {route === "upload" ? <LandingContent /> : null}
           </div>
         </main>
       </div>
