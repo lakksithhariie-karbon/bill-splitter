@@ -20,6 +20,8 @@ import {
   saveSession,
   uploadPdf,
 } from "@/lib/api"
+import { LeadCaptureModal } from "@/components/LeadCaptureModal"
+import { getAttributionData, isLeadCaptured } from "@/lib/leadCapture"
 import {
   fileStem,
   sanitizeSourceStem,
@@ -327,6 +329,29 @@ export default function ExtractionApp() {
   )
   const [pushingAia, setPushingAia] = React.useState(false)
   const [aiaPushSummary, setAiaPushSummary] = React.useState<string | null>(null)
+  const [isLocked, setIsLocked] = React.useState(() => !isLeadCaptured())
+  const [isPopupOpen, setIsPopupOpen] = React.useState(false)
+  const hasTriggeredPopupRef = React.useRef(false)
+
+  // Sync UTMs and Click IDs on initial mount
+  React.useEffect(() => {
+    getAttributionData()
+  }, [])
+
+  // Auto-open lead modal when user views results and lead is not captured
+  React.useEffect(() => {
+    if (
+      (route === "split" || route === "invoices") &&
+      state.sessionId &&
+      state.analyzeDone &&
+      !isLeadCaptured() &&
+      isLocked &&
+      !hasTriggeredPopupRef.current
+    ) {
+      hasTriggeredPopupRef.current = true
+      setIsPopupOpen(true)
+    }
+  }, [route, state.sessionId, state.analyzeDone, isLocked])
 
   React.useEffect(() => {
     let cancelled = false
@@ -679,6 +704,13 @@ export default function ExtractionApp() {
         next.predicted = predicted
         return next
       })
+      if (!isLeadCaptured()) {
+        setIsLocked(true)
+        setIsPopupOpen(true)
+      }
+      if (route === "upload") {
+        navigate("split")
+      }
     } catch (err) {
       const raw = err instanceof Error ? err.message : String(err)
       const msg =
@@ -817,6 +849,30 @@ export default function ExtractionApp() {
     }
   }
 
+  const handleSave = () => {
+    if (isLocked) {
+      setIsPopupOpen(true)
+      return
+    }
+    void onSave()
+  }
+
+  const handleExportJson = () => {
+    if (isLocked) {
+      setIsPopupOpen(true)
+      return
+    }
+    onExportJson()
+  }
+
+  const handleExportVoucherJson = () => {
+    if (isLocked) {
+      setIsPopupOpen(true)
+      return
+    }
+    void onExportVoucherJson()
+  }
+
   const splitHeaderActions =
     route === "split" && state.sessionId && state.analyzeDone ? (
       <>
@@ -925,70 +981,115 @@ export default function ExtractionApp() {
 
             {route === "split" ? (
               state.sessionId ? (
-                <SplitReviewScreen
-                  sessionId={state.sessionId}
-                  filename={state.uploadedFilename ?? "Document"}
-                  onSave={() => void onSave()}
-                  saving={state.saving}
-                  pageCount={state.pageCount}
-                  cuts={state.cuts}
-                  predictedCuts={predictedCuts}
-                  excludedPages={state.excludedPages || []}
-                  documents={docs}
-                  aiDocumentCount={state.predicted.length || docs.length}
-                  autoExcludedReasonByPage={state.autoExcludedReasonByPage}
-                  overlayMergedCuts={overlayMergedCuts}
-                  overlayMergeReason={overlayMergeReason}
-                  overlaySuggestCuts={overlaySuggestCuts}
-                  overlaySuggestReason={overlaySuggestReason}
-                  onUndoMerge={(cutPage) =>
-                    mutate((s) => {
-                      undoOverlayMerge(s, s.overlayUndoByCut[cutPage])
-                      delete s.overlayUndoByCut[cutPage]
-                      if (s.overlay) {
-                        s.overlay.merges = (s.overlay.merges || []).filter(
-                          (p) => p.right_start !== cutPage
-                        )
+                <div className="relative">
+                  <div
+                    id="bs-result-split"
+                    className={
+                      isLocked
+                        ? "pointer-events-none select-none transition-all duration-300"
+                        : "transition-all duration-300"
+                    }
+                    style={
+                      isLocked
+                        ? {
+                            filter: "blur(7px)",
+                            pointerEvents: "none",
+                            userSelect: "none",
+                          }
+                        : undefined
+                    }
+                  >
+                    <SplitReviewScreen
+                      sessionId={state.sessionId}
+                      filename={state.uploadedFilename ?? "Document"}
+                      onSave={handleSave}
+                      saving={state.saving}
+                      pageCount={state.pageCount}
+                      cuts={state.cuts}
+                      predictedCuts={predictedCuts}
+                      excludedPages={state.excludedPages || []}
+                      documents={docs}
+                      aiDocumentCount={state.predicted.length || docs.length}
+                      autoExcludedReasonByPage={state.autoExcludedReasonByPage}
+                      overlayMergedCuts={overlayMergedCuts}
+                      overlayMergeReason={overlayMergeReason}
+                      overlaySuggestCuts={overlaySuggestCuts}
+                      overlaySuggestReason={overlaySuggestReason}
+                      onUndoMerge={(cutPage) =>
+                        mutate((s) => {
+                          undoOverlayMerge(s, s.overlayUndoByCut[cutPage])
+                          delete s.overlayUndoByCut[cutPage]
+                          if (s.overlay) {
+                            s.overlay.merges = (s.overlay.merges || []).filter(
+                              (p) => p.right_start !== cutPage
+                            )
+                          }
+                        })
                       }
-                    })
-                  }
-                  onAcceptSuggest={(cutPage) =>
-                    mutate((s) => {
-                      acceptMergeSuggestion(s, cutPage)
-                      if (s.overlay) {
-                        s.overlay.suggestions = (
-                          s.overlay.suggestions || []
-                        ).filter((p) => p.right_start !== cutPage)
+                      onAcceptSuggest={(cutPage) =>
+                        mutate((s) => {
+                          acceptMergeSuggestion(s, cutPage)
+                          if (s.overlay) {
+                            s.overlay.suggestions = (
+                              s.overlay.suggestions || []
+                            ).filter((p) => p.right_start !== cutPage)
+                          }
+                        })
                       }
-                    })
-                  }
-                  analyzing={state.analyzing}
-                  analyzeElapsed={state.analyzeElapsed}
-                  analyzeError={
-                    state.statusError && !state.analyzeDone
-                      ? state.status
-                      : null
-                  }
-                  onToggleCut={(page) =>
-                    mutate((s) => toggleCut(s, page))
-                  }
-                  onToggleExclude={(page) =>
-                    mutate((s) => {
-                      const wasExcluded = (s.excludedPages || []).includes(page)
-                      toggleExclude(s, page)
-                      if (wasExcluded && s.autoExcludedReasonByPage?.[page]) {
-                        const next = { ...s.autoExcludedReasonByPage }
-                        delete next[page]
-                        s.autoExcludedReasonByPage = next
+                      analyzing={state.analyzing}
+                      analyzeElapsed={state.analyzeElapsed}
+                      analyzeError={
+                        state.statusError && !state.analyzeDone
+                          ? state.status
+                          : null
                       }
-                    })
-                  }
-                  onRenameFileName={(startPage, name) =>
-                    mutate((s) => {
-                      setDocumentFileName(s, startPage, name)
-                    })
-                  }
-                />
+                      onToggleCut={(page) =>
+                        mutate((s) => toggleCut(s, page))
+                      }
+                      onToggleExclude={(page) =>
+                        mutate((s) => {
+                          const wasExcluded = (s.excludedPages || []).includes(page)
+                          toggleExclude(s, page)
+                          if (wasExcluded && s.autoExcludedReasonByPage?.[page]) {
+                            const next = { ...s.autoExcludedReasonByPage }
+                            delete next[page]
+                            s.autoExcludedReasonByPage = next
+                          }
+                        })
+                      }
+                      onRenameFileName={(startPage, name) =>
+                        mutate((s) => {
+                          setDocumentFileName(s, startPage, name)
+                        })
+                      }
+                    />
+                  </div>
+
+                  {isLocked && !isPopupOpen ? (
+                    <div
+                      id="bs-unlock-overlay"
+                      className="absolute inset-0 z-40 flex items-center justify-center p-4 bg-background/50 backdrop-blur-[2px]"
+                    >
+                      <div className="border border-border bg-card p-6 shadow-xl max-w-sm w-full text-center rounded-md">
+                        <div className="font-display text-base sm:text-lg font-bold text-foreground">
+                          Your result is ready
+                        </div>
+                        <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed">
+                          Your bill splits have been detected. Share a few details to unlock the full breakdown and download your split PDFs.
+                        </p>
+                        <Button
+                          id="bs-unlock-btn"
+                          type="button"
+                          variant="default"
+                          className="mt-4 w-full h-10 text-xs font-semibold cursor-pointer"
+                          onClick={() => setIsPopupOpen(true)}
+                        >
+                          Unlock my result
+                        </Button>
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
               ) : (
                 <div className="border border-border bg-card p-6 text-sm text-muted-foreground">
                   Choose a PDF on Bill Upload — boundary detection starts
@@ -999,53 +1100,98 @@ export default function ExtractionApp() {
 
             {route === "invoices" ? (
               state.sessionId && state.extractDone ? (
-                <InvoiceReviewScreen
-                  sessionId={state.sessionId}
-                  filename={state.uploadedFilename ?? "Document"}
-                  pageCount={state.pageCount}
-                  documents={docs}
-                  extractionV2={state.extractionV2}
-                  displayNames={state.displayNames}
-                  selectedDocIndex={state.selectedDocIndex}
-                  setSelectedDocIndex={(index) =>
-                    setState((s) => ({ ...s, selectedDocIndex: index }))
-                  }
-                  selectedPage={state.selectedPage}
-                  setSelectedPage={(page) =>
-                    setState((s) => ({ ...s, selectedPage: page }))
-                  }
-                  segmentDisagreements={state.segmentDisagreements}
-                  onChangeField={(docIndex, path, value) =>
-                    mutate((s) => {
-                      const doc = s.extractionV2[docIndex]
-                      if (doc) setFieldValueAtPath(doc, path, value)
-                    })
-                  }
-                  onChangeOtherName={(docIndex, index, name) =>
-                    mutate((s) => {
-                      const of = s.extractionV2[docIndex]?.other_fields?.[index]
-                      if (of) of.name = name
-                    })
-                  }
-                  onChangeDocType={(docIndex, value) =>
-                    mutate((s) => {
-                      const doc = s.extractionV2[docIndex]
-                      if (doc) doc.doc_type = value
-                    })
-                  }
-                  onApproveNext={() => {
-                    setStatus(
-                      `Bill ${state.selectedDocIndex + 1} approved (local).`
-                    )
-                  }}
-                  onSave={() => void onSave()}
-                  saving={state.saving}
-                  onPushAia={() => void onPushAia()}
-                  pushingAia={pushingAia}
-                  aiaAllowWrites={aiaAllowWrites}
-                  aiaDisabledReason={aiaDisabledReason}
-                  aiaPushSummary={aiaPushSummary}
-                />
+                <div className="relative">
+                  <div
+                    id="bs-result-invoices"
+                    className={
+                      isLocked
+                        ? "pointer-events-none select-none transition-all duration-300"
+                        : "transition-all duration-300"
+                    }
+                    style={
+                      isLocked
+                        ? {
+                            filter: "blur(7px)",
+                            pointerEvents: "none",
+                            userSelect: "none",
+                          }
+                        : undefined
+                    }
+                  >
+                    <InvoiceReviewScreen
+                      sessionId={state.sessionId}
+                      filename={state.uploadedFilename ?? "Document"}
+                      pageCount={state.pageCount}
+                      documents={docs}
+                      extractionV2={state.extractionV2}
+                      displayNames={state.displayNames}
+                      selectedDocIndex={state.selectedDocIndex}
+                      setSelectedDocIndex={(index) =>
+                        setState((s) => ({ ...s, selectedDocIndex: index }))
+                      }
+                      selectedPage={state.selectedPage}
+                      setSelectedPage={(page) =>
+                        setState((s) => ({ ...s, selectedPage: page }))
+                      }
+                      segmentDisagreements={state.segmentDisagreements}
+                      onChangeField={(docIndex, path, value) =>
+                        mutate((s) => {
+                          const doc = s.extractionV2[docIndex]
+                          if (doc) setFieldValueAtPath(doc, path, value)
+                        })
+                      }
+                      onChangeOtherName={(docIndex, index, name) =>
+                        mutate((s) => {
+                          const of = s.extractionV2[docIndex]?.other_fields?.[index]
+                          if (of) of.name = name
+                        })
+                      }
+                      onChangeDocType={(docIndex, value) =>
+                        mutate((s) => {
+                          const doc = s.extractionV2[docIndex]
+                          if (doc) doc.doc_type = value
+                        })
+                      }
+                      onApproveNext={() => {
+                        setStatus(
+                          `Bill ${state.selectedDocIndex + 1} approved (local).`
+                        )
+                      }}
+                      onSave={handleSave}
+                      saving={state.saving}
+                      onPushAia={() => void onPushAia()}
+                      pushingAia={pushingAia}
+                      aiaAllowWrites={aiaAllowWrites}
+                      aiaDisabledReason={aiaDisabledReason}
+                      aiaPushSummary={aiaPushSummary}
+                    />
+                  </div>
+
+                  {isLocked && !isPopupOpen ? (
+                    <div
+                      id="bs-unlock-overlay-invoices"
+                      className="absolute inset-0 z-40 flex items-center justify-center p-4 bg-background/50 backdrop-blur-[2px]"
+                    >
+                      <div className="border border-border bg-card p-6 shadow-xl max-w-sm w-full text-center rounded-md">
+                        <div className="font-display text-base sm:text-lg font-bold text-foreground">
+                          Your result is ready
+                        </div>
+                        <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed">
+                          Your bill extraction is ready. Unlock your result to preview and export files.
+                        </p>
+                        <Button
+                          id="bs-unlock-btn-invoices"
+                          type="button"
+                          variant="default"
+                          className="mt-4 w-full h-10 text-xs font-semibold cursor-pointer"
+                          onClick={() => setIsPopupOpen(true)}
+                        >
+                          Unlock my result
+                        </Button>
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
               ) : (
                 <div className="border border-border bg-card p-6 text-sm text-muted-foreground">
                   Your split is ready to download. Field extraction preview is
@@ -1073,7 +1219,7 @@ export default function ExtractionApp() {
                   type="button"
                   variant="outline"
                   disabled={!state.extractDone}
-                  onClick={onExportJson}
+                  onClick={handleExportJson}
                 >
                   Export JSON
                 </Button>
@@ -1083,7 +1229,7 @@ export default function ExtractionApp() {
                   disabled={
                     !state.extractDone || state.extractionV2.length === 0
                   }
-                  onClick={() => void onExportVoucherJson()}
+                  onClick={handleExportVoucherJson}
                 >
                   Export voucher JSON
                 </Button>
@@ -1111,6 +1257,15 @@ export default function ExtractionApp() {
           </div>
         </main>
       </div>
+
+      <LeadCaptureModal
+        isOpen={isPopupOpen}
+        onClose={() => setIsPopupOpen(false)}
+        onSuccess={() => {
+          setIsLocked(false)
+          setIsPopupOpen(false)
+        }}
+      />
     </TooltipProvider>
   )
 }
